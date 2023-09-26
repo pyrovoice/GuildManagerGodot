@@ -2,7 +2,7 @@ extends Object
 
 class_name Combatant
 
-var name: String
+var name: String = ""
 var healthMax: float
 var healthCurrent: float
 var manaCurrent: float

@@ -11,10 +11,16 @@ bg_color = Color(0.788235, 0.0509804, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ehqh"]
 bg_color = Color(0.172549, 0.172549, 1, 1)
 
-[node name="CombatantDisplay_Combat" type="Node"]
+[node name="CombatantDisplay_Combat" type="Control"]
+custom_minimum_size = Vector2(225, 150)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 500.0
+offset_bottom = 250.0
 script = ExtResource("1_x5m02")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -22,11 +28,13 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="HealthBar" type="ProgressBar" parent="."]
-anchors_preset = 10
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.173
 anchor_right = 1.0
-offset_top = 74.0
-offset_right = -2.0
-offset_bottom = 174.0
+anchor_bottom = 0.307
+offset_top = 0.0499992
+offset_bottom = -0.0500031
 grow_horizontal = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_3ii86")
 theme_override_styles/fill = SubResource("StyleBoxFlat_u2iaq")
@@ -37,22 +45,27 @@ allow_greater = true
 show_percentage = false
 
 [node name="Health" type="Label" parent="."]
-offset_top = 74.0
-offset_right = 1150.0
-offset_bottom = 174.0
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.173
+anchor_right = 1.0
+anchor_bottom = 0.307
+offset_top = 0.0499992
+offset_bottom = -3.05
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 46
+theme_override_font_sizes/font_size = 12
 text = "80/100"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ManaBar" type="ProgressBar" parent="."]
-anchors_preset = 10
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.307
 anchor_right = 1.0
-offset_top = 175.0
-offset_right = -2.0
-offset_bottom = 275.0
+anchor_bottom = 0.44
+offset_top = -0.0500031
 grow_horizontal = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_3ii86")
 theme_override_styles/fill = SubResource("StyleBoxFlat_7ehqh")
@@ -63,28 +76,30 @@ allow_greater = true
 show_percentage = false
 
 [node name="Mana" type="Label" parent="."]
-anchors_preset = 14
-anchor_top = 0.5
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.307
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -148.0
-offset_bottom = -52.0
+anchor_bottom = 0.44
+offset_top = -0.0500031
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 46
+theme_override_font_sizes/font_size = 12
 text = "80/100"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Name" type="Label" parent="."]
-anchors_preset = 10
+layout_mode = 1
+anchors_preset = -1
 anchor_right = 1.0
-offset_bottom = 75.0
+anchor_bottom = 0.173
+offset_bottom = 0.0499992
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 15
 text = "Hero Name"
 horizontal_alignment = 1
 vertical_alignment = 1
