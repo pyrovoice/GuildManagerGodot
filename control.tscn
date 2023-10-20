@@ -14,3 +14,45 @@ script = ExtResource("1_j81gl")
 
 [node name="CombatManager" type="Node" parent="."]
 script = ExtResource("2_mtci1")
+
+[node name="ContainerEnnemies" type="GridContainer" parent="CombatManager"]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.414
+offset_top = 32.0
+offset_bottom = 31.728
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 3
+
+[node name="ContainerAllies" type="GridContainer" parent="CombatManager"]
+anchors_preset = -1
+anchor_top = 0.461
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 0.271973
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 3
+
+[node name="Button" type="Button" parent="CombatManager"]
+anchors_preset = -1
+anchor_right = 0.053
+anchor_bottom = 0.048
+offset_right = -53.056
+offset_bottom = -23.104
+text = "Return"
+
+[node name="Combats" type="GridContainer" parent="CombatManager"]
+anchors_preset = -1
+anchor_left = 0.002
+anchor_top = 0.052
+anchor_right = 0.998
+anchor_bottom = 0.991
+offset_left = -0.304
+offset_top = 0.304001
+offset_right = 0.303955
+offset_bottom = -0.16803

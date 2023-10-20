@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://ccfjcmib782th"]
+[gd_scene load_steps=7 format=3 uid="uid://ccfjcmib782th"]
 
 [ext_resource type="Script" path="res://scripts/CombatantDisplay_Combat.gd" id="1_x5m02"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ii86"]
+resource_name = "sddd"
 bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u2iaq"]
@@ -10,6 +11,13 @@ bg_color = Color(0.788235, 0.0509804, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ehqh"]
 bg_color = Color(0.172549, 0.172549, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wkkga"]
+resource_name = "sddd"
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qcd0m"]
+bg_color = Color(0.298039, 0.298039, 0.298039, 1)
 
 [node name="CombatantDisplay_Combat" type="Control"]
 custom_minimum_size = Vector2(225, 150)
@@ -26,6 +34,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.173
+offset_bottom = 0.0499992
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 15
+text = "Hero Name"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 layout_mode = 1
@@ -91,15 +112,15 @@ text = "80/100"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Name" type="Label" parent="."]
+[node name="ActionBar" type="ProgressBar" parent="."]
 layout_mode = 1
 anchors_preset = -1
+anchor_top = 0.44
 anchor_right = 1.0
-anchor_bottom = 0.173
-offset_bottom = 0.0499992
+anchor_bottom = 0.468
 grow_horizontal = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 15
-text = "Hero Name"
-horizontal_alignment = 1
-vertical_alignment = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_wkkga")
+theme_override_styles/fill = SubResource("StyleBoxFlat_qcd0m")
+value = 80.0
+allow_greater = true
+show_percentage = false

@@ -1,31 +1,56 @@
-extends Node
+extends Object
+class_name Combat
 
-var combatantsPlayer: Array[Node] = []
-var combatantsOpponent: Array[Node] = []
+var combatantsPlayer: Array[Combatant] = []
+var combatantsOpponent: Array[Combatant] = []
 
 func init():
-	addCombatantToTeam(Combatant.new("Hero", 500, 100, 12), true)
+	#Random hero life from 401 to 600
+	var lifrHero = randi()%200+400
+	addCombatantToTeam(Combatant.new("Hero", lifrHero, 100, 12), true)
 	addCombatantToTeam(Combatant.new("Rat 1" ,25, 0, 5), false)
 	addCombatantToTeam(Combatant.new("Rat 1" ,25, 0, 5), false)
 	addCombatantToTeam(Combatant.new("Rat 1" ,25, 0, 5), false)
 	addCombatantToTeam(Combatant.new("Rat King" ,100, 20, 20), false)
 
-func addCombatantToTeam(c: Combatant, isAlly: bool):
-	var cDisplay = preload("res://objects/combatant_display_combat.tscn").instantiate()
-	self.find_child("GridContainer").add_child(cDisplay)
-	cDisplay.init(c)
+func addCombatantToTeam(c: Combatant, isAlly):
 	if isAlly:
-		combatantsPlayer.append(cDisplay)
+		self.combatantsPlayer.push_back(c)
 	else:
-		combatantsOpponent.append(cDisplay)
+		self.combatantsOpponent.push_back(c)
 		
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func process(delta):
 	for combatant in self.combatantsPlayer:
-		updateCombatant(combatant.c, delta)
+		updateCombatant(combatant, delta)
 	for combatant in self.combatantsOpponent:
-		updateCombatant(combatant.c, delta)
+		updateCombatant(combatant, delta)
 	pass
 
 func updateCombatant(combatant: Combatant, delta: float):
-	combatant.timerSinceLastAction += delta
+	combatant.actionCooldown += delta
+	if combatant.canAct():
+		resolveAction(combatant, combatant.triggerAction())
+
+func resolveAction(source: Combatant, effects: Array[EffectDescriptor]):
+	for effect in effects:
+		resolveEffect(source, effect)
+	
+func resolveEffect(source: Combatant, effect: EffectDescriptor):
+	if(effect.EffectDescriptorType == EffectDecriptorType.REDUCE):
+		var opps = getOpponents(source)
+		opps = opps.filter(func(c): return c.healthCurrent > 0)
+		if(opps.size() == 0):
+			return
+		var target = opps[randi() % opps.size()] as Combatant
+		target.healthCurrent -= (effect.baseValue + source.strength)
+		
+func getOpponents(combatant: Combatant):
+	var isAlly = false
+	for c in combatantsPlayer:
+		if c == combatant:
+			isAlly = true
+			break
+	if isAlly:
+		return self.combatantsOpponent
+	else:
+		return self.combatantsPlayer
