@@ -1,17 +1,21 @@
 extends Object
 class_name Combat
 
+static var cbCount = 0
+var name: String = ""
 var combatantsPlayer: Array[Combatant] = []
 var combatantsOpponent: Array[Combatant] = []
 
 func init():
 	#Random hero life from 401 to 600
+	name = "Combat " + str(Combat.cbCount)
+	Combat.cbCount = Combat.cbCount +1
 	var lifrHero = randi()%200+400
 	addCombatantToTeam(Combatant.new("Hero", lifrHero, 100, 12), true)
 	addCombatantToTeam(Combatant.new("Rat 1" ,25, 0, 5), false)
 	addCombatantToTeam(Combatant.new("Rat 1" ,25, 0, 5), false)
 	addCombatantToTeam(Combatant.new("Rat 1" ,25, 0, 5), false)
-	addCombatantToTeam(Combatant.new("Rat King" ,100, 20, 20), false)
+	#addCombatantToTeam(Combatant.new("Rat King" ,100, 20, 20), false)
 
 func addCombatantToTeam(c: Combatant, isAlly):
 	if isAlly:
@@ -54,3 +58,25 @@ func getOpponents(combatant: Combatant):
 		return self.combatantsOpponent
 	else:
 		return self.combatantsPlayer
+
+func isCombatOver():
+	#return !self.combatantsPlayer.any(func(combatant): combatant.isAlive()) || !self.combatantsOpponent.any(func(combatant): combatant.isAlive())
+	var alliesDead = true
+	var ennemiesDead = true
+	for c in combatantsPlayer:
+		var b = c.isAlive()
+		if b:
+			alliesDead = false
+			break
+	for c in combatantsOpponent:
+		var b = c.isAlive()
+		if b:
+			ennemiesDead = false
+			break
+	return alliesDead || ennemiesDead
+
+func resetCombatants():
+	for combatant in self.combatantsPlayer:
+		combatant.reset()
+	for combatant in self.combatantsOpponent:
+		combatant.reset()

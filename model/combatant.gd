@@ -28,7 +28,7 @@ func update(delta):
 	self.actionCooldown += delta
 
 func canAct():
-	return self.healthCurrent > 0 && actionCooldown >= timerToAct
+	return isAlive() && actionCooldown >= timerToAct
 
 func triggerAction():
 	if self.skills.size() == 0:
@@ -40,3 +40,11 @@ func triggerAction():
 		self.skills.append(s)
 	self.actionCooldown = 0
 	return self.skills[0].skillParts
+
+func isAlive():
+	return self.healthCurrent > 0
+
+func reset():
+	self.healthCurrent = self.healthMax
+	self.actionCooldown = 0
+	self.manaCurrent = self.manaMax

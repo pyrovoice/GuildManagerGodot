@@ -1,21 +1,39 @@
-[gd_scene load_steps=3 format=3 uid="uid://b7r1sgx6d6tly"]
+[gd_scene load_steps=4 format=3 uid="uid://b7r1sgx6d6tly"]
 
-[ext_resource type="Script" path="res://scripts/GameMaster.gd" id="1_j81gl"]
-[ext_resource type="Script" path="res://scripts/CombatManager.gd" id="2_mtci1"]
+[ext_resource type="Script" path="res://DisplayMaster.gd" id="1_nilf0"]
+[ext_resource type="Script" path="res://LocationDisplay.gd" id="2_0lijj"]
+[ext_resource type="Script" path="res://PlayerData.gd" id="3_wklwk"]
 
-[node name="Control" type="Control"]
+[node name="DisplayMaster" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_j81gl")
+script = ExtResource("1_nilf0")
 
-[node name="CombatManager" type="Node" parent="."]
-script = ExtResource("2_mtci1")
+[node name="ChildWindow" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.062
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -0.424004
+grow_horizontal = 0
+grow_vertical = 2
 
-[node name="ContainerEnnemies" type="GridContainer" parent="CombatManager"]
+[node name="LocationDisplay" type="Control" parent="ChildWindow"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_0lijj")
+
+[node name="ContainerEnnemies" type="GridContainer" parent="ChildWindow/LocationDisplay"]
+layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.414
@@ -26,7 +44,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 3
 
-[node name="ContainerAllies" type="GridContainer" parent="CombatManager"]
+[node name="ContainerAllies" type="GridContainer" parent="ChildWindow/LocationDisplay"]
+layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.461
 anchor_right = 1.0
@@ -38,7 +57,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 3
 
-[node name="Button" type="Button" parent="CombatManager"]
+[node name="Button" type="Button" parent="ChildWindow/LocationDisplay"]
+layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.053
 anchor_bottom = 0.048
@@ -46,13 +66,57 @@ offset_right = -53.056
 offset_bottom = -23.104
 text = "Return"
 
-[node name="Combats" type="GridContainer" parent="CombatManager"]
+[node name="Combats" type="GridContainer" parent="ChildWindow/LocationDisplay"]
+layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.002
-anchor_top = 0.052
+anchor_left = 0.057
+anchor_top = 0.003
 anchor_right = 0.998
 anchor_bottom = 0.991
-offset_left = -0.304
-offset_top = 0.304001
-offset_right = 0.303955
-offset_bottom = -0.16803
+offset_left = 0.382996
+offset_top = 0.056
+offset_right = 0.161987
+offset_bottom = 7.83203
+
+[node name="PlayerDataDisplay" type="Control" parent="ChildWindow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_wklwk")
+
+[node name="gold" type="Label" parent="ChildWindow/PlayerDataDisplay"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.037
+anchor_bottom = 0.035
+offset_right = 0.00299835
+offset_bottom = 0.32
+text = "5000"
+
+[node name="Combats" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.06
+anchor_bottom = 0.091
+offset_right = 0.879997
+offset_bottom = 0.0319977
+theme_override_font_sizes/font_size = 14
+text = "Combats"
+text_overrun_behavior = 2
+clip_text = true
+
+[node name="Data" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.06
+anchor_bottom = 0.091
+offset_top = 60.0
+offset_right = 0.879997
+offset_bottom = 60.032
+theme_override_font_sizes/font_size = 14
+text = "Data"
+text_overrun_behavior = 2
+clip_text = true
