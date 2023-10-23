@@ -6,12 +6,9 @@ var name: String = ""
 var combatantsPlayer: Array[Combatant] = []
 var combatantsOpponent: Array[Combatant] = []
 
-func init():
-	#Random hero life from 401 to 600
-	name = "Combat " + str(Combat.cbCount)
-	Combat.cbCount = Combat.cbCount +1
-	var lifrHero = randi()%200+400
-	addCombatantToTeam(Combatant.new("Hero", lifrHero, 100, 12), true)
+func init(combatants: Array[Combatant]):
+	for c in combatants:
+		addCombatantToTeam(c, true)
 	addCombatantToTeam(Combatant.new("Rat 1" ,25, 0, 5), false)
 	addCombatantToTeam(Combatant.new("Rat 1" ,25, 0, 5), false)
 	addCombatantToTeam(Combatant.new("Rat 1" ,25, 0, 5), false)

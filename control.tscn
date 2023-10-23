@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://b7r1sgx6d6tly"]
+[gd_scene load_steps=4 format=3 uid="uid://c66dmks01wkl8"]
 
-[ext_resource type="Script" path="res://DisplayMaster.gd" id="1_nilf0"]
-[ext_resource type="Script" path="res://LocationDisplay.gd" id="2_0lijj"]
-[ext_resource type="Script" path="res://PlayerData.gd" id="3_wklwk"]
+[ext_resource type="Script" path="res://model/DisplayMaster.gd" id="1_opo8t"]
+[ext_resource type="Script" path="res://model/CombatDisplay.gd" id="2_ga5k7"]
+[ext_resource type="Script" path="res://model/PlayerData.gd" id="3_whtyq"]
 
 [node name="DisplayMaster" type="Control"]
 layout_mode = 3
@@ -11,7 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_nilf0")
+script = ExtResource("1_opo8t")
 
 [node name="ChildWindow" type="Control" parent="."]
 layout_mode = 1
@@ -22,7 +22,16 @@ offset_left = -0.424004
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="LocationDisplay" type="Control" parent="ChildWindow"]
+[node name="CombatDisplay" type="Control" parent="ChildWindow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_ga5k7")
+
+[node name="PlayerDataDisplay" type="Control" parent="ChildWindow"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -30,62 +39,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("2_0lijj")
-
-[node name="ContainerEnnemies" type="GridContainer" parent="ChildWindow/LocationDisplay"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 0.414
-offset_top = 32.0
-offset_bottom = 31.728
-grow_horizontal = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-columns = 3
-
-[node name="ContainerAllies" type="GridContainer" parent="ChildWindow/LocationDisplay"]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.461
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 0.271973
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-columns = 3
-
-[node name="Button" type="Button" parent="ChildWindow/LocationDisplay"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.053
-anchor_bottom = 0.048
-offset_right = -53.056
-offset_bottom = -23.104
-text = "Return"
-
-[node name="Combats" type="GridContainer" parent="ChildWindow/LocationDisplay"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.057
-anchor_top = 0.003
-anchor_right = 0.998
-anchor_bottom = 0.991
-offset_left = 0.382996
-offset_top = 0.056
-offset_right = 0.161987
-offset_bottom = 7.83203
-
-[node name="PlayerDataDisplay" type="Control" parent="ChildWindow"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("3_wklwk")
+script = ExtResource("3_whtyq")
 
 [node name="gold" type="Label" parent="ChildWindow/PlayerDataDisplay"]
 layout_mode = 1
@@ -111,11 +65,12 @@ clip_text = true
 [node name="Data" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = -1
+anchor_top = 0.093
 anchor_right = 0.06
-anchor_bottom = 0.091
-offset_top = 60.0
+anchor_bottom = 0.184
+offset_top = -0.264
 offset_right = 0.879997
-offset_bottom = 60.032
+offset_bottom = -0.23201
 theme_override_font_sizes/font_size = 14
 text = "Data"
 text_overrun_behavior = 2

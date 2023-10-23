@@ -5,24 +5,26 @@ var combats: Array[Combat] = []
 var displayedCombat: Combat = null
 
 static var instance: CombatManager = null;
-static func getInstance():
+static func getInstance() -> CombatManager:
 	if(CombatManager.instance == null):
 		CombatManager.instance = CombatManager.new()
 	return CombatManager.instance
-	
-signal combatListUpdated
 
 func _init():
-	addCombat()
-	addCombat()
 	pass # Replace with function body.
 
-func addCombat():
-	var c = Combat.new()
-	c.init()
-	combats.push_back(c)
-	self.combatListUpdated.emit()
 
+func addCombat(location: String, combatants: Array[Combatant]) -> Combat:
+	var areAllCombatantsFree = true
+	for c in combatants:
+		if !GameMaster.getInstance().isCombatantAvailable(c):
+			return null
+	var c = Combat.new()
+	c.init(combatants)
+	c.name = location
+	combats.push_back(c)
+	return c
+	
 func process(_delta):
 	for c in combats:
 		c.process(_delta)
