@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://bjeq73nfkkae6"]
+
+[node name="LocationsDisplay" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Locations" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.469
+offset_bottom = 0.0879822
+grow_horizontal = 2
+
+[node name="GridContainer" type="GridContainer" parent="Locations"]
+layout_mode = 2
+columns = 4
+
+[node name="ActiveCombats" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.514
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -20.072
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="GridContainer" type="GridContainer" parent="ActiveCombats"]
+layout_mode = 2
+columns = 4

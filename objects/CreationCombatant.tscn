@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://cxaupdw58jpb7"]
+
+[node name="CreationCombatant" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerGold" type="Label" parent="."]
+layout_mode = 0
+offset_left = 126.0
+offset_top = 55.0
+offset_right = 229.0
+offset_bottom = 78.0
+
+[node name="SelectedLevel" type="SpinBox" parent="."]
+layout_mode = 0
+offset_left = 124.0
+offset_top = 103.0
+offset_right = 207.063
+offset_bottom = 134.0
+min_value = 1.0
+value = 1.0
+
+[node name="MaxLevel" type="Button" parent="."]
+layout_mode = 0
+offset_left = 212.0
+offset_top = 103.0
+offset_right = 364.0
+offset_bottom = 134.0
+text = "Max"
+
+[node name="Cost" type="Label" parent="."]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 147.0
+offset_right = 354.0
+offset_bottom = 185.0
+
+[node name="Validate" type="Button" parent="."]
+layout_mode = 0
+offset_left = 196.0
+offset_top = 214.0
+offset_right = 308.0
+offset_bottom = 280.0
+text = "Create"

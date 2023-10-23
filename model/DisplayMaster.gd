@@ -1,0 +1,26 @@
+extends Control
+
+var showNodes: Array[String] = []
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	var cWindow = self.get_node("ChildWindow")
+	for n in cWindow.get_children():
+		self.showNodes.push_back(n.get_name())
+	self.get_node("Combats").pressed.connect(func(): self.showNode(0))
+	self.get_node("Data").pressed.connect(func(): self.showNode(1))
+	self.get_node("Create").pressed.connect(func(): self.showNode(2))
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	GameMaster.getInstance().process(delta)
+	pass
+
+func showNode(index):
+	var cWindow = self.get_node("ChildWindow")
+	for s in showNodes:
+		cWindow.get_node(s).hide()
+	if cWindow.get_node(showNodes[index]).has_method("init"):
+		cWindow.get_node(showNodes[index]).init()
+	cWindow.get_node(showNodes[index]).show()
