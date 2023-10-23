@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://ccfjcmib782th"]
+[gd_scene load_steps=8 format=3 uid="uid://ccfjcmib782th"]
 
 [ext_resource type="Script" path="res://scripts/CombatantDisplay_Combat.gd" id="1_x5m02"]
+[ext_resource type="Texture2D" uid="uid://bqbltkdt1hc12" path="res://resources/common/sword_small.png" id="2_dc85n"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ii86"]
 resource_name = "sddd"
@@ -17,7 +18,7 @@ resource_name = "sddd"
 bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qcd0m"]
-bg_color = Color(0.298039, 0.298039, 0.298039, 1)
+bg_color = Color(0.164706, 0.164706, 0.164706, 1)
 
 [node name="CombatantDisplay_Combat" type="Control"]
 custom_minimum_size = Vector2(225, 150)
@@ -124,3 +125,26 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_qcd0m")
 value = 80.0
 allow_greater = true
 show_percentage = false
+
+[node name="Attack" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.098
+anchor_top = 0.516
+anchor_right = 0.284
+anchor_bottom = 0.708
+offset_top = -1.52588e-05
+offset_right = 8.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "50"
+
+[node name="Sword" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.516
+anchor_right = 0.096
+anchor_bottom = 0.708
+offset_top = -1.52588e-05
+texture = ExtResource("2_dc85n")
+expand_mode = 2

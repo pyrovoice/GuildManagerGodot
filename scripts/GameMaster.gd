@@ -12,7 +12,7 @@ func process(_delta):
 	CombatManager.getInstance().process(_delta)
 
 func addRewardForCombat(c: Combat):
-	PlayerData.getInstance().gold = PlayerData.getInstance().gold +1
+	PlayerData.getInstance().gold = PlayerData.getInstance().gold +4
 
 func getAvailableCombatants() -> Array[Combatant]:
 	return PlayerData.getInstance().combatants.filter((self.isCombatantAvailable))

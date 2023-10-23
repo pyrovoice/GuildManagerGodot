@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c66dmks01wkl8"]
+[gd_scene load_steps=5 format=3 uid="uid://c66dmks01wkl8"]
 
 [ext_resource type="Script" path="res://model/DisplayMaster.gd" id="1_opo8t"]
 [ext_resource type="Script" path="res://model/CombatDisplay.gd" id="2_ga5k7"]
-[ext_resource type="Script" path="res://model/PlayerData.gd" id="3_whtyq"]
+[ext_resource type="Script" path="res://model/PlayerDataDisplay.gd" id="3_a4ddo"]
+[ext_resource type="Script" path="res://CombatantCreationDisplay.gd" id="4_tfq0k"]
 
 [node name="DisplayMaster" type="Control"]
 layout_mode = 3
@@ -39,7 +40,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("3_whtyq")
+script = ExtResource("3_a4ddo")
 
 [node name="gold" type="Label" parent="ChildWindow/PlayerDataDisplay"]
 layout_mode = 1
@@ -49,6 +50,13 @@ anchor_bottom = 0.035
 offset_right = 0.00299835
 offset_bottom = 0.32
 text = "5000"
+
+[node name="CombatantCreationDisplay" type="Control" parent="ChildWindow"]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_tfq0k")
 
 [node name="Combats" type="Button" parent="."]
 layout_mode = 1
@@ -73,5 +81,20 @@ offset_right = 0.879997
 offset_bottom = -0.23201
 theme_override_font_sizes/font_size = 14
 text = "Data"
+text_overrun_behavior = 2
+clip_text = true
+
+[node name="Create" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.187
+anchor_right = 0.06
+anchor_bottom = 0.278
+offset_top = -0.17601
+offset_right = 0.879997
+offset_bottom = -0.144028
+theme_override_font_sizes/font_size = 14
+text = "Create
+"
 text_overrun_behavior = 2
 clip_text = true

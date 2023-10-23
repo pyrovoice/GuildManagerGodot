@@ -20,3 +20,4 @@ func updateDisplay():
 		get_node("ManaBar").value = self.combatant.manaMax
 		get_node("ActionBar").max_value = self.combatant.timerToAct
 		get_node("ActionBar").value = self.combatant.actionCooldown
+		get_node("Attack").text = str(self.combatant.strength)

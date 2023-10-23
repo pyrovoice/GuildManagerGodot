@@ -25,6 +25,9 @@ func addCombat(location: String, combatants: Array[Combatant]) -> Combat:
 	combats.push_back(c)
 	return c
 	
+func stopCombat(combat:Combat):
+	self.combats.erase(combat)
+		
 func process(_delta):
 	for c in combats:
 		c.process(_delta)
