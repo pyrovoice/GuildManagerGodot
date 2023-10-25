@@ -11,6 +11,8 @@ var strength: float
 var actionCooldown: float = 0
 var timerToAct: float = 4
 var skills: Array[Skill] = []
+var equipmentSlots = 2
+var equippableEquipped = []
 
 func _init(name: String="default name", health:float = 100, mana: float = 100, strength: float = 10):
 	self.name = name

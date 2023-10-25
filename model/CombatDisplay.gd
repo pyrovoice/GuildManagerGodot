@@ -62,6 +62,7 @@ func displayCombatPreparation(locationName: String):
 	for c in combatants:
 		var button = Button.new()
 		button.text = c.name
+		button.toggle_mode = true
 		button.pressed.connect(func(): addOrRemoveFromSelection(c))
 		self.get_node("locationCombatantSelector/AvailableCombatants/GridContainer").add_child(button)
 	self.get_node("locationCombatantSelector").show()

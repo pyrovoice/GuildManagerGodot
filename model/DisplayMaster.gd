@@ -8,7 +8,9 @@ func _ready():
 		self.showNodes.push_back(n.get_name())
 	self.get_node("Combats").pressed.connect(func(): self.showNode(0))
 	self.get_node("Data").pressed.connect(func(): self.showNode(1))
-	self.get_node("Create").pressed.connect(func(): self.showNode(2))
+	self.get_node("Heros").pressed.connect(func(): self.showNode(2))
+	self.get_node("Equipement").pressed.connect(func(): self.showNode(3))
+	self.get_node("Manage").pressed.connect(func(): self.showNode(4))
 	pass # Replace with function body.
 
 

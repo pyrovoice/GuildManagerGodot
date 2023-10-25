@@ -31,7 +31,7 @@ func createHero():
 	if (level * goldPerLevelMultiplier <= PlayerData.getInstance().gold 
 		&&  level <= PlayerData.getInstance().maxCombatantLevel):
 		PlayerData.getInstance().gold = PlayerData.getInstance().gold - level * goldPerLevelMultiplier
-		PlayerData.getInstance().combatants.push_back(Combatant.new("Default", level *100, level*20, level))
+		PlayerData.getInstance().combatants.push_back(Combatant.new("Default", level *100, level*20, level*5))
 		var popup = AcceptDialog.new()
 		popup.dialog_text = "New Hero created"
 		self.add_child(popup)
