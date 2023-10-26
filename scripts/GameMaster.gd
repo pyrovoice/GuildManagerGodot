@@ -11,7 +11,8 @@ static func getInstance() -> GameMaster:
 func process(_delta):
 	CombatManager.getInstance().process(_delta)
 
-func addRewardForCombat(c: Combat):
+func addRewardForCombat(_c: Combat):
+	#TODO add Combat rewards
 	PlayerData.getInstance().gold = PlayerData.getInstance().gold +4
 
 func getAvailableCombatants() -> Array[Combatant]:

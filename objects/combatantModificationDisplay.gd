@@ -43,9 +43,9 @@ func getButton(equipment: Equipable, equippedCombatant: Combatant):
 	return button
 	
 func equipToCombatant(equipment: Equipable):
-	var success = PlayerData.getInstance().equipToCombatant(equipment, combatantToModify)
+	PlayerData.getInstance().equipToCombatant(equipment, combatantToModify)
 	refreshDisplay()
 
 func removeFromCombatant(equipment: Equipable):
-	var success = PlayerData.getInstance().removeFromCombatant(equipment, combatantToModify)
+	PlayerData.getInstance().removeFromCombatant(equipment, combatantToModify)
 	refreshDisplay()

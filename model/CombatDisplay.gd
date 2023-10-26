@@ -79,7 +79,7 @@ func startCombat():
 	displayCombat(startedC)
 	
 func addOrRemoveFromSelection(c: Combatant):
-	if selectedCombatants.any(func(combatant): combatant == c):
+	if selectedCombatants.has(c):
 		selectedCombatants.erase(c)
 	else:
 		selectedCombatants.push_back(c)

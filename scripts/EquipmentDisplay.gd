@@ -9,7 +9,7 @@ func _ready():
 	self.get_node("Validate").pressed.connect(self.createEquipment)
 
 
-func _process(delta):
+func _process(_delta):
 	self.get_node("PlayerGold").text = str(PlayerData.getInstance().gold)
 	if levelSelectionBox.max_value != PlayerData.getInstance().maxCombatantLevel:
 		levelSelectionBox.max_value = PlayerData.getInstance().maxCombatantLevel
@@ -18,6 +18,7 @@ func setSelectedLevelToMax():
 	levelSelectionBox.value = getMaxLevelPossible()
 	
 func getMaxLevelPossible():
+	@warning_ignore("integer_division")
 	return min(PlayerData.getInstance().gold/goldPerLevelMultiplier, PlayerData.getInstance().maxCombatantLevel)
 	
 func updateDisplay():

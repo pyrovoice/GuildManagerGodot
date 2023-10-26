@@ -15,7 +15,6 @@ func _init():
 
 
 func addCombat(location: String, combatants: Array[Combatant]) -> Combat:
-	var areAllCombatantsFree = true
 	for c in combatants:
 		if !GameMaster.getInstance().isCombatantAvailable(c):
 			return null
