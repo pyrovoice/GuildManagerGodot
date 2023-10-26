@@ -2,7 +2,7 @@ extends Object
 
 class_name Combatant
 
-var name: String = ""
+var name: String = "default name"
 var healthMax: float
 var healthCurrent: float
 var manaCurrent: float
@@ -14,13 +14,13 @@ var skills: Array[Skill] = []
 var equipmentSlots = 2
 var equippableEquipped = []
 
-func _init(name: String="default name", health:float = 100, mana: float = 100, strength: float = 10):
-	self.name = name
-	self.healthMax = health
-	self.healthCurrent = health
-	self.manaMax = mana
-	self.manaCurrent = mana
-	self.strength = strength
+func _init(_name: String, _health:float = 100, _mana: float = 100, _strength: float = 10):
+	self.name = _name
+	self.healthMax = _health
+	self.healthCurrent = _health
+	self.manaMax = _mana
+	self.manaCurrent = _mana
+	self.strength = _strength
 	
 	
 func receiveDamage(damage: float):

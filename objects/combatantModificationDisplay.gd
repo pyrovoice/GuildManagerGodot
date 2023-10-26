@@ -1,14 +1,18 @@
 extends Control
 
-var combatantToModify: Combatant
+var combatantToModify: Combatant = null
 var equipables: Array[Equipable]
 
 func _ready():
-	self.combatantToModify = PlayerData.getInstance().combatants[0]
+	if combatantToModify == null:
+		self.combatantToModify = PlayerData.getInstance().combatants[0]
 	self.equipables = PlayerData.getInstance().equipments
 	refreshDisplay()
-	
 
+func setCombatant(c:Combatant):
+	combatantToModify = c
+	refreshDisplay()
+		
 func refreshDisplay():
 	for n in get_node("AvailableEquipables").get_children():
 		get_node("AvailableEquipables").remove_child(n)
@@ -23,10 +27,6 @@ func refreshDisplay():
 		var button: Button = getButton(e, combatantToModify)
 		button.pressed.connect(func(): self.removeFromCombatant(e))
 		get_node("HeroEquipmentSlots").add_child(button)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
 func addAvailableEquipmentDisplay(equipment: Equipable, equippedCombatant: Combatant):
 	var button: Button = getButton(equipment, equippedCombatant)
