@@ -1,8 +1,8 @@
 extends Node
 class_name CombatantDisplay
 
-var combatant: Combatant = null
-func init(c: Combatant):
+var combatant: CombatantInFight = null
+func init(c: CombatantInFight):
 	self.combatant = c
 	updateDisplay()
 
@@ -18,6 +18,6 @@ func updateDisplay():
 		get_node("HealthBar").value = self.combatant.healthCurrent
 		get_node("ManaBar").max_value = self.combatant.manaMax
 		get_node("ManaBar").value = self.combatant.manaMax
-		get_node("ActionBar").max_value = self.combatant.timerToAct
+		get_node("ActionBar").max_value = self.combatant.delayToAct
 		get_node("ActionBar").value = self.combatant.actionCooldown
 		get_node("Attack").text = str(self.combatant.strength)

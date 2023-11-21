@@ -3,18 +3,18 @@ class_name Combat
 
 static var cbCount = 0
 var name: String = ""
-var combatantsPlayer: Array[Combatant] = []
-var combatantsOpponent: Array[Combatant] = []
+var combatantsPlayer: Array[CombatantInFight] = []
+var combatantsOpponent: Array[CombatantInFight] = []
 
 func init(combatants: Array[Combatant]):
 	for c in combatants:
-		addCombatantToTeam(c, true)
-	addCombatantToTeam(Combatant.new("Rat 1" ,25, 0, 5), false)
-	addCombatantToTeam(Combatant.new("Rat 1" ,25, 0, 5), false)
-	addCombatantToTeam(Combatant.new("Rat 1" ,25, 0, 5), false)
-	#addCombatantToTeam(Combatant.new("Rat King" ,100, 20, 20), false)
+		addCombatantToTeam(CombatantInFight.new(c), true)
+	addCombatantToTeam(CombatantInFight.new(Combatant.new("Rat 1" ,25, 0, 5)), false)
+	addCombatantToTeam(CombatantInFight.new(Combatant.new("Rat 2" ,25, 0, 5)), false)
+	addCombatantToTeam(CombatantInFight.new(Combatant.new("Rat 3" ,25, 0, 5)), false)
+	addCombatantToTeam(CombatantInFight.new(Combatant.new("Rat King" ,100, 20, 20)), false)
 
-func addCombatantToTeam(c: Combatant, isAlly):
+func addCombatantToTeam(c: CombatantInFight, isAlly):
 	if isAlly:
 		self.combatantsPlayer.push_back(c)
 	else:
@@ -27,25 +27,25 @@ func process(delta):
 		updateCombatant(combatant, delta)
 	pass
 
-func updateCombatant(combatant: Combatant, delta: float):
+func updateCombatant(combatant: CombatantInFight, delta: float):
 	combatant.actionCooldown += delta
 	if combatant.canAct():
 		resolveAction(combatant, combatant.triggerAction())
 
-func resolveAction(source: Combatant, effects: Array[EffectDescriptor]):
+func resolveAction(source: CombatantInFight, effects: Array[EffectDescriptor]):
 	for effect in effects:
 		resolveEffect(source, effect)
 	
-func resolveEffect(source: Combatant, effect: EffectDescriptor):
+func resolveEffect(source: CombatantInFight, effect: EffectDescriptor):
 	if(effect.EffectDescriptorType == EffectDecriptorType.REDUCE):
 		var opps = getOpponents(source)
 		opps = opps.filter(func(c): return c.healthCurrent > 0)
 		if(opps.size() == 0):
 			return
-		var target = opps[randi() % opps.size()] as Combatant
+		var target = opps[randi() % opps.size()] as CombatantInFight
 		target.healthCurrent -= (effect.baseValue + source.strength)
 		
-func getOpponents(combatant: Combatant):
+func getOpponents(combatant: CombatantInFight):
 	var isAlly = false
 	for c in combatantsPlayer:
 		if c == combatant:

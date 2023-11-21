@@ -102,7 +102,7 @@ func displayCombat(combat: Combat):
 	self.get_node("combat_display").show()
 
 	
-func addCombatantToTeam(c: Combatant, isAlly: bool):
+func addCombatantToTeam(c: CombatantInFight, isAlly: bool):
 	var cDisplay = preload("res://objects/combatant_display_combat.tscn").instantiate()
 	if isAlly:
 		self.get_node("combat_display/ContainerAllies").add_child(cDisplay)
