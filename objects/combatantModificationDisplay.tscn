@@ -35,6 +35,7 @@ offset_left = 0.111984
 offset_top = -6.776
 offset_right = -0.240112
 offset_bottom = -0.208008
+columns = 4
 
 [node name="AvailableEquipables" type="GridContainer" parent="."]
 layout_mode = 1
@@ -60,4 +61,4 @@ offset_left = -0.304
 offset_top = -0.0800018
 offset_right = 0.0800018
 offset_bottom = 0.0799942
-text = "reutnr"
+text = "Return"

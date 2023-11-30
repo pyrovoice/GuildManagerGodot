@@ -8,7 +8,7 @@ var mana: float
 var strength: float
 var delayToAct: float = 4
 var skills: Array[Skill] = []
-var equipmentSlots = 2
+var equipmentSlots: int = 2
 var equippableEquipped:Array[Equipable] = []
 
 func _init(_name: String, _health:float = 100, _mana: float = 100, _strength: float = 10):

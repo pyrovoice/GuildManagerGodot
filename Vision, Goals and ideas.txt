@@ -1,5 +1,10 @@
 - Achivanium: Some hard achievements, once completed, can be redone infinitely to earn Achivanium, used as a rare ressource
 - Encumberment: Heros have a max charge of items they can carry, including stuff and consummables. Looting stuff also takes space in inventory
 
+Food system and nourriture a emporter
+Environment that you can fill with looted stuff and animals, produce ressource but require equilibrium
+Combat ability system
+Front-back system
+
 Universes:
 Fallout, Radiation from food as a debuff, stimpack as OP heal items (very light)

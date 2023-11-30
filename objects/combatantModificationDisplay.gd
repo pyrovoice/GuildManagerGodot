@@ -7,7 +7,6 @@ func _ready():
 	if combatantToModify == null:
 		self.combatantToModify = PlayerData.getInstance().combatants[0]
 	self.equipables = PlayerData.getInstance().equipments
-	refreshDisplay()
 
 func setCombatant(c:Combatant):
 	combatantToModify = c
@@ -24,23 +23,33 @@ func refreshDisplay():
 			continue
 		addAvailableEquipmentDisplay(e, equippedC)
 	for e in combatantToModify.equippableEquipped:
-		var button: Button = getButton(e, combatantToModify)
-		button.pressed.connect(func(): self.removeFromCombatant(e))
+		var button: DraggeableEquipment = getButton(e, combatantToModify)
 		get_node("HeroEquipmentSlots").add_child(button)
+		button.onClick.connect(func(): removeFromCombatant(button.equipment))
+	var emptySlots = combatantToModify.equipmentSlots - combatantToModify.equippableEquipped.size()
+	for i in emptySlots:
+		var cr: ColorRect = ColorRect.new()
+		var square = Vector2.ZERO
+		square.x = (self.get_node("HeroEquipmentSlots") as GridContainer).get_size().y
+		square.y = (self.get_node("HeroEquipmentSlots") as GridContainer).get_size().y
+		cr.set_custom_minimum_size(square)
+		get_node("HeroEquipmentSlots").add_child(cr)
+			
 
 func addAvailableEquipmentDisplay(equipment: Equipable, equippedCombatant: Combatant):
-	var button: Button = getButton(equipment, equippedCombatant)
-	button.pressed.connect(func(): self.equipToCombatant(equipment))
-	get_node("AvailableEquipables").add_child(button)
+	var label: DraggeableEquipment = getButton(equipment, equippedCombatant)
+	get_node("AvailableEquipables").add_child(label)
+	label.onClick.connect(func(): equipToCombatant(label.equipment))
 
-func getButton(equipment: Equipable, equippedCombatant: Combatant):
+func getButton(equipment: Equipable, equippedCombatant: Combatant) -> DraggeableEquipment:
 	var displayText = equipment.name
 	if equippedCombatant != null:
 		displayText = displayText + "("+equippedCombatant.name+")"
 	displayText += "\nHealth: " + str(equipment.bonusHealth) + "\nAttack: " + str(equipment.bonusAttack)
-	var button: Button = Button.new()
-	button.text = displayText
-	return button
+	var square: DraggeableEquipment = preload("res://objects/DraggableEquipment.tscn").instantiate()
+	square.init(equipment)
+	square.set_custom_minimum_size(Vector2(150, 150))
+	return square
 	
 func equipToCombatant(equipment: Equipable):
 	PlayerData.getInstance().equipToCombatant(equipment, combatantToModify)

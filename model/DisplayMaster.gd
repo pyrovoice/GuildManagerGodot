@@ -11,7 +11,7 @@ func _ready():
 	self.get_node("Heros").pressed.connect(func(): self.showNode(2))
 	self.get_node("Equipement").pressed.connect(func(): self.showNode(3))
 	self.get_node("Manage").pressed.connect(func(): self.showNode(4))
-	pass # Replace with function body.
+	pass 
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
