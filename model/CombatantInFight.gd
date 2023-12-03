@@ -22,11 +22,12 @@ func _init(c: Combatant):
 	strength = c.strength
 	delayToAct = c.delayToAct
 	skills = c.skills
-	equippableEquipped = c.equippableEquipped.duplicate(true)
-	for e in equippableEquipped:
-		healthMax += e.bonusHealth
-		manaMax += e.bonusMana
-		strength += e.bonusAttack
+	if "equippableEquipped" in c:
+		equippableEquipped = c.equippableEquipped.duplicate(true)
+		for e in equippableEquipped:
+			healthMax += e.bonusHealth
+			manaMax += e.bonusMana
+			strength += e.bonusAttack
 	reset()
 
 func receiveDamage(damage: float):

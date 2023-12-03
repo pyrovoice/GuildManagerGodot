@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dkotv7wfjchox"]
 
-[ext_resource type="Script" path="res://objects/combatantModificationDisplay.gd" id="1_qk2yg"]
+[ext_resource type="Script" path="res://scenes/combatantModificationDisplay.gd" id="1_qk2yg"]
 
 [node name="combatantModificationDisplay" type="Control"]
 layout_mode = 3

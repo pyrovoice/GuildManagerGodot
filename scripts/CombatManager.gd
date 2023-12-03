@@ -14,13 +14,12 @@ func _init():
 	pass # Replace with function body.
 
 
-func addCombat(location: String, combatants: Array[Combatant]) -> Combat:
+func addCombat(location: FightingLocation, combatants: Array[Combatant]) -> Combat:
 	for c in combatants:
 		if !GameMaster.getInstance().isCombatantAvailable(c):
 			return null
 	var c = Combat.new()
-	c.init(combatants)
-	c.name = location
+	c.init(combatants, location)
 	combats.push_back(c)
 	return c
 	
@@ -30,12 +29,4 @@ func stopCombat(combat:Combat):
 func process(_delta):
 	for c in combats:
 		c.process(_delta)
-		if c.isCombatOver():
-			resolveCombat(c)
 	pass
-
-func resolveCombat(combat: Combat):
-	print("Resolve combat " + combat.name)
-	GameMaster.getInstance().addRewardForCombat(combat)
-	combat.resetCombatants()
-	

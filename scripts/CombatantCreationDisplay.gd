@@ -3,7 +3,7 @@ extends Control
 var levelSelectionBox: SpinBox
 var goldPerLevelMultiplier = 10
 func _ready():
-	var eiiegn = preload("res://objects/CreationCombatant.tscn").instantiate()
+	var eiiegn = preload("res://scenes/CreationCombatant.tscn").instantiate()
 	eiiegn.name = "CreationCombatant"
 	self.add_child(eiiegn)
 	levelSelectionBox = (self.get_node("CreationCombatant/SelectedLevel") as SpinBox)

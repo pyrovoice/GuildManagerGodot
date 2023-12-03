@@ -46,7 +46,7 @@ func getButton(equipment: Equipable, equippedCombatant: Combatant) -> Draggeable
 	if equippedCombatant != null:
 		displayText = displayText + "("+equippedCombatant.name+")"
 	displayText += "\nHealth: " + str(equipment.bonusHealth) + "\nAttack: " + str(equipment.bonusAttack)
-	var square: DraggeableEquipment = preload("res://objects/DraggableEquipment.tscn").instantiate()
+	var square: DraggeableEquipment = preload("res://scenes/DraggableEquipment.tscn").instantiate()
 	square.init(equipment)
 	square.set_custom_minimum_size(Vector2(150, 150))
 	return square
