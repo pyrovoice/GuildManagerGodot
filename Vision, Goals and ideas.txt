@@ -8,3 +8,14 @@ Front-back system
 
 Universes:
 Fallout, Radiation from food as a debuff, stimpack as OP heal items (very light)
+
+opponents:
+create a giant fireball, immune while fireball not dead
+Explode on death, dealing damage to all opponents depending on a condition
+can only be injured by 
+
+TODOS:
+Check skills
+StatusEffect and globalEffects
+Flying (Cannot be attacked by melee. Loses flight for 2 seconds after using a melee attack)
+Ranged and melee skills
