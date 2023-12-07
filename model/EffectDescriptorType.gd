@@ -1,5 +1,6 @@
 class_name EffectDecriptorType
 enum{
-	REDUCE,
-	AUGMENTS,
+	DAMAGE,
+	HEAL,
+	STATUS_EFFECT
 }

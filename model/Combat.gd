@@ -68,18 +68,23 @@ func updateCombatant(combatant: CombatantInFight, delta: float):
 	if combatant.canAct():
 		resolveAction(combatant, combatant.triggerAction())
 
-func resolveAction(source: CombatantInFight, effects: Array[EffectDescriptor]):
-	for effect in effects:
+func resolveAction(source: CombatantInFight, skill: Skill):
+	for effect in skill.skillParts:
 		resolveEffect(source, effect)
-	
+
+#TODO add targeting, pass whole target and skill to resolve, add multiple skills, add Stamina for all actions
 func resolveEffect(source: CombatantInFight, effect: EffectDescriptor):
-	if(effect.EffectDescriptorType == EffectDecriptorType.REDUCE):
-		var opps = getOpponents(source)
-		opps = opps.filter(func(c): return c.healthCurrent > 0)
-		if(opps.size() == 0):
-			return
-		var target = opps[randi() % opps.size()] as CombatantInFight
-		target.healthCurrent -= (effect.baseValue + source.strength)
+	match effect.EffectDescriptorType:
+		EffectDecriptorType.DAMAGE:
+			var opps = getOpponents(source)
+			opps = opps.filter(func(c): return c.healthCurrent > 0)
+			if(opps.size() == 0):
+				return
+			var target = opps[randi() % opps.size()] as CombatantInFight
+			target.healthCurrent -= (effect.baseValue + source.strength)
+		EffectDecriptorType.HEAL:
+			pass
+		
 		
 func getOpponents(combatant: CombatantInFight):
 	var isAlly = false

@@ -40,15 +40,8 @@ func canAct():
 	return isAlive() && actionCooldown >= delayToAct
 
 func triggerAction():
-	if self.skills.size() == 0:
-		var s = Skill.new()
-		s.name = "Basic Attack"
-		s.isActive = true
-		var skillPart = EffectDescriptor.new()
-		s.skillParts.append(skillPart)
-		self.skills.append(s)
 	self.actionCooldown = 0
-	return self.skills[0].skillParts
+	return self.skills[0]
 
 func isAlive():
 	return self.healthCurrent > 0

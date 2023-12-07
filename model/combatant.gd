@@ -14,5 +14,6 @@ func _init(_name: String, _health:float = 100, _mana: float = 100, _strength: fl
 	self.health = _health
 	self.mana = _mana
 	self.strength = _strength
+	skills.push_back(SkillFactory.getSkillBasicAttack())
 	
 	
