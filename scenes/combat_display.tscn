@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://loar4ylrri4g"]
 
-[ext_resource type="Texture2D" uid="uid://csrvrhbp42i35" path="res://resources/common/delete.png" id="1_4wdxs"]
+[ext_resource type="Texture2D" uid="uid://csrvrhbp42i35" path="res://Assets/common/delete.png" id="1_4wdxs"]
 [ext_resource type="Script" path="res://scenes/CombatDisplay.gd" id="1_6l365"]
 
 [node name="CombatDisplay" type="Control"]

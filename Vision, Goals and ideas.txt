@@ -19,3 +19,7 @@ Check skills
 StatusEffect and globalEffects
 Flying (Cannot be attacked by melee. Loses flight for 2 seconds after using a melee attack)
 Ranged and melee skills
+Smartness Characteristic: Varies from 1-5, each level grant customization aspect to the targetting system and overall control the player can put on a combatant, and can vary with equipments. A brain level of 0 means the character will just select the default skill acitvation parameters, and lower than 0 will start doing stupid shit like targetting allies or removing default conditions
+Weight/carry system, equipments and useables take place in a character's backpack and they need to have space to carry resources they find
+Resource carrying priority system
+Add additional stuff to partys (caravane to carry things...)

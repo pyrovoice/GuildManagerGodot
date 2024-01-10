@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxur8ay734puj"]
 
 [ext_resource type="Script" path="res://scenes/DraggableEquipment.gd" id="1_72j37"]
-[ext_resource type="Texture2D" uid="uid://bqbltkdt1hc12" path="res://resources/common/sword_small.png" id="2_1ybny"]
+[ext_resource type="Texture2D" uid="uid://bqbltkdt1hc12" path="res://Assets/common/sword_small.png" id="2_1ybny"]
 
 [node name="DraggableEquipment" type="Control"]
 layout_mode = 3

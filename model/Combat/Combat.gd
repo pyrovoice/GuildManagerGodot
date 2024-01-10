@@ -6,7 +6,6 @@ var combatantsPlayer: Array[CombatantInFight] = []
 var combatantsOpponent: Array[CombatantInFight] = []
 var encounterCounter = 1
 var level = 1
-var globalEffectsActive: Array[GlobalEffect] = []
 signal combatantsChange
 
 func init(combatants: Array[Combatant], l: FightingLocation):
@@ -67,23 +66,32 @@ func incrementeLevel():
 func updateCombatant(combatant: CombatantInFight, delta: float):
 	combatant.actionCooldown += delta
 	if combatant.canAct():
-		resolveAction(combatant, combatant.triggerAction())
+		resolveAction(combatant)
 
-func resolveAction(source: CombatantInFight, effects: Array[EffectDescriptor]):
-	for effect in effects:
-		resolveEffect(source, effect)
-	
-func resolveEffect(source: CombatantInFight, effect: EffectDescriptor):
-	for ge in self.globalEffectsActive:
-		ge.applyGlobalEffect(effect)
-	if(effect.EffectDescriptorType == EffectDecriptorType.REDUCE):
-		var opps = getOpponents(source)
-		opps = opps.filter(func(c): return c.healthCurrent > 0)
-		if(opps.size() == 0):
-			return
-		var target = opps[randi() % opps.size()] as CombatantInFight
-		target.healthCurrent -= (effect.baseValue + source.strength)
+func resolveAction(source: CombatantInFight):
+	var skill:ActivatedSkillData = source.triggerAction(self)
+	if skill == null:
+		return
+	for effect in skill.skillParts:
+		resolveEffect(skill, effect)
 
+#TODO add targeting, pass whole target and skill to resolve, add multiple skills, add Stamina for all actions
+func resolveEffect(skill: ActivatedSkillData, effect: EffectDescriptor):
+	match effect.EffectDescriptorType:
+		EffectDecriptorType.DAMAGE:
+			for target in skill.targets:
+				target.receiveDamage(getEffectFinalValue(skill, effect))
+		EffectDecriptorType.HEAL:
+			for target in skill.targets:
+				target.receiveHealing(getEffectFinalValue(skill, effect))
+
+func getEffectFinalValue(skill: ActivatedSkillData, effect: EffectDescriptor)-> float:
+	var total = effect.baseValue
+	for effectScalings in effect.scalings.keys():
+		if skill.activator.attributes.find_key(effectScalings) != null:
+			total += skill.activator.attributes[effectScalings]*effect.scalings[effectScalings]
+	return total
+		
 func getOpponents(combatant: CombatantInFight):
 	var isAlly = false
 	for c in combatantsPlayer:
@@ -94,6 +102,19 @@ func getOpponents(combatant: CombatantInFight):
 		return self.combatantsOpponent
 	else:
 		return self.combatantsPlayer
+		
+func getRandomTargetablOpponent(combatant: CombatantInFight, amountTargets: int) -> Array[CombatantInFight]:
+	var opps = getOpponents(combatant)
+	opps = opps.filter(func(c): return c.isAlive() > 0)
+	var selectedOpps = []
+	while opps.size() > 0 && selectedOpps.size() < amountTargets:
+		var s = opps[randi() % opps.size()]
+		selectedOpps.push_back(s)
+		opps.remove_at(opps.find(s))
+	return selectedOpps
+	
+func getRandomTargetablAlly(combatant: CombatantInFight, amountTargets: int) -> Array[CombatantInFight]:
+	pass
 
 #Returns 1 if player wins, -1 if opponents win, 0 if no winner yet
 func getWinningTeam():
