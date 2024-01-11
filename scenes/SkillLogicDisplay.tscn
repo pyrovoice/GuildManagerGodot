@@ -1,0 +1,175 @@
+[gd_scene load_steps=3 format=3 uid="uid://bslcbswk5ke5f"]
+
+[ext_resource type="Script" path="res://scenes/SkillLogicDisplay.gd" id="1_xakt0"]
+[ext_resource type="PackedScene" uid="uid://cav4tn735bpl2" path="res://scenes/CombatantDisplaySmall.tscn" id="2_gb30t"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xakt0")
+
+[node name="CombatantDisplaySmall" parent="." instance=ExtResource("2_gb30t")]
+layout_mode = 1
+offset_left = -4.52603
+offset_top = 26.8134
+offset_right = -4.71805
+offset_bottom = 27.1094
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 373.0
+offset_top = 113.0
+offset_right = 451.0
+offset_bottom = 139.0
+text = "Activate if"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 470.0
+offset_top = 81.0
+offset_right = 1132.0
+offset_bottom = 116.0
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
+layout_mode = 2
+columns = 10
+
+[node name="ActivationCondition" type="OptionButton" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+item_count = 2
+selected = 1
+popup/item_0/text = ""
+popup/item_0/id = 0
+popup/item_1/text = "Value"
+popup/item_1/id = 1
+
+[node name="ActivationConditionCharacteristicType" type="OptionButton" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+item_count = 3
+selected = 1
+popup/item_0/text = "Health"
+popup/item_0/id = 0
+popup/item_1/text = "Mana"
+popup/item_1/id = 1
+popup/item_2/text = "Strength"
+popup/item_2/id = 2
+
+[node name="ActivationConditionComparator" type="OptionButton" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+item_count = 3
+selected = 0
+popup/item_0/text = ">"
+popup/item_0/id = 0
+popup/item_1/text = "="
+popup/item_1/id = 1
+popup/item_2/text = "<"
+popup/item_2/id = 2
+
+[node name="ActivationConditionPlayerValue" type="SpinBox" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+value = 50.0
+
+[node name="ActivationConditionValueType2" type="OptionButton" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+item_count = 2
+selected = 1
+popup/item_0/text = "n"
+popup/item_0/id = 0
+popup/item_1/text = "%"
+popup/item_1/id = 1
+
+[node name="Targets" type="Label" parent="."]
+layout_mode = 0
+offset_left = 375.0
+offset_top = 39.0
+offset_right = 453.0
+offset_bottom = 65.0
+text = "Prioritze"
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 465.0
+offset_top = 37.0
+offset_right = 1127.0
+offset_bottom = 75.0
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer2"]
+layout_mode = 2
+columns = 10
+
+[node name="PreferredTarget" type="OptionButton" parent="MarginContainer2/GridContainer"]
+layout_mode = 2
+item_count = 4
+selected = 2
+popup/item_0/text = "Self"
+popup/item_0/id = 0
+popup/item_1/text = "Lowest Health ally"
+popup/item_1/id = 1
+popup/item_2/text = "Lowest Health Opponent"
+popup/item_2/id = 2
+popup/item_3/text = "Boss"
+popup/item_3/id = 3
+
+[node name="TargetConditions" type="Label" parent="."]
+layout_mode = 0
+offset_left = 377.0
+offset_top = 192.0
+offset_right = 455.0
+offset_bottom = 218.0
+text = "If target(s)"
+
+[node name="MarginContainer3" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 470.0
+offset_top = 186.535
+offset_right = 1132.0
+offset_bottom = 224.535
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer3"]
+layout_mode = 2
+columns = 10
+
+[node name="TargetCondition" type="OptionButton" parent="MarginContainer3/GridContainer"]
+layout_mode = 2
+item_count = 1
+popup/item_0/text = "Value"
+popup/item_0/id = 0
+
+[node name="TargetConditionCharacteristicType" type="OptionButton" parent="MarginContainer3/GridContainer"]
+layout_mode = 2
+item_count = 3
+selected = 0
+popup/item_0/text = "Health"
+popup/item_0/id = 0
+popup/item_1/text = "Mana"
+popup/item_1/id = 1
+popup/item_2/text = "Strength"
+popup/item_2/id = 2
+
+[node name="TargetConditionComparator" type="OptionButton" parent="MarginContainer3/GridContainer"]
+layout_mode = 2
+item_count = 3
+selected = 2
+popup/item_0/text = ">"
+popup/item_0/id = 0
+popup/item_1/text = "="
+popup/item_1/id = 1
+popup/item_2/text = "<"
+popup/item_2/id = 2
+
+[node name="TargetConditionPlayerValue" type="SpinBox" parent="MarginContainer3/GridContainer"]
+layout_mode = 2
+value = 30.0
+
+[node name="TargetConditionValueType2" type="OptionButton" parent="MarginContainer3/GridContainer"]
+layout_mode = 2
+item_count = 2
+selected = 0
+popup/item_0/text = "n"
+popup/item_0/id = 0
+popup/item_1/text = "%"
+popup/item_1/id = 1

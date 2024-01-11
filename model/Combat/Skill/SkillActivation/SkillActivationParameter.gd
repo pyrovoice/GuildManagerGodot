@@ -20,7 +20,6 @@ ally_highest_danger if status_effect any
 ally if status_effect poison > 50
 ally if targeted by projectile danger > N
 ally specific ally
-activate if target_found
 activate if self_buff X > N
 activate if skill_cost < mana_percent N
 activate if mana_current > mana_percent N / value

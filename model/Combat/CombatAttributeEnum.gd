@@ -5,3 +5,6 @@ enum{
 	STRENGTH,
 	POWER
 }
+
+static func getString(value: CombatAttribute) -> String:
+	return CombatAttribute.keys()[value]

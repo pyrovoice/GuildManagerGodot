@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=3 uid="uid://brs4calwondlr"]
+
+[ext_resource type="Script" path="res://SkillActivationOrder.gd" id="1_iwtov"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_iwtov")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "Skill Test 1"
+
+[node name="Label2" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "Skill Test 2"
+
+[node name="Label3" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "Skill Test 3"
+
+[node name="Label4" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "Skill Test 4"
+
+[node name="Label5" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "Skill Test 5"
+
+[node name="Label6" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "Skill Test 6"
+
+[node name="draggedLabel" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
