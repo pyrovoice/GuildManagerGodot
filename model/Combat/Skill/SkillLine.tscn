@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://c64hrxxfcfsgh"]
+
+[ext_resource type="Script" path="res://model/Combat/Skill/SkillLine.gd" id="1_hvff0"]
+[ext_resource type="Texture2D" uid="uid://1rchbt6cga3r" path="res://Assets/common/768px-OOjs_UI_icon_draggable.svg.png" id="2_dufme"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dn164"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7maai"]
+bg_color = Color(0.65098, 0.65098, 0.65098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ix8xa"]
+bg_color = Color(0.380392, 0.380392, 0.380392, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1w84k"]
+
+[node name="Control" type="ColorRect"]
+custom_minimum_size = Vector2(0, 50)
+offset_right = 1147.0
+offset_bottom = 50.0
+mouse_filter = 1
+color = Color(0.937255, 0.937255, 0.937255, 1)
+script = ExtResource("1_hvff0")
+
+[node name="MenuButton" type="Button" parent="."]
+layout_mode = 2
+offset_right = 50.0
+offset_bottom = 50.0
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_dn164")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7maai")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ix8xa")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_1w84k")
+keep_pressed_outside = true
+
+[node name="TextureRect" type="TextureRect" parent="MenuButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_dufme")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 56.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "Text1
+"
+vertical_alignment = 1
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="button_down" from="MenuButton" to="." method="_on_menu_button_button_down"]
+[connection signal="button_up" from="MenuButton" to="." method="_on_menu_button_button_up"]

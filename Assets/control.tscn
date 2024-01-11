@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://cdu4p0cx8jf5h"]
+
+[ext_resource type="Script" path="res://Control.gd" id="1_g3a5o"]
+[ext_resource type="PackedScene" uid="uid://c64hrxxfcfsgh" path="res://SkillLine.tscn" id="2_kmfok"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_g3a5o")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 449.0
+offset_bottom = 644.0
+
+[node name="GridContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Control" parent="MarginContainer/GridContainer" instance=ExtResource("2_kmfok")]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Control2" parent="MarginContainer/GridContainer" instance=ExtResource("2_kmfok")]
+layout_mode = 2
+
+[node name="Control3" parent="MarginContainer/GridContainer" instance=ExtResource("2_kmfok")]
+layout_mode = 2
+
+[connection signal="mouse_entered" from="MarginContainer/GridContainer/Control" to="." method="_on_control_mouse_entered"]
