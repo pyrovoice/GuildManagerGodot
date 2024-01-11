@@ -1,12 +1,14 @@
 extends ColorRect
 
-@onready var label = $Label
+@onready var skill_name = $SkillName
 @onready var menu_button = $MenuButton
 signal buttonAction(b: bool)
 signal mouseAction(entered: bool)
+var skill
 
-func init(string:String):
-	label.text = string
+func init(_skill:Skill):
+	self.skill = _skill
+	skill_name.text = skill.name
 	
 func _on_menu_button_button_down():
 	buttonAction.emit(true)

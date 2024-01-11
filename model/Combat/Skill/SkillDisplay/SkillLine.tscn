@@ -1,0 +1,116 @@
+[gd_scene load_steps=7 format=3 uid="uid://c64hrxxfcfsgh"]
+
+[ext_resource type="Script" path="res://model/Combat/Skill/SkillDisplay/SkillLine.gd" id="1_npfa1"]
+[ext_resource type="Texture2D" uid="uid://1rchbt6cga3r" path="res://Assets/common/768px-OOjs_UI_icon_draggable.svg.png" id="2_vpuhe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dn164"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7maai"]
+bg_color = Color(0.65098, 0.65098, 0.65098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ix8xa"]
+bg_color = Color(0.380392, 0.380392, 0.380392, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1w84k"]
+
+[node name="Control" type="ColorRect"]
+custom_minimum_size = Vector2(0, 50)
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.08
+offset_bottom = -1.84
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.937255, 0.937255, 0.937255, 1)
+script = ExtResource("1_npfa1")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuButton" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_dn164")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7maai")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ix8xa")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_1w84k")
+keep_pressed_outside = true
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/MenuButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_vpuhe")
+expand_mode = 1
+
+[node name="SkillName" type="Label" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 25
+text = "Text1
+"
+vertical_alignment = 1
+
+[node name="CastCondition" type="OptionButton" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+item_count = 1
+popup/item_0/text = "Mana"
+popup/item_0/id = 0
+
+[node name="PreferedTarget" type="OptionButton" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+item_count = 5
+popup/item_0/text = "Lowest health enemy"
+popup/item_0/id = 0
+popup/item_1/text = "Strongest enemy"
+popup/item_1/id = 1
+popup/item_2/text = "Specific enemy"
+popup/item_2/id = 2
+popup/item_3/text = "Lowest health ally"
+popup/item_3/id = 3
+popup/item_4/text = "Specific ally"
+popup/item_4/id = 4
+
+[node name="TargetCondition" type="OptionButton" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+item_count = 4
+popup/item_0/text = "Can kill"
+popup/item_0/id = 0
+popup/item_1/text = "is boss"
+popup/item_1/id = 1
+popup/item_2/text = "Can fully receive effect"
+popup/item_2/id = 2
+popup/item_3/text = "Health below"
+popup/item_3/id = 3
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="button_down" from="HBoxContainer/MenuButton" to="." method="_on_menu_button_button_down"]
+[connection signal="button_up" from="HBoxContainer/MenuButton" to="." method="_on_menu_button_button_up"]

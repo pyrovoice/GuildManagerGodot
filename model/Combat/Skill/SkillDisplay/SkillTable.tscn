@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cdu4p0cx8jf5h"]
 
-[ext_resource type="Script" path="res://model/Combat/Skill/SkillTable.gd" id="1_1fc1q"]
-[ext_resource type="PackedScene" uid="uid://c64hrxxfcfsgh" path="res://model/Combat/Skill/SkillLine.tscn" id="2_h5eh8"]
+[ext_resource type="Script" path="res://model/Combat/Skill/SkillDisplay/SkillTable.gd" id="1_dg0fi"]
+[ext_resource type="PackedScene" uid="uid://c64hrxxfcfsgh" path="res://model/Combat/Skill/SkillDisplay/SkillLine.tscn" id="2_5qll0"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -11,7 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-script = ExtResource("1_1fc1q")
+script = ExtResource("1_dg0fi")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 0
@@ -21,13 +21,7 @@ offset_bottom = 644.0
 [node name="GridContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="Control" parent="MarginContainer/GridContainer" instance=ExtResource("2_h5eh8")]
-layout_mode = 2
-
-[node name="Control2" parent="MarginContainer/GridContainer" instance=ExtResource("2_h5eh8")]
-layout_mode = 2
-
-[node name="Control3" parent="MarginContainer/GridContainer" instance=ExtResource("2_h5eh8")]
+[node name="Control" parent="MarginContainer/GridContainer" instance=ExtResource("2_5qll0")]
 layout_mode = 2
 
 [connection signal="sort_children" from="MarginContainer/GridContainer" to="." method="_on_grid_container_sort_children"]

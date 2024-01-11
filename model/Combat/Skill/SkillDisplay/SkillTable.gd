@@ -2,7 +2,7 @@ extends Control
 
 @onready var grid_container = $MarginContainer/GridContainer
 const inputData = ["String 1", "String 2", "String 3", "String 4", "String 5", "String 6"]
-const skillLine = preload("res://model/Combat/Skill/SkillLine.tscn")
+const skillLine = preload("res://model/Combat/Skill/SkillDisplay/SkillLine.tscn")
 var draggedComponent: Control = null
 
 func _ready():
