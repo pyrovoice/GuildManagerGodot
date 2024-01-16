@@ -1,0 +1,372 @@
+[gd_scene load_steps=8 format=3 uid="uid://c64hrxxfcfsgh"]
+
+[ext_resource type="Script" path="res://Combat/Skill/SkillDisplay/SkillLine.gd" id="1_e7u7p"]
+[ext_resource type="Texture2D" uid="uid://1rchbt6cga3r" path="res://Assets/common/768px-OOjs_UI_icon_draggable.svg.png" id="2_tcg4y"]
+[ext_resource type="Texture2D" uid="uid://b5tgshoh63pt7" path="res://Assets/common/plus-sign.png" id="3_lqrne"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dn164"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7maai"]
+bg_color = Color(0.65098, 0.65098, 0.65098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ix8xa"]
+bg_color = Color(0.380392, 0.380392, 0.380392, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1w84k"]
+
+[node name="Control" type="ColorRect"]
+custom_minimum_size = Vector2(0, 50)
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.08
+offset_bottom = -1.84
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.937255, 0.937255, 0.937255, 1)
+script = ExtResource("1_e7u7p")
+
+[node name="MenuButton" type="Button" parent="."]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+offset_right = 50.0
+offset_bottom = 50.0
+size_flags_vertical = 0
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_dn164")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7maai")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ix8xa")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_1w84k")
+keep_pressed_outside = true
+
+[node name="TextureRect" type="TextureRect" parent="MenuButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_tcg4y")
+expand_mode = 1
+
+[node name="AddConditionButton" type="Button" parent="."]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+offset_left = 53.0
+offset_right = 103.0
+offset_bottom = 50.0
+size_flags_vertical = 0
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_dn164")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7maai")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ix8xa")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_1w84k")
+keep_pressed_outside = true
+
+[node name="TextureRect" type="TextureRect" parent="AddConditionButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 12.0
+offset_right = -11.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_lqrne")
+expand_mode = 1
+
+[node name="SkillName" type="Label" parent="."]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+offset_left = 124.0
+offset_right = 224.0
+offset_bottom = 50.0
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+text = "Text1
+"
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.142
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.416
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.045
+anchor_top = 1.0
+anchor_right = 0.998
+anchor_bottom = 13.02
+offset_left = 0.159996
+offset_top = -1.0
+offset_right = 0.303955
+offset_bottom = -552.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ColorRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBoxContainer/ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 3
+selected = 0
+popup/item_0/text = "Self"
+popup/item_0/id = 0
+popup/item_1/text = "Target 1"
+popup/item_1/id = 1
+popup/item_2/text = "Target 2"
+popup/item_2/id = 2
+
+[node name="OptionButton2" type="OptionButton" parent="MarginContainer/VBoxContainer/ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 3
+selected = 1
+popup/item_0/text = "Health"
+popup/item_0/id = 0
+popup/item_1/text = "Mana"
+popup/item_1/id = 1
+popup/item_2/text = "Status condition"
+popup/item_2/id = 2
+
+[node name="OptionButton3" type="OptionButton" parent="MarginContainer/VBoxContainer/ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 3
+selected = 0
+popup/item_0/text = ">"
+popup/item_0/id = 0
+popup/item_1/text = "="
+popup/item_1/id = 1
+popup/item_2/text = "<"
+popup/item_2/id = 2
+
+[node name="OptionButton4" type="OptionButton" parent="MarginContainer/VBoxContainer/ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 2
+selected = 0
+popup/item_0/text = "Percent value"
+popup/item_0/id = 0
+popup/item_1/text = "Set Value"
+popup/item_1/id = 1
+
+[node name="SpinBox" type="SpinBox" parent="MarginContainer/VBoxContainer/ColorRect/HBoxContainer"]
+layout_mode = 2
+max_value = 1000.0
+value = 50.0
+suffix = "%"
+
+[node name="ColorRect2" type="ColorRect" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ColorRect2"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBoxContainer/ColorRect2/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 3
+selected = 0
+popup/item_0/text = "Self"
+popup/item_0/id = 0
+popup/item_1/text = "Target 1"
+popup/item_1/id = 1
+popup/item_2/text = "Target 2"
+popup/item_2/id = 2
+
+[node name="OptionButton2" type="OptionButton" parent="MarginContainer/VBoxContainer/ColorRect2/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 3
+selected = 1
+popup/item_0/text = "Health"
+popup/item_0/id = 0
+popup/item_1/text = "Mana"
+popup/item_1/id = 1
+popup/item_2/text = "Status condition"
+popup/item_2/id = 2
+
+[node name="OptionButton3" type="OptionButton" parent="MarginContainer/VBoxContainer/ColorRect2/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 3
+selected = 0
+popup/item_0/text = ">"
+popup/item_0/id = 0
+popup/item_1/text = "="
+popup/item_1/id = 1
+popup/item_2/text = "<"
+popup/item_2/id = 2
+
+[node name="OptionButton4" type="OptionButton" parent="MarginContainer/VBoxContainer/ColorRect2/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 2
+selected = 0
+popup/item_0/text = "Percent value"
+popup/item_0/id = 0
+popup/item_1/text = "Set Value"
+popup/item_1/id = 1
+
+[node name="SpinBox" type="SpinBox" parent="MarginContainer/VBoxContainer/ColorRect2/HBoxContainer"]
+layout_mode = 2
+max_value = 1000.0
+value = 50.0
+suffix = "%"
+
+[node name="ColorRect3" type="ColorRect" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ColorRect3"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBoxContainer/ColorRect3/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 3
+selected = 0
+popup/item_0/text = "Self"
+popup/item_0/id = 0
+popup/item_1/text = "Target 1"
+popup/item_1/id = 1
+popup/item_2/text = "Target 2"
+popup/item_2/id = 2
+
+[node name="OptionButton2" type="OptionButton" parent="MarginContainer/VBoxContainer/ColorRect3/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 3
+selected = 1
+popup/item_0/text = "Health"
+popup/item_0/id = 0
+popup/item_1/text = "Mana"
+popup/item_1/id = 1
+popup/item_2/text = "Status condition"
+popup/item_2/id = 2
+
+[node name="OptionButton3" type="OptionButton" parent="MarginContainer/VBoxContainer/ColorRect3/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 3
+selected = 0
+popup/item_0/text = ">"
+popup/item_0/id = 0
+popup/item_1/text = "="
+popup/item_1/id = 1
+popup/item_2/text = "<"
+popup/item_2/id = 2
+
+[node name="OptionButton4" type="OptionButton" parent="MarginContainer/VBoxContainer/ColorRect3/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 2
+selected = 0
+popup/item_0/text = "Percent value"
+popup/item_0/id = 0
+popup/item_1/text = "Set Value"
+popup/item_1/id = 1
+
+[node name="SpinBox" type="SpinBox" parent="MarginContainer/VBoxContainer/ColorRect3/HBoxContainer"]
+layout_mode = 2
+max_value = 1000.0
+value = 50.0
+suffix = "%"
+
+[node name="ColorRect4" type="ColorRect" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ColorRect4"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBoxContainer/ColorRect4/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 3
+selected = 0
+popup/item_0/text = "Self"
+popup/item_0/id = 0
+popup/item_1/text = "Target 1"
+popup/item_1/id = 1
+popup/item_2/text = "Target 2"
+popup/item_2/id = 2
+
+[node name="OptionButton2" type="OptionButton" parent="MarginContainer/VBoxContainer/ColorRect4/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 3
+selected = 1
+popup/item_0/text = "Health"
+popup/item_0/id = 0
+popup/item_1/text = "Mana"
+popup/item_1/id = 1
+popup/item_2/text = "Status condition"
+popup/item_2/id = 2
+
+[node name="OptionButton3" type="OptionButton" parent="MarginContainer/VBoxContainer/ColorRect4/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 3
+selected = 0
+popup/item_0/text = ">"
+popup/item_0/id = 0
+popup/item_1/text = "="
+popup/item_1/id = 1
+popup/item_2/text = "<"
+popup/item_2/id = 2
+
+[node name="OptionButton4" type="OptionButton" parent="MarginContainer/VBoxContainer/ColorRect4/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 2
+selected = 0
+popup/item_0/text = "Percent value"
+popup/item_0/id = 0
+popup/item_1/text = "Set Value"
+popup/item_1/id = 1
+
+[node name="SpinBox" type="SpinBox" parent="MarginContainer/VBoxContainer/ColorRect4/HBoxContainer"]
+layout_mode = 2
+max_value = 1000.0
+value = 50.0
+suffix = "%"
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="button_down" from="MenuButton" to="." method="_on_menu_button_button_down"]
+[connection signal="button_up" from="MenuButton" to="." method="_on_menu_button_button_up"]
+[connection signal="pressed" from="AddConditionButton" to="." method="_on_add_condition_button_pressed"]

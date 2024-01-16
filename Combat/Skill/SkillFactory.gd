@@ -33,6 +33,17 @@ static func getDefaultSkillActivationDataForSkill(s: Skill) -> SkillActivationPa
 			condition.skillActivationConditions = SkillActivationConditions.SkillActivationConditionsType.CAN_USE_FULL_EFFECT
 	return parameters
 
+static func getPossibleConditionsForSkill(skill: Skill) -> Array[String]:
+	return ["Mana", "Can Fully heal"]
+	
+static func getAdditionalParametersForConditions(condition: String) -> Array[Array]:
+	match condition:
+		"Mana":
+			return [["<", "=", ">"], ["0", "100"], ["%", "n"]]
+		"Can Fully heal":
+			return []
+	return []
+	
 """
 ACTIVE TODO:
 static func getSkillSummonBasic() -> Skill

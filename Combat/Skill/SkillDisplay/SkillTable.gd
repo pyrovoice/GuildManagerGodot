@@ -1,7 +1,7 @@
 extends Control
 
 @onready var grid_container = $MarginContainer/GridContainer
-const inputData = ["String 1", "String 2", "String 3", "String 4", "String 5", "String 6"]
+var inputData = [SkillFactory.getSkillBasicAttack()]
 const skillLine = preload("res://model/Combat/Skill/SkillDisplay/SkillLine.tscn")
 var draggedComponent: Control = null
 
@@ -14,7 +14,7 @@ func _ready():
 		newLine.init(input)
 		newLine.buttonAction.connect(func(b):onLineButtonPressed(newLine, b))
 		newLine.mouseAction.connect(func(entered): onMouseEnterElement(newLine, entered))
-		newLine.name = input
+		newLine.name = input.name
 
 func onLineButtonPressed(child, isPressed: bool):
 	if isPressed:
