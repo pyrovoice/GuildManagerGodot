@@ -4,14 +4,14 @@ class_name SkillFactory
 static func getSkillBasicAttack() -> Skill:
 	var skill = Skill.new("Basic Attack", true, 1)
 	var effect1 = EffectDescriptor.new()
-	effect1.scalings[CombatAttribute.STRENGTH] = 1
+	effect1.scalings[CombatAttributeEnum.att.STRENGTH] = 1
 	skill.skillParts.push_back(effect1)
 	return skill
 	
 static func getSkillBasicHeal() -> Skill:
 	var skill = Skill.new("Basic Heal", true, 1)
 	var effect1 = EffectDescriptor.new()
-	effect1.scalings[CombatAttribute.POWER] = 1
+	effect1.scalings[CombatAttributeEnum.att.POWER] = 1
 	skill.skillParts.push_back(effect1)
 	return skill
 	
@@ -21,20 +21,17 @@ static func getSkillLifesteal() -> Skill:
 static func getSkillPoison() -> Skill:
 	return null
 	
-static func getDefaultSkillActivationDataForSkill(s: Skill) -> SkillActivationParameter:
-	var parameters = SkillActivationParameter.new()
+static func getDefaultTargetingForSkill(s: Skill) -> SkillLogicTargeting:
+	var logic = SkillLogicTargeting.new()
 	match s.skillParts[0].effectType:
 		EffectDecriptorType.DAMAGE:
-			parameters.skillActivationOptimalTargets = SkillActivationOptimalTargets.OPPONENT_LOWEST_HEALTH
-	match s.skillParts[0].effectType:
+			logic.targetting = SkillActivationOptimalTargets.e.OPPONENT_LOWEST_HEALTH
 		EffectDecriptorType.HEAL:
-			parameters.skillActivationOptimalTargets.ALLY_LEAST_HEALTH
-			var condition: SkillActivationConditions = SkillActivationConditions.new()
-			condition.skillActivationConditions = SkillActivationConditions.SkillActivationConditionsType.CAN_USE_FULL_EFFECT
-	return parameters
-
-static func getPossibleConditionsForSkill(skill: Skill) -> Array[String]:
-	return ["Mana", "Can Fully heal"]
+			logic.targetting = SkillActivationOptimalTargets.e.ALLY_LEAST_HEALTH
+	return logic
+	
+static func getPossibleConditionsForSkill(skill: Skill) -> Array[SkillLogicCondition]:
+	return [SkillLogicConditionSelfMana.new(), SkillLogicConditionTargetLife.new()]
 	
 static func getAdditionalParametersForConditions(condition: String) -> Array[Array]:
 	match condition:
@@ -43,6 +40,9 @@ static func getAdditionalParametersForConditions(condition: String) -> Array[Arr
 		"Can Fully heal":
 			return []
 	return []
+	
+static func getDefaultLogicForSkill(skill: Skill) -> SkillLogicStrategy:
+	return SkillLogicStrategy.new(skill,getDefaultTargetingForSkill(skill))
 	
 """
 ACTIVE TODO:

@@ -1,0 +1,70 @@
+[gd_scene load_steps=2 format=3 uid="uid://boavwn27odb54"]
+
+[ext_resource type="Script" path="res://Combat/Skill/SkillActivationLogic/SkillLogicCondition/activation_condition_line.gd" id="1_1h0so"]
+
+[node name="ActivationCondition" type="ColorRect"]
+custom_minimum_size = Vector2(0, 50)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 2
+script = ExtResource("1_1h0so")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 1151.0
+offset_bottom = 50.0
+
+[node name="OptionButton" type="OptionButton" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 3
+selected = 0
+popup/item_0/text = "Self"
+popup/item_0/id = 0
+popup/item_1/text = "Target 1"
+popup/item_1/id = 1
+popup/item_2/text = "Target 2"
+popup/item_2/id = 2
+
+[node name="OptionButton2" type="OptionButton" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 3
+selected = 1
+popup/item_0/text = "Health"
+popup/item_0/id = 0
+popup/item_1/text = "Mana"
+popup/item_1/id = 1
+popup/item_2/text = "Status condition"
+popup/item_2/id = 2
+
+[node name="OptionButton3" type="OptionButton" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 3
+selected = 0
+popup/item_0/text = ">"
+popup/item_0/id = 0
+popup/item_1/text = "="
+popup/item_1/id = 1
+popup/item_2/text = "<"
+popup/item_2/id = 2
+
+[node name="OptionButton4" type="OptionButton" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+item_count = 2
+selected = 0
+popup/item_0/text = "Percent value"
+popup/item_0/id = 0
+popup/item_1/text = "Set Value"
+popup/item_1/id = 1
+
+[node name="SpinBox" type="SpinBox" parent="HBoxContainer"]
+layout_mode = 2
+max_value = 1000.0
+value = 50.0
+suffix = "%"

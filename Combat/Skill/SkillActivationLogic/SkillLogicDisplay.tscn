@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://ct7vt4ty3f1d8"]
+
+[ext_resource type="Script" path="res://Combat/Skill/SkillActivationLogic/SkillLogicDisplay.gd" id="1_4ducj"]
+[ext_resource type="PackedScene" uid="uid://cav4tn735bpl2" path="res://scenes/CombatantInfoDisplaySmall.tscn" id="2_82r5j"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4ducj")
+
+[node name="CombatantDisplaySmall" parent="." instance=ExtResource("2_82r5j")]
+layout_mode = 1
+offset_left = -4.52603
+offset_top = 26.8134
+offset_right = -4.71805
+offset_bottom = 27.1094

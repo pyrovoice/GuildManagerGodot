@@ -15,9 +15,7 @@ var equippableEquipped: Array[Equipable] = []
 func _init(c: Combatant):
 	combatantBased = c
 	name = c.name
-	self.attributes[CombatAttribute.HEALTH] = c.health
-	self.attributes[CombatAttribute.MANA] = c.mana
-	self.attributes[CombatAttribute.STRENGTH] = c.strength
+	self.attributes = c.attributes
 	delayToAct = c.delayToAct
 	skills = c.skills
 	if "equippableEquipped" in c:
@@ -32,42 +30,37 @@ func _init(c: Combatant):
 	reset()
 
 func receiveDamage(damage: float):
-	self.healthCurrent = clamp(self.healthCurrent - damage, 0, self.healthMax)
+	self.healthCurrent = clamp(self.healthCurrent - damage, 0, self.getAttribute(CombatAttributeEnum.att.HEALTH))
 
 func receiveHealing(healValue: float, canResurect: bool = false):
 	if isAlive() or canResurect:
-		self.healthCurrent = clamp(self.healthCurrent + healValue, 0, self.healthMax)
+		self.healthCurrent = clamp(self.healthCurrent + healValue, 0, self.getAttribute(CombatAttributeEnum.att.HEALTH))
 		
+func canActivateSkill(skillStrategy: SkillLogicStrategy):
+	if self.skills.find(skillStrategy.skill) == -1:
+		return false
+	return canPaySkillCost(skillStrategy.skill) && skillStrategy.canActivate(self, )
+
+#TODO
+func canPaySkillCost(skill: Skill):
+	return true
+
 func update(delta):
 	self.actionCooldown += delta
 
 func canAct():
 	return isAlive() && actionCooldown >= delayToAct
 
-func triggerAction(currentCombat: Combat) -> ActivatedSkillData:
-	self.actionCooldown = 0
-	#TODO add skill selection depending on player's script
-	#Select first skill that's activeable according to activation script
-	for skill in self.skills:
-		var conditions = SkillFactory.getDefaultSkillActivationDataForSkill(skill)
-	var activatedSkill = ActivatedSkillData.new()
-	activatedSkill.activator = self
-	activatedSkill.skill = self.skills[0]
-	activatedSkill.targets = getTargetsForSkill(activatedSkill, currentCombat)
-	return null
-
 func isAlive():
 	return self.healthCurrent > 0
 
 func reset():
-	self.healthCurrent = self.healthMax
-	self.actionCooldown = 0
-	self.manaCurrent = self.manaMax
-	
-func getTargetsForSkill(activatedSkill: ActivatedSkillData, currentCombat: Combat) -> Array[CombatantInFight]:
-	match activatedSkill.skill.skillParts[0].effectType:
-		EffectDecriptorType.DAMAGE:
-			return currentCombat.getRandomTargetablOpponent(self, activatedSkill.skill.requiredTargets)
-		EffectDecriptorType.HEAL:
-			return currentCombat.getRandomTargetablAlly(self, activatedSkill.skill.requiredTargets)
-	return []
+	healthCurrent = getAttribute(CombatAttributeEnum.att.HEALTH)
+	manaCurrent = getAttribute(CombatAttributeEnum.att.MANA)
+	actionCooldown = 0
+
+
+func getAttribute(attribute: CombatAttributeEnum.att):
+	if attributes.keys().find(attribute) == -1:
+		return 0
+	return attributes[attribute]

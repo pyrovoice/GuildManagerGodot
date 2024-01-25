@@ -1,5 +1,8 @@
 extends Node
 
+@onready var delete_combat = $DeleteCombat
+const COMBAT_DISPLAY = preload("res://Combat/combat_display.tscn")
+
 func init():
 	displayLocations()
 	
@@ -80,10 +83,10 @@ func displayCombat(combat: Combat):
 		return
 	hideAll()
 	currentlyDisplayedCombat = combat
-	var eiiegn = preload("res://scenes/combat_display.tscn").instantiate()
+	var eiiegn = COMBAT_DISPLAY.instantiate()
 	eiiegn.name = "combat_display"
 	self.add_child(eiiegn)
-	self.get_node("combat_display/Delete").pressed.connect(self.stopCombat)
+	eiiegn.removeCombat.connect(self.stopCombat)
 	eiiegn.init(combat)
 	eiiegn.show()
 
