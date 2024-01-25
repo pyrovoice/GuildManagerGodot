@@ -11,13 +11,16 @@ var actionCooldown: float = 0
 var delayToAct: float = 4
 var skills: Array[Skill] = []
 var equippableEquipped: Array[Equipable] = []
+var statusEffects: Array[StatusEffect] = []
+
+signal combatantEffectTriggers
 
 func _init(c: Combatant):
 	combatantBased = c
 	name = c.name
-	self.attributes[CombatAttribute.HEALTH] = c.health
-	self.attributes[CombatAttribute.MANA] = c.mana
-	self.attributes[CombatAttribute.STRENGTH] = c.strength
+	self.attributes = c.attributes
+	self.healthCurrent = c.getAttribute(CombatAttribute.att.HEALTH)
+	self.manaCurrent = c.getAttribute(CombatAttribute.att.MANA)
 	delayToAct = c.delayToAct
 	skills = c.skills
 	if "equippableEquipped" in c:
@@ -29,17 +32,22 @@ func _init(c: Combatant):
 					newValue = 0
 				newValue += e.attributes[attributeBonusType]
 				self.attributes[attributeBonusType] = newValue
+	statusEffects.append(StatusEffectBasicDot.new())
+	for statusEffect in statusEffects:
+		statusEffect.trigger.connect(func(): combatantEffectTriggers.emit(statusEffect))
 	reset()
 
 func receiveDamage(damage: float):
-	self.healthCurrent = clamp(self.healthCurrent - damage, 0, self.healthMax)
+	self.healthCurrent = clamp(self.healthCurrent - damage, 0, self.combatantBased.getAttribute(CombatAttribute.att.HEALTH))
 
 func receiveHealing(healValue: float, canResurect: bool = false):
 	if isAlive() or canResurect:
-		self.healthCurrent = clamp(self.healthCurrent + healValue, 0, self.healthMax)
+		self.healthCurrent = clamp(self.healthCurrent + healValue, 0, self.combatantBased.getAttribute(CombatAttribute.att.HEALTH))
 		
 func update(delta):
 	self.actionCooldown += delta
+	for statusEffect in self.statusEffects:
+		statusEffect.update(delta)
 
 func canAct():
 	return isAlive() && actionCooldown >= delayToAct
@@ -60,9 +68,9 @@ func isAlive():
 	return self.healthCurrent > 0
 
 func reset():
-	self.healthCurrent = self.healthMax
+	self.healthCurrent = self.combatantBased.getAttribute(CombatAttribute.att.HEALTH)
 	self.actionCooldown = 0
-	self.manaCurrent = self.manaMax
+	self.manaCurrent = self.combatantBased.getAttribute(CombatAttribute.att.MANA)
 	
 func getTargetsForSkill(activatedSkill: ActivatedSkillData, currentCombat: Combat) -> Array[CombatantInFight]:
 	match activatedSkill.skill.skillParts[0].effectType:

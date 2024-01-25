@@ -4,5 +4,5 @@ extends Control
 @onready var value = $value
 
 func init(_attribute: CombatAttribute, _value: float):
-	attribute.text = CombatAttribute.getString(_attribute)
+	attribute.text = CombatAttribute.att.getString(_attribute)
 	value = str(_value)

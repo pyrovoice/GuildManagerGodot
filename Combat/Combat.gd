@@ -50,11 +50,14 @@ func addOpponentForLevel():
 				addCombatantToTeam(CombatantInFight.new(opponent), false)
 	
 func addCombatantToTeam(c: CombatantInFight, isAlly):
+	c.combatantEffectTriggers.connect(func(trigger): resolveCombatantTrigger(c, trigger))
 	if isAlly:
 		self.combatantsPlayer.push_back(c)
 	else:
 		self.combatantsOpponent.push_back(c)
-		
+
+func resolveCombatantTrigger(c: CombatantInFight, trigger: StatusEffect):
+	trigger.resolveTrigger(c, self)
 		
 func incrementeLevel():
 	self.encounterCounter += 1
@@ -64,7 +67,7 @@ func incrementeLevel():
 		resetPlayerCombatants()
 		
 func updateCombatant(combatant: CombatantInFight, delta: float):
-	combatant.actionCooldown += delta
+	combatant.update(delta)
 	if combatant.canAct():
 		resolveAction(combatant)
 
@@ -114,7 +117,7 @@ func getRandomTargetablOpponent(combatant: CombatantInFight, amountTargets: int)
 	return selectedOpps
 	
 func getRandomTargetablAlly(combatant: CombatantInFight, amountTargets: int) -> Array[CombatantInFight]:
-	pass
+	return []
 
 #Returns 1 if player wins, -1 if opponents win, 0 if no winner yet
 func getWinningTeam():

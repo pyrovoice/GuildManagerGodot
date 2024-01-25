@@ -1,5 +1,5 @@
 class_name CombatAttribute
-enum{
+enum att{
 	HEALTH,
 	MANA,
 	STRENGTH,
@@ -7,4 +7,4 @@ enum{
 }
 
 static func getString(value: CombatAttribute) -> String:
-	return CombatAttribute.keys()[value]
+	return CombatAttribute.att.keys()[value]

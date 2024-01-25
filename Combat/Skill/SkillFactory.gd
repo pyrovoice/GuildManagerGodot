@@ -4,14 +4,14 @@ class_name SkillFactory
 static func getSkillBasicAttack() -> Skill:
 	var skill = Skill.new("Basic Attack", true, 1)
 	var effect1 = EffectDescriptor.new()
-	effect1.scalings[CombatAttribute.STRENGTH] = 1
+	effect1.scalings[CombatAttribute.att.STRENGTH] = 1
 	skill.skillParts.push_back(effect1)
 	return skill
 	
 static func getSkillBasicHeal() -> Skill:
 	var skill = Skill.new("Basic Heal", true, 1)
 	var effect1 = EffectDescriptor.new()
-	effect1.scalings[CombatAttribute.POWER] = 1
+	effect1.scalings[CombatAttribute.att.POWER] = 1
 	skill.skillParts.push_back(effect1)
 	return skill
 	
