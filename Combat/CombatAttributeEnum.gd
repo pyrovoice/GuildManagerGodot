@@ -6,5 +6,5 @@ enum att{
 	POWER
 }
 
-static func getString(value: CombatAttributeEnum) -> String:
+static func getString(value: CombatAttributeEnum.att) -> String:
 	return CombatAttributeEnum.att.keys()[value]

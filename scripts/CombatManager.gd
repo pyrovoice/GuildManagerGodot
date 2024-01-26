@@ -19,7 +19,7 @@ func addCombat(location: FightingLocation, combatants: Array[Combatant]) -> Comb
 		if !GameMaster.getInstance().isCombatantAvailable(c):
 			return null
 	var c = Combat.new()
-	c.init(combatants, location)
+	c.init(combatants, [], location)
 	combats.push_back(c)
 	return c
 	

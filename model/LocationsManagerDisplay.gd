@@ -2,7 +2,7 @@ extends Node
 
 @onready var delete_combat = $DeleteCombat
 const COMBAT_DISPLAY = preload("res://Combat/combat_display.tscn")
-
+const COMBAT_PREPARATION_DISPLAY = preload("uid://bkqvyssqmhrfv")
 func init():
 	displayLocations()
 	
@@ -29,7 +29,7 @@ func updateLocationList():
 
 func hideAll():
 	for i in self.get_children():
-		self.remove_child(i)
+		i.queue_free()
 	currentlyDisplayedCombat = null
 	selectedCombatants = []
 	
@@ -45,18 +45,11 @@ var lastLocation = null
 func displayCombatPreparation(location: FightingLocation):
 	hideAll()
 	lastLocation = location
-	var eiiegn = preload("res://scenes/locationCombatantSelector.tscn").instantiate()
-	eiiegn.name = "locationCombatantSelector"
-	eiiegn.get_node("Validate").pressed.connect(startCombat)
-	self.add_child(eiiegn)
-	var combatants = GameMaster.getInstance().getAvailableCombatants()
-	for c in combatants:
-		var button = Button.new()
-		button.text = c.name
-		button.toggle_mode = true
-		button.pressed.connect(func(): addOrRemoveFromSelection(c))
-		self.get_node("locationCombatantSelector/AvailableCombatants/GridContainer").add_child(button)
-	self.get_node("locationCombatantSelector").show()
+	var prep: LocationCombatPreparationDisplay = COMBAT_PREPARATION_DISPLAY.instantiate()
+	add_child(prep)
+	prep.init(location)
+	
+	
 
 func startCombat():
 	if(selectedCombatants.size() == 0):

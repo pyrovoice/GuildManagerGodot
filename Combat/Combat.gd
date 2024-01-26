@@ -4,14 +4,23 @@ class_name Combat
 var location: FightingLocation
 var combatantsPlayer: Array[CombatantInFight] = []
 var combatantsOpponent: Array[CombatantInFight] = []
+var combatantsPlayerSpaces: Array[Array]
 var encounterCounter = 1
 var level = 1
 signal combatantsChange
 
-func init(combatants: Array[Combatant], l: FightingLocation):
+func init(combatantsFront: Array[Combatant], combatantsBack: Array[Combatant], l: FightingLocation):
 	self.location = l
-	for c in combatants:
-		addCombatantToTeam(CombatantInFight.new(c), true)
+	var spacesFront: Array[CombatantInFight] = []
+	spacesFront.resize(5)
+	var spacesBack: Array[CombatantInFight] = []
+	spacesFront.resize(5)
+	combatantsPlayerSpaces.push_back(spacesFront)
+	combatantsPlayerSpaces.push_back(spacesBack)
+	for c in combatantsFront:
+		addCombatantToTeam(CombatantInFight.new(c), true, true)
+	for c in combatantsBack:
+		addCombatantToTeam(CombatantInFight.new(c), true, false)
 	addOpponentForLevel()
 
 func process(delta):
@@ -49,11 +58,20 @@ func addOpponentForLevel():
 				opponentCount += location.possibleOpponents[random_key]
 				addCombatantToTeam(CombatantInFight.new(opponent), false)
 	
-func addCombatantToTeam(c: CombatantInFight, isAlly):
-	if isAlly:
-		self.combatantsPlayer.push_back(c)
+func addCombatantToTeam(c: CombatantInFight, isAlly: bool, isInFront: bool = true):
+	var frontOrBack = 0 if isInFront else 1
+	var spaceToAdd = combatantsPlayerSpaces if isAlly else combatantsOpponent
+	var emptySpace = spaceToAdd[frontOrBack].find(null)
+	if emptySpace != -1:
+		spaceToAdd[emptySpace] = c
 	else:
-		self.combatantsOpponent.push_back(c)
+		frontOrBack = 0 if !isInFront else 1
+		emptySpace = spaceToAdd[frontOrBack].find(null)
+		if emptySpace != -1:
+			spaceToAdd[emptySpace] = c
+			print("Added combatant in other row due to lack of space")
+		else:
+			printerr("Couldn't add combatant due to lack of space")
 		
 		
 func incrementeLevel():

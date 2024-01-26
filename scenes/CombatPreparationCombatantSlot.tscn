@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://44d3xexodsmw"]
+
+[ext_resource type="Script" path="res://scenes/CombatPreparationCombatantSlot.gd" id="1_uw12h"]
+
+[node name="CombatantSlot" type="ColorRect"]
+custom_minimum_size = Vector2(80, 80)
+script = ExtResource("1_uw12h")
+
+[node name="Control" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
