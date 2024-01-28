@@ -2,31 +2,40 @@ extends Object
 class_name Combat
 
 var location: FightingLocation
-var combatantsPlayer: Array[CombatantInFight] = []
-var combatantsOpponent: Array[CombatantInFight] = []
 var combatantsPlayerSpaces: Array[Array]
+var combatantsOpponentSpaces: Array[Array]
 var encounterCounter = 1
 var level = 1
 signal combatantsChange
 
 func init(combatantsFront: Array[Combatant], combatantsBack: Array[Combatant], l: FightingLocation):
 	self.location = l
+	combatantsPlayerSpaces = initSpacesForCombatants()
+	combatantsOpponentSpaces = initSpacesForCombatants()
+	for c in combatantsFront:
+		if c == null:
+			continue
+		addCombatantToTeam(CombatantInFight.new(c), true, true, combatantsFront.find(c))
+	for c in combatantsBack:
+		if c == null:
+			continue
+		addCombatantToTeam(CombatantInFight.new(c), true, false, combatantsBack.find(c))
+	addOpponentForLevel()
+	
+func initSpacesForCombatants() -> Array[Array]:
+	var combatantSpaces:Array[Array] = []
 	var spacesFront: Array[CombatantInFight] = []
 	spacesFront.resize(5)
 	var spacesBack: Array[CombatantInFight] = []
-	spacesFront.resize(5)
-	combatantsPlayerSpaces.push_back(spacesFront)
-	combatantsPlayerSpaces.push_back(spacesBack)
-	for c in combatantsFront:
-		addCombatantToTeam(CombatantInFight.new(c), true, true)
-	for c in combatantsBack:
-		addCombatantToTeam(CombatantInFight.new(c), true, false)
-	addOpponentForLevel()
-
+	spacesBack.resize(5)
+	combatantSpaces.push_back(spacesFront)
+	combatantSpaces.push_back(spacesBack)
+	return combatantSpaces
+	
 func process(delta):
-	for combatant in self.combatantsPlayer:
+	for combatant in getCombatants(true):
 		updateCombatant(combatant, delta)
-	for combatant in self.combatantsOpponent:
+	for combatant in getCombatants(false):
 		updateCombatant(combatant, delta)
 	var winningResult = getWinningTeam()
 	if winningResult == 1:
@@ -41,7 +50,7 @@ func process(delta):
 		combatantsChange.emit()
 		
 func addOpponentForLevel():
-	combatantsOpponent = []
+	combatantsOpponentSpaces = initSpacesForCombatants()
 	if self.encounterCounter == self.location.encounterPerLevel:
 		for o in self.location.bossEncounter:
 			var opponent = GameData.getInstance().getOpponent(o)
@@ -58,17 +67,19 @@ func addOpponentForLevel():
 				opponentCount += location.possibleOpponents[random_key]
 				addCombatantToTeam(CombatantInFight.new(opponent), false)
 	
-func addCombatantToTeam(c: CombatantInFight, isAlly: bool, isInFront: bool = true):
+func addCombatantToTeam(c: CombatantInFight, isAlly: bool, isInFront: bool = true, position: int = -1):
+	if c == null:
+		return
 	var frontOrBack = 0 if isInFront else 1
-	var spaceToAdd = combatantsPlayerSpaces if isAlly else combatantsOpponent
-	var emptySpace = spaceToAdd[frontOrBack].find(null)
+	var spaceToAdd = combatantsPlayerSpaces if isAlly else combatantsOpponentSpaces
+	var emptySpace = position if position != -1 && spaceToAdd[frontOrBack][position] == null else spaceToAdd[frontOrBack].find(null)
 	if emptySpace != -1:
-		spaceToAdd[emptySpace] = c
+		spaceToAdd[frontOrBack][emptySpace] = c
 	else:
 		frontOrBack = 0 if !isInFront else 1
 		emptySpace = spaceToAdd[frontOrBack].find(null)
 		if emptySpace != -1:
-			spaceToAdd[emptySpace] = c
+			spaceToAdd[frontOrBack][emptySpace] = c
 			print("Added combatant in other row due to lack of space")
 		else:
 			printerr("Couldn't add combatant due to lack of space")
@@ -130,7 +141,7 @@ func getEffectFinalValue(skill: ActivatedSkillData, effect: EffectDescriptor)-> 
 		
 func getOpponents(combatant: CombatantInFight):
 	var isAlly = false
-	for c in combatantsPlayer:
+	for c in getCombatants(true):
 		if c == combatant:
 			isAlly = true
 			break
@@ -141,7 +152,7 @@ func getOpponents(combatant: CombatantInFight):
 		
 func getAllies(combatant: CombatantInFight):
 	var isAlly = false
-	for c in combatantsPlayer:
+	for c in getCombatants(true):
 		if c == combatant:
 			isAlly = true
 			break
@@ -154,12 +165,12 @@ func getAllies(combatant: CombatantInFight):
 func getWinningTeam():
 	var alliesDead = true
 	var ennemiesDead = true
-	for c in combatantsPlayer:
+	for c in getCombatants(true):
 		var b = c.isAlive()
 		if b:
 			alliesDead = false
 			break
-	for c in combatantsOpponent:
+	for c in getCombatants(false):
 		var b = c.isAlive()
 		if b:
 			ennemiesDead = false
@@ -171,7 +182,15 @@ func getWinningTeam():
 	else:
 		return 0
 
+func getCombatants(allies: bool) -> Array[CombatantInFight]:
+	var arrayToLookAt = combatantsPlayerSpaces if allies else combatantsOpponentSpaces
+	var combatants = arrayToLookAt[0].filter(func(b): return b != null)
+	combatants.append_array(arrayToLookAt[1].filter(func(b): return b != null))
+	return combatants
+	
 func resetPlayerCombatants():
-	for c in self.combatantsPlayer:
-		self.combatantsPlayer[self.combatantsPlayer.find(c)] = CombatantInFight.new(c.combatantBased)
+	for sides in self.combatantsPlayerSpaces:
+		for c in sides:
+			if c != null:
+				sides[sides.find(c)] = CombatantInFight.new(c.combatantBased)
 	combatantsChange.emit()

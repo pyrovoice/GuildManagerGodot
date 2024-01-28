@@ -48,14 +48,14 @@ func displayCombatPreparation(location: FightingLocation):
 	var prep: LocationCombatPreparationDisplay = COMBAT_PREPARATION_DISPLAY.instantiate()
 	add_child(prep)
 	prep.init(location)
-	
-	
+	prep.validated.connect(func(): startCombat(prep.getSelectedFrontRow(), prep.getSelectedBackRow()))
 
-func startCombat():
-	if(selectedCombatants.size() == 0):
+func startCombat(selectedCombatantsFront: Array[Combatant], selectedCombatantsBack: Array[Combatant]):
+	if(selectedCombatantsFront.filter(func(pos): return pos != null).size() == 0 && \
+	selectedCombatantsBack.filter(func(pos): return pos != null).size() == 0):
 		print("No combatant selected for combat")
 		return
-	var startedC = CombatManager.getInstance().addCombat(lastLocation, selectedCombatants)
+	var startedC = CombatManager.getInstance().addCombat(lastLocation, selectedCombatantsFront, selectedCombatantsBack)
 	if startedC == null:
 		print("Combat failed to start")
 		return

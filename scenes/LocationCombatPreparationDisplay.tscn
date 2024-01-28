@@ -16,10 +16,11 @@ script = ExtResource("1_q3oq4")
 [node name="AvailableCombatants" type="ScrollContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
+anchor_top = 0.335
 anchor_right = 1.0
 anchor_bottom = 0.901
 offset_left = -1.0
-offset_top = 187.0
+offset_top = -0.0800018
 offset_bottom = 0.151978
 grow_horizontal = 2
 grow_vertical = 2
@@ -53,57 +54,57 @@ text = "Validate"
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
-anchor_bottom = 0.253
-offset_bottom = 0.0559845
+anchor_bottom = 0.315
+offset_bottom = -40.12
 grow_horizontal = 2
 
 [node name="VSplitContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VSplitContainer"]
+[node name="FrontRowContainer" type="HBoxContainer" parent="MarginContainer/VSplitContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Label" type="Label" parent="MarginContainer/VSplitContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/VSplitContainer/FrontRowContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Front Row"
 
-[node name="CombatantSlot" parent="MarginContainer/VSplitContainer/HBoxContainer" instance=ExtResource("3_pp06a")]
+[node name="CombatantSlot" parent="MarginContainer/VSplitContainer/FrontRowContainer" instance=ExtResource("3_pp06a")]
 layout_mode = 2
 
-[node name="CombatantSlot2" parent="MarginContainer/VSplitContainer/HBoxContainer" instance=ExtResource("3_pp06a")]
+[node name="CombatantSlot2" parent="MarginContainer/VSplitContainer/FrontRowContainer" instance=ExtResource("3_pp06a")]
 layout_mode = 2
 
-[node name="CombatantSlot3" parent="MarginContainer/VSplitContainer/HBoxContainer" instance=ExtResource("3_pp06a")]
+[node name="CombatantSlot3" parent="MarginContainer/VSplitContainer/FrontRowContainer" instance=ExtResource("3_pp06a")]
 layout_mode = 2
 
-[node name="CombatantSlot4" parent="MarginContainer/VSplitContainer/HBoxContainer" instance=ExtResource("3_pp06a")]
+[node name="CombatantSlot4" parent="MarginContainer/VSplitContainer/FrontRowContainer" instance=ExtResource("3_pp06a")]
 layout_mode = 2
 
-[node name="CombatantSlot5" parent="MarginContainer/VSplitContainer/HBoxContainer" instance=ExtResource("3_pp06a")]
+[node name="CombatantSlot5" parent="MarginContainer/VSplitContainer/FrontRowContainer" instance=ExtResource("3_pp06a")]
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VSplitContainer"]
+[node name="BackRowContainer" type="HBoxContainer" parent="MarginContainer/VSplitContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Label2" type="Label" parent="MarginContainer/VSplitContainer/HBoxContainer2"]
+[node name="Label2" type="Label" parent="MarginContainer/VSplitContainer/BackRowContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Back Row"
 
-[node name="CombatantSlot5" parent="MarginContainer/VSplitContainer/HBoxContainer2" instance=ExtResource("3_pp06a")]
+[node name="CombatantSlot5" parent="MarginContainer/VSplitContainer/BackRowContainer" instance=ExtResource("3_pp06a")]
 layout_mode = 2
 
-[node name="CombatantSlot6" parent="MarginContainer/VSplitContainer/HBoxContainer2" instance=ExtResource("3_pp06a")]
+[node name="CombatantSlot6" parent="MarginContainer/VSplitContainer/BackRowContainer" instance=ExtResource("3_pp06a")]
 layout_mode = 2
 
-[node name="CombatantSlot7" parent="MarginContainer/VSplitContainer/HBoxContainer2" instance=ExtResource("3_pp06a")]
+[node name="CombatantSlot7" parent="MarginContainer/VSplitContainer/BackRowContainer" instance=ExtResource("3_pp06a")]
 layout_mode = 2
 
-[node name="CombatantSlot8" parent="MarginContainer/VSplitContainer/HBoxContainer2" instance=ExtResource("3_pp06a")]
+[node name="CombatantSlot8" parent="MarginContainer/VSplitContainer/BackRowContainer" instance=ExtResource("3_pp06a")]
 layout_mode = 2
 
-[node name="CombatantSlot9" parent="MarginContainer/VSplitContainer/HBoxContainer2" instance=ExtResource("3_pp06a")]
+[node name="CombatantSlot9" parent="MarginContainer/VSplitContainer/BackRowContainer" instance=ExtResource("3_pp06a")]
 layout_mode = 2

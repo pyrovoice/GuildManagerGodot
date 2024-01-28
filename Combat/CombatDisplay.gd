@@ -21,12 +21,12 @@ func updateCombatants():
 		ennemies_container.remove_child(c)
 	for c in allies_container.get_children():
 		allies_container.remove_child(c)
-	for c in combat.combatantsPlayer:
+	for c in combat.getCombatants(true):
 		addCombatantToTeam(c, true)
-	for c in combat.combatantsOpponent:
+	for c in combat.getCombatants(false):
 		addCombatantToTeam(c, false)
 			
-			
+			#TODO: Afficher les placements dans le combat
 func addCombatantToTeam(c: CombatantInFight, isAlly: bool):
 	var cDisplay = COMBATANT_DISPLAY_COMBAT.instantiate()
 	if isAlly:

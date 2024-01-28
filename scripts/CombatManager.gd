@@ -14,12 +14,15 @@ func _init():
 	pass # Replace with function body.
 
 
-func addCombat(location: FightingLocation, combatants: Array[Combatant]) -> Combat:
-	for c in combatants:
+func addCombat(location: FightingLocation, frontRow: Array[Combatant], backRow: Array[Combatant]) -> Combat:
+	for c in frontRow:
+		if !GameMaster.getInstance().isCombatantAvailable(c):
+			return null
+	for c in backRow:
 		if !GameMaster.getInstance().isCombatantAvailable(c):
 			return null
 	var c = Combat.new()
-	c.init(combatants, [], location)
+	c.init(frontRow, backRow, location)
 	combats.push_back(c)
 	return c
 	

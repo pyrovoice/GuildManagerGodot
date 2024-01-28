@@ -6,7 +6,12 @@ class_name CombatantInfoDisplaySmall
 const attributeDisplay = preload("res://scenes/StatisticDisplay.tscn")
 var combatant: Combatant = null
 @onready var color_rect = $ColorRect
+signal onClicked(event: InputEventMouseButton)
 
+func _ready():
+	var c = Combatant.new("Test")
+	init(c)
+	
 func init(_combatant:Combatant):
 	combatant = _combatant
 	combatantName.text = combatant.name
@@ -19,10 +24,20 @@ func init(_combatant:Combatant):
 		ad.init(key, value)
 
 func _get_drag_data(_position):
-	var icon = ColorRect.new()
 	var preview = Control.new()
-	icon.color = color_rect.color
-	icon.position = icon.get_size() * -0.5
-	preview.add_child(icon)
+	var copy = self.duplicate()
+	preview.add_child(copy)
+	copy.position = self.get_size() *0.1
 	set_drag_preview(preview)
 	return self
+
+var isMouseInside = false
+func _on_mouse_exited():
+	isMouseInside = false
+
+func _on_mouse_entered():
+	isMouseInside = true
+
+func _on_gui_input(event):
+	if event is InputEventMouseButton && isMouseInside:
+		onClicked.emit(event)

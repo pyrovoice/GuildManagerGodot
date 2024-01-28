@@ -1,15 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://cbvd7csy0ykuu"]
+[gd_scene load_steps=3 format=3 uid="uid://cbvd7csy0ykuu"]
 
 [ext_resource type="Script" path="res://CombatantDisplaySmall.gd" id="1_1aw3w"]
+[ext_resource type="PackedScene" uid="uid://cmkwr6gi0ygoh" path="res://scenes/StatisticDisplay.tscn" id="2_wkwiv"]
 
 [node name="Control" type="Control"]
-custom_minimum_size = Vector2(150, 50)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -1052.0
+offset_bottom = -548.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_default_cursor_shape = 2
 script = ExtResource("1_1aw3w")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -19,16 +23,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Name" type="Label" parent="."]
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.082
-offset_bottom = -0.128002
+offset_bottom = 8.8
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 12
 text = "Combatant 1"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -36,13 +41,22 @@ vertical_alignment = 1
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.137
+anchor_top = 0.17
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 0.223991
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 2
 
-[node name="StatsGrid" type="GridContainer" parent="MarginContainer"]
+[node name="StatsGrid" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-columns = 2
+
+[node name="Control" parent="MarginContainer/StatsGrid" instance=ExtResource("2_wkwiv")]
+layout_mode = 2
+
+[node name="Control2" parent="MarginContainer/StatsGrid" instance=ExtResource("2_wkwiv")]
+layout_mode = 2
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
