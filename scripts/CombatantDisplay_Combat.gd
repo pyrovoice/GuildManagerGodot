@@ -16,7 +16,7 @@ func _process(_delta):
 	updateDisplay()
 	
 func updateDisplay():
-	if self.combatant != null:
+	if self.combatant != null && health:
 		health.text = str(self.combatant.healthCurrent, "/", self.combatant.getAttribute(CombatAttributeEnum.att.HEALTH))
 		mana.text = str(self.combatant.manaCurrent, "/", self.combatant.getAttribute(CombatAttributeEnum.att.MANA))
 		get_node("Name").text = self.combatant.name

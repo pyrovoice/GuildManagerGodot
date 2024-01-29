@@ -93,7 +93,7 @@ func incrementeLevel():
 		resetPlayerCombatants()
 		
 func updateCombatant(combatant: CombatantInFight, delta: float):
-	combatant.actionCooldown += delta
+	combatant.update(delta)
 	if combatant.canAct():
 		resolveAction(combatant)
 
@@ -121,7 +121,6 @@ func combatantCanTarget(combatant: CombatantInFight, target: CombatantInFight):
 	var b = target.isAlive()
 	return b
 
-#TODO add targeting, pass whole target and skill to resolve, add multiple skills, add Stamina for all actions
 func resolveEffect(skill: ActivatedSkillData, effect: EffectDescriptor):
 	match effect.effectType:
 		EffectDecriptorType.DAMAGE:
@@ -146,9 +145,9 @@ func getOpponents(combatant: CombatantInFight):
 			isAlly = true
 			break
 	if isAlly:
-		return self.combatantsOpponent
+		return getCombatants(false)
 	else:
-		return self.combatantsPlayer
+		return getCombatants(true)
 		
 func getAllies(combatant: CombatantInFight):
 	var isAlly = false
@@ -157,9 +156,9 @@ func getAllies(combatant: CombatantInFight):
 			isAlly = true
 			break
 	if isAlly:
-		return self.combatantsPlayer
+		return getCombatants(true)
 	else:
-		return self.combatantsOpponent
+		return getCombatants(false)
 
 #Returns 1 if player wins, -1 if opponents win, 0 if no winner yet
 func getWinningTeam():

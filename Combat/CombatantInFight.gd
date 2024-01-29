@@ -46,7 +46,8 @@ func canPaySkillCost(skill: Skill):
 	return true
 
 func update(delta):
-	self.actionCooldown += delta
+	if self.isAlive():
+		self.actionCooldown += delta
 
 func canAct():
 	return isAlive() && actionCooldown >= delayToAct
