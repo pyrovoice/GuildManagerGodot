@@ -1,25 +1,16 @@
 extends Object
 class_name Combat
 
+#TODO: Add front and back and track combatants locations instead of havign a double array that sucks
 var location: FightingLocation
-var combatantsPlayerSpaces: Array[Array]
-var combatantsOpponentSpaces: Array[Array]
+var combatants: CombatPositionsCombatant
 var encounterCounter = 1
 var level = 1
 signal combatantsChange
 
 func init(combatantsFront: Array[Combatant], combatantsBack: Array[Combatant], l: FightingLocation):
 	self.location = l
-	combatantsPlayerSpaces = initSpacesForCombatants()
-	combatantsOpponentSpaces = initSpacesForCombatants()
-	for c in combatantsFront:
-		if c == null:
-			continue
-		addCombatantToTeam(CombatantInFight.new(c), true, true, combatantsFront.find(c))
-	for c in combatantsBack:
-		if c == null:
-			continue
-		addCombatantToTeam(CombatantInFight.new(c), true, false, combatantsBack.find(c))
+	combatants = CombatPositionsCombatant.new(Vector2(5, 2), combatantsFront, combatantsBack)
 	addOpponentForLevel()
 	
 func initSpacesForCombatants() -> Array[Array]:
@@ -33,9 +24,9 @@ func initSpacesForCombatants() -> Array[Array]:
 	return combatantSpaces
 	
 func process(delta):
-	for combatant in getCombatants(true):
+	for combatant in combatants.getTeam(true):
 		updateCombatant(combatant, delta)
-	for combatant in getCombatants(false):
+	for combatant in combatants.getTeam(false):
 		updateCombatant(combatant, delta)
 	var winningResult = getWinningTeam()
 	if winningResult == 1:
@@ -50,12 +41,12 @@ func process(delta):
 		combatantsChange.emit()
 		
 func addOpponentForLevel():
-	combatantsOpponentSpaces = initSpacesForCombatants()
+	combatants.opponentCombatants = {}
 	if self.encounterCounter == self.location.encounterPerLevel:
 		for o in self.location.bossEncounter:
 			var opponent = GameData.getInstance().getOpponent(o)
 			if opponent:
-				addCombatantToTeam(CombatantInFight.new(opponent), false)
+				combatants.addCombatantAtLocation(Vector2(-1, -1), opponent, false)
 	else:
 		var targetOpponentCount = location.averageEncounterDifficulty + (randi()%(location.difficultyVariance*2)-location.difficultyVariance)
 		var opponentCount = 0
@@ -65,26 +56,8 @@ func addOpponentForLevel():
 			var opponent = GameData.getInstance().getOpponent(random_key)
 			if opponent:
 				opponentCount += location.possibleOpponents[random_key]
-				addCombatantToTeam(CombatantInFight.new(opponent), false)
-	
-func addCombatantToTeam(c: CombatantInFight, isAlly: bool, isInFront: bool = true, position: int = -1):
-	if c == null:
-		return
-	var frontOrBack = 0 if isInFront else 1
-	var spaceToAdd = combatantsPlayerSpaces if isAlly else combatantsOpponentSpaces
-	var emptySpace = position if position != -1 && spaceToAdd[frontOrBack][position] == null else spaceToAdd[frontOrBack].find(null)
-	if emptySpace != -1:
-		spaceToAdd[frontOrBack][emptySpace] = c
-	else:
-		frontOrBack = 0 if !isInFront else 1
-		emptySpace = spaceToAdd[frontOrBack].find(null)
-		if emptySpace != -1:
-			spaceToAdd[frontOrBack][emptySpace] = c
-			print("Added combatant in other row due to lack of space")
-		else:
-			printerr("Couldn't add combatant due to lack of space")
-		
-		
+				combatants.addCombatantAtLocation(Vector2(-1, -1), opponent, false)
+
 func incrementeLevel():
 	self.encounterCounter += 1
 	if encounterCounter > self.location.encounterPerLevel:
@@ -109,17 +82,17 @@ func getActionForCombatant(combatant: CombatantInFight) -> ActivatedSkillData:
 	for skillStrategy in combatant.combatantBased.combatantStrategy.orderedSkillActivationStrategy:
 		if combatant.canActivateSkill(skillStrategy):
 			var targets: Array[CombatantInFight] = skillStrategy.defaultTargetting.getTargetsOrdered(combatant, self)
-			var targetsFiltered = targets.filter(func(t): return combatantCanTarget(combatant, t))
+			var targetsFiltered = targets.filter(func(t): return combatantCanTarget(combatant, t, skillStrategy.skill))
 			targetsFiltered = skillStrategy.filterTargets(combatant, targetsFiltered)
 			if targetsFiltered.size() >= skillStrategy.skill.requiredTargets:
 				targetsFiltered = targetsFiltered.slice(0, skillStrategy.skill.requiredTargets)
 				return ActivatedSkillData.new(combatant, skillStrategy.skill, targetsFiltered)
 	return null
 
-#TODO add check on placement (front and back, skill range)
-func combatantCanTarget(combatant: CombatantInFight, target: CombatantInFight):
+func combatantCanTarget(combatant: CombatantInFight, target: CombatantInFight, skill: Skill):
 	var b = target.isAlive()
-	return b
+	var isInRange = combatants.getDistanceBetweenTwoCombatants(combatant, target)
+	return b && isInRange != -1 && isInRange <= skill.range
 
 func resolveEffect(skill: ActivatedSkillData, effect: EffectDescriptor):
 	match effect.effectType:
@@ -137,39 +110,17 @@ func getEffectFinalValue(skill: ActivatedSkillData, effect: EffectDescriptor)-> 
 		if combatantAttribute != null:
 			total += combatantAttribute*effect.scalings[effectScaling]
 	return total
-		
-func getOpponents(combatant: CombatantInFight):
-	var isAlly = false
-	for c in getCombatants(true):
-		if c == combatant:
-			isAlly = true
-			break
-	if isAlly:
-		return getCombatants(false)
-	else:
-		return getCombatants(true)
-		
-func getAllies(combatant: CombatantInFight):
-	var isAlly = false
-	for c in getCombatants(true):
-		if c == combatant:
-			isAlly = true
-			break
-	if isAlly:
-		return getCombatants(true)
-	else:
-		return getCombatants(false)
 
 #Returns 1 if player wins, -1 if opponents win, 0 if no winner yet
 func getWinningTeam():
 	var alliesDead = true
 	var ennemiesDead = true
-	for c in getCombatants(true):
+	for c in combatants.getTeam(true):
 		var b = c.isAlive()
 		if b:
 			alliesDead = false
 			break
-	for c in getCombatants(false):
+	for c in combatants.getTeam(false):
 		var b = c.isAlive()
 		if b:
 			ennemiesDead = false
@@ -180,16 +131,9 @@ func getWinningTeam():
 		return 1
 	else:
 		return 0
-
-func getCombatants(allies: bool) -> Array[CombatantInFight]:
-	var arrayToLookAt = combatantsPlayerSpaces if allies else combatantsOpponentSpaces
-	var combatants = arrayToLookAt[0].filter(func(b): return b != null)
-	combatants.append_array(arrayToLookAt[1].filter(func(b): return b != null))
-	return combatants
 	
 func resetPlayerCombatants():
-	for sides in self.combatantsPlayerSpaces:
-		for c in sides:
-			if c != null:
-				sides[sides.find(c)] = CombatantInFight.new(c.combatantBased)
+	var alliedTeam = combatants.getTeam(true)
+	for c in alliedTeam.keys():
+		c.reset()
 	combatantsChange.emit()

@@ -3,7 +3,7 @@ extends Object
 class_name Combatant
 
 var name: String = "default name"
-var delayToAct: float = 4
+var delayToAct: float = 1
 var skills: Array[Skill] = []
 var attributes: Dictionary = {}
 var combatantStrategy: CombatantStrategy = CombatantStrategy.new()

@@ -14,12 +14,15 @@ var equippableEquipped: Array[Equipable] = []
 
 func _init(c: Combatant):
 	combatantBased = c
-	name = c.name
-	self.attributes = c.attributes
-	delayToAct = c.delayToAct
-	skills = c.skills
-	if "equippableEquipped" in c:
-		equippableEquipped = c.equippableEquipped.duplicate(true)
+	reset()
+
+func reset():
+	name = combatantBased.name
+	self.attributes = combatantBased.attributes
+	delayToAct = combatantBased.delayToAct
+	skills = combatantBased.skills
+	if "equippableEquipped" in combatantBased:
+		equippableEquipped = combatantBased.equippableEquipped.duplicate(true)
 		for e in equippableEquipped:
 			for attributeBonusType in e.attributes.keys():
 				var newValue = self.attributes[attributeBonusType]
@@ -27,8 +30,10 @@ func _init(c: Combatant):
 					newValue = 0
 				newValue += e.attributes[attributeBonusType]
 				self.attributes[attributeBonusType] = newValue
-	reset()
-
+	healthCurrent = getAttribute(CombatAttributeEnum.att.HEALTH)
+	manaCurrent = getAttribute(CombatAttributeEnum.att.MANA)
+	actionCooldown = 0
+	
 func receiveDamage(damage: float):
 	self.healthCurrent = clamp(self.healthCurrent - damage, 0, self.getAttribute(CombatAttributeEnum.att.HEALTH))
 
@@ -55,10 +60,6 @@ func canAct():
 func isAlive():
 	return self.healthCurrent > 0
 
-func reset():
-	healthCurrent = getAttribute(CombatAttributeEnum.att.HEALTH)
-	manaCurrent = getAttribute(CombatAttributeEnum.att.MANA)
-	actionCooldown = 0
 
 
 func getAttribute(attribute: CombatAttributeEnum.att):

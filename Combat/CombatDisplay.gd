@@ -28,19 +28,26 @@ func updateCombatants():
 		allies_front.remove_child(c)
 	for c in allies_back.get_children():
 		allies_back.remove_child(c)
-	addCombatantsToTeam(combat.combatantsPlayerSpaces[0], allies_front)
-	addCombatantsToTeam(combat.combatantsPlayerSpaces[1], allies_back)
-	addCombatantsToTeam(combat.combatantsOpponentSpaces[0], ennemies_front)
-	addCombatantsToTeam(combat.combatantsOpponentSpaces[1], ennemies_back)
+	for y in combat.combatants.getNumberRowLocation():
+		for x in combat.combatants.getSlotPerRowLocation():
+			addCombatantOrEmptySlot(Vector2(x, y), true)
+			addCombatantOrEmptySlot(Vector2(x, y), false)
 	
-func addCombatantsToTeam(combatantArrayWithNulls, container):
-	for i in range(0, combatantArrayWithNulls.size()):
-		var display = ColorRect.new()
-		if combatantArrayWithNulls[i]:
-			display = COMBATANT_DISPLAY_COMBAT.instantiate()
-			display.init(combatantArrayWithNulls[i])
-		display.set_custom_minimum_size(Vector2(100, 100))
-		container.add_child(display)
+func addCombatantOrEmptySlot(combatantLocation: Vector2, isAlly: bool):
+	var display = ColorRect.new()
+	var arrayToLookAt = combat.combatants.getTeam(isAlly)
+	var combatants = arrayToLookAt.values()
+	var combatantIndex = arrayToLookAt.values().find(combatantLocation)
+	if combatantIndex != -1:
+		display = COMBATANT_DISPLAY_COMBAT.instantiate()
+		display.init(arrayToLookAt.keys()[combatantIndex])
+	display.set_custom_minimum_size(Vector2(100, 100))
+	var container
+	if isAlly:
+		container = allies_front if combatantLocation.y == combat.combatants.FRONT_ROW else allies_back
+	else:
+		container = ennemies_front if combatantLocation.y == combat.combatants.FRONT_ROW else ennemies_back
+	container.add_child(display)
 
 func _on_delete_combat_pressed():
 	removeCombat.emit()

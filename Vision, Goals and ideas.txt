@@ -8,18 +8,23 @@ Front-back system
 
 Universes:
 Fallout, Radiation from food as a debuff, stimpack as OP heal items (very light)
+Pokemon, combatants have types with weaknesses and resistances
+HunterxHunter, nen that never regenerates but can be used very quickly, Limit break ability refunding 200% nen
 
 opponents:
 create a giant fireball, immune while fireball not dead
 Explode on death, dealing damage to all opponents depending on a condition
 can only be injured by 
 
+Combat skills: Make each skill roughly equal in interest to open design space like Lor (grant random, if has at least 4...)
+Flying (Cannot be attacked by melee. Loses flight for 2 seconds after using a melee attack)
+	
 TODOS:
+Default move lane action, and rest action to restore a %hp/mana/stamina
 Check skills
 StatusEffect and globalEffects
-Flying (Cannot be attacked by melee. Loses flight for 2 seconds after using a melee attack)
-Ranged and melee skills
 Smartness Characteristic: Varies from 1-5, each level grant customization aspect to the targetting system and overall control the player can put on a combatant, and can vary with equipments. A brain level of 0 means the character will just select the default skill acitvation parameters, and lower than 0 will start doing stupid shit like targetting allies or removing default conditions
 Weight/carry system, equipments and useables take place in a character's backpack and they need to have space to carry resources they find
 Resource carrying priority system
 Add additional stuff to partys (caravane to carry things...)
+crafting and resource management system

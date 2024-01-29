@@ -26,30 +26,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 
-[node name="EnnemiesFront" type="GridContainer" parent="Ennemies/VBoxContainer"]
-layout_mode = 2
-columns = 10
-
-[node name="ColorRect" type="ColorRect" parent="Ennemies/VBoxContainer/EnnemiesFront"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-
-[node name="ColorRect2" type="ColorRect" parent="Ennemies/VBoxContainer/EnnemiesFront"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-
-[node name="ColorRect3" type="ColorRect" parent="Ennemies/VBoxContainer/EnnemiesFront"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-
-[node name="ColorRect4" type="ColorRect" parent="Ennemies/VBoxContainer/EnnemiesFront"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-
-[node name="ColorRect5" type="ColorRect" parent="Ennemies/VBoxContainer/EnnemiesFront"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-
 [node name="EnnemiesBack" type="GridContainer" parent="Ennemies/VBoxContainer"]
 layout_mode = 2
 columns = 10
@@ -71,6 +47,30 @@ custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
 [node name="ColorRect5" type="ColorRect" parent="Ennemies/VBoxContainer/EnnemiesBack"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+
+[node name="EnnemiesFront" type="GridContainer" parent="Ennemies/VBoxContainer"]
+layout_mode = 2
+columns = 10
+
+[node name="ColorRect" type="ColorRect" parent="Ennemies/VBoxContainer/EnnemiesFront"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+
+[node name="ColorRect2" type="ColorRect" parent="Ennemies/VBoxContainer/EnnemiesFront"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+
+[node name="ColorRect3" type="ColorRect" parent="Ennemies/VBoxContainer/EnnemiesFront"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+
+[node name="ColorRect4" type="ColorRect" parent="Ennemies/VBoxContainer/EnnemiesFront"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+
+[node name="ColorRect5" type="ColorRect" parent="Ennemies/VBoxContainer/EnnemiesFront"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 

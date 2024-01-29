@@ -8,16 +8,16 @@ func getTargetsOrdered(combatant:CombatantInFight, combat: Combat) -> Array[Comb
 	sortGeneric(d)
 	return d
 
-func filterTargetsByTargeting(combatant:CombatantInFight, combat: Combat):
+func filterTargetsByTargeting(combatant:CombatantInFight, combat: Combat) -> Array[CombatantInFight]:
+	var r: Array[CombatantInFight] = []
 	match targetting:
 		SkillActivationOptimalTargets.e.ALLY, SkillActivationOptimalTargets.e.ALLY_AFFLICTED_STATUS_EFFECT, SkillActivationOptimalTargets.e.ALLY_LEAST_HEALTH :
-			return combat.getAllies(combatant)
+			r.append_array(combat.combatants.getTeamOfCombatant(combatant).keys())
 		SkillActivationOptimalTargets.e.BOSS, SkillActivationOptimalTargets.e.OPPONENT, SkillActivationOptimalTargets.e.OPPONENT_HIGHEST_DANGER, SkillActivationOptimalTargets.e.OPPONENT_LOWEST_HEALTH, SkillActivationOptimalTargets.e.OPPONENT_HIGHEST_HEALTH :
-			return combat.getOpponents(combatant)
+			r.append_array(combat.combatants.getOpponentsOfCombatant(combatant).keys())
 		_:
 			printerr("Missing implementation in SkillLogicTargeting filterTargetsByTargeting")
-			return []
-
+	return r
 # true = must switch, false = leave like this
 func sortGeneric(targets: Array[CombatantInFight]) -> Array[CombatantInFight]:
 	match targetting:
