@@ -12,6 +12,7 @@ signal mouseAction(entered: bool)
 var skillLogicStrategy:SkillLogicStrategy
 
 func _ready():
+	initDefault(SkillFactory.getSkillChangeRow())
 	initDefault(SkillFactory.getSkillBasicAttack())
 
 func initDefault(_skill:Skill):
@@ -35,8 +36,8 @@ func init(skillLogic:SkillLogicStrategy):
 	var conditionButton:OptionButton = OptionButton.new()
 	for activationCondition in skillLogic.activationConditions:
 		var conditionLine = ACTIVATION_CONDITION.instantiate()
-		conditionLine.init(activationCondition)
 		activationConditionContainer.add_child(conditionLine)
+		conditionLine.init(activationCondition)
 
 func setTargeting(possibletargets, selectedTargeting):
 	var d = possibletargets[selectedTargeting]

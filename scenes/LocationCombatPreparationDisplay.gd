@@ -6,24 +6,24 @@ var location: FightingLocation
 signal validated
 const COMBATANT_INFO_DISPLAY_SMALL = preload("res://scenes/CombatantInfoDisplaySmall.tscn")
 @onready var availableCombatantsGrid = $AvailableCombatants/GridContainer
-@onready var front_row_container = $MarginContainer/VSplitContainer/FrontRowContainer
-@onready var back_row_container = $MarginContainer/VSplitContainer/BackRowContainer
+@onready var frontRowContainer = $MarginContainer/VSplitContainer/FrontRowContainer
+@onready var backRowContainer = $MarginContainer/VSplitContainer/BackRowContainer
 const COMBAT_PREPARATION_COMBATANT_SLOT = preload("res://scenes/CombatPreparationCombatantSlot.tscn")
 
 func init(_location: FightingLocation):
 	for child in availableCombatantsGrid.get_children():
 		child.queue_free()
-	for child in front_row_container.get_children():
+	for child in frontRowContainer.get_children():
 		if child is Label:
 			continue
 		child.queue_free()
-	for child in back_row_container.get_children():
+	for child in backRowContainer.get_children():
 		if child is Label:
 			continue
 		child.queue_free()
 	for i in range(0, 5):
-		addSlotToRow(back_row_container)
-		addSlotToRow(front_row_container)
+		addSlotToRow(backRowContainer)
+		addSlotToRow(frontRowContainer)
 	location = _location
 	validate.pressed.connect(func(): 
 		print("Pressed")
@@ -42,12 +42,12 @@ func moveCombatantSlot(cd: CombatantInfoDisplaySmall):
 	if cd == null:
 		return
 	if cd.get_parent() == availableCombatantsGrid:
-		for child in front_row_container.get_children():
-			if !child.get_child(0) && child is CombatPreparationCombatantSlot:
+		for child in frontRowContainer.get_children():
+			if child.get_child_count() == 0 && child is CombatPreparationCombatantSlot:
 				moveToCombatSlot(cd, child)
 				return
-		for child in back_row_container.get_children():
-			if !child.get_child(0) && child is CombatPreparationCombatantSlot:
+		for child in backRowContainer.get_children():
+			if child.get_child_count() == 0 && child is CombatPreparationCombatantSlot:
 				moveToCombatSlot(cd, child)
 				return
 	else:
@@ -70,15 +70,15 @@ func removeFromCombatSlot(d: CombatantInfoDisplaySmall):
 	availableCombatantsGrid.add_child(d)
 
 func getSelectedFrontRow() -> Array[Combatant]:
-	return getSelectedRow(front_row_container, 5)
+	return getSelectedRow(frontRowContainer, 5)
 
 func getSelectedBackRow() -> Array[Combatant]:
-	return getSelectedRow(back_row_container, 5)
+	return getSelectedRow(backRowContainer, 5)
 
 func getSelectedRow(container, size: int) -> Array[Combatant]:
 	var selectRow: Array[Combatant] = []
 	selectRow.resize(size)
 	for slot in container.get_children():
-		if slot.get_child(0):
+		if slot.get_child_count() != 0:
 			selectRow[slot.get_index()-1] = (slot.get_child(0) as CombatantInfoDisplaySmall).combatant
 	return selectRow

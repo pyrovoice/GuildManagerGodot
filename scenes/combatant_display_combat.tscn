@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://ccfjcmib782th"]
 
-[ext_resource type="Script" path="res://scripts/CombatantDisplay_Combat.gd" id="1_x5m02"]
+[ext_resource type="Script" path="res://Combat/CombatantDisplay_Combat.gd" id="1_x5m02"]
 [ext_resource type="Texture2D" uid="uid://bqbltkdt1hc12" path="res://Assets/common/sword_small.png" id="2_dc85n"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ii86"]

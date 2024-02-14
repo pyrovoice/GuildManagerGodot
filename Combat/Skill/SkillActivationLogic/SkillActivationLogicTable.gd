@@ -7,8 +7,9 @@ var draggedComponent: Control = null
 func _ready():
 	var c = Combatant.new("heroTestShouldNotAppear")
 	c.skills.push_back(SkillFactory.getSkillBasicHeal())
+	c.skills.push_back(SkillFactory.getSkillChangeRow())
 	init(c)
-	
+# TODO change table to display targets only if necessary, and rework row display so multiple work and no big ugly Plus
 func init(combatant: Combatant):
 	for child in grid_container.get_children():
 		child.queue_free()
@@ -19,7 +20,6 @@ func init(combatant: Combatant):
 			newLine.init(input)
 			newLine.buttonAction.connect(func(b):onLineButtonPressed(newLine, b))
 			newLine.mouseAction.connect(func(entered): onMouseEnterElement(newLine, entered))
-			newLine.name = input.name
 	else:
 		for skill in combatant.skills:
 			var newLine: SkillLine = skillLine.instantiate()
@@ -27,7 +27,6 @@ func init(combatant: Combatant):
 			newLine.initDefault(skill)
 			newLine.buttonAction.connect(func(b):onLineButtonPressed(newLine, b))
 			newLine.mouseAction.connect(func(entered): onMouseEnterElement(newLine, entered))
-			newLine.name = skill.name
 
 func onLineButtonPressed(child, isPressed: bool):
 	if isPressed:

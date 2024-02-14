@@ -1,7 +1,6 @@
 extends Object
 class_name Combat
 
-#TODO: Add front and back and track combatants locations instead of havign a double array that sucks
 var location: FightingLocation
 var combatants: CombatPositionsCombatant
 var encounterCounter = 1
@@ -41,7 +40,7 @@ func process(delta):
 		combatantsChange.emit()
 		
 func addOpponentForLevel():
-	combatants.opponentCombatants = {}
+	combatants.opponentCombatants = []
 	if self.encounterCounter == self.location.encounterPerLevel:
 		for o in self.location.bossEncounter:
 			var opponent = GameData.getInstance().getOpponent(o)
@@ -75,38 +74,58 @@ func resolveAction(source: CombatantInFight):
 	if skill == null:
 		return
 	source.actionCooldown = 0
-	for effect in skill.skill.skillParts:
-		resolveEffect(skill, effect)
-
+	print(skill.getLog())
+	for effect in skill.effectToTargetsDic.keys():
+		resolveEffect(source, effect, skill.effectToTargetsDic[effect])
+		
 func getActionForCombatant(combatant: CombatantInFight) -> ActivatedSkillData:
 	for skillStrategy in combatant.combatantBased.combatantStrategy.orderedSkillActivationStrategy:
-		if combatant.canActivateSkill(skillStrategy):
-			var targets: Array[CombatantInFight] = skillStrategy.defaultTargetting.getTargetsOrdered(combatant, self)
-			var targetsFiltered = targets.filter(func(t): return combatantCanTarget(combatant, t, skillStrategy.skill))
-			targetsFiltered = skillStrategy.filterTargets(combatant, targetsFiltered)
-			if targetsFiltered.size() >= skillStrategy.skill.requiredTargets:
-				targetsFiltered = targetsFiltered.slice(0, skillStrategy.skill.requiredTargets)
+		if combatant.canActivateSkill(skillStrategy) && skillStrategy.canActivate(combatant):
+			var targetsFiltered = getSkillTargets(skillStrategy, combatant)
+			if targetsFiltered != {}:
 				return ActivatedSkillData.new(combatant, skillStrategy.skill, targetsFiltered)
 	return null
 
-func combatantCanTarget(combatant: CombatantInFight, target: CombatantInFight, skill: Skill):
+#return {} if not castable, return a Dic<EffectDescriptor, Targets> otherwise. 
+#If so, the skill is castable no other checks required
+func getSkillTargets(skillStrategy: SkillLogicStrategy, combatant: CombatantInFight) -> Dictionary:
+	var preferedTargetsForEffectDic = {}
+	var lastAdded: Array[CombatantInFight] = []
+	for effectDescriptor: EffectDescriptor in skillStrategy.effectToSkillLogicTargetingDic.keys():
+		var strategyForEffect: SkillLogicTargeting = skillStrategy.effectToSkillLogicTargetingDic[effectDescriptor]
+		var targets: Array[CombatantInFight] = strategyForEffect.getTargetsOrdered(combatant, self, effectDescriptor.targetType, lastAdded)
+		lastAdded = targets
+		var targetsFiltered = targets.filter(func(t): return combatantCanTarget(combatant, t, effectDescriptor))
+		if targetsFiltered.size() < effectDescriptor.requiredTargets:
+			return {}
+		var maxNumberTargets = effectDescriptor.requiredTargets + effectDescriptor.optionalTargets
+		if targetsFiltered.size() > maxNumberTargets:
+			targetsFiltered = targetsFiltered.slice(0, maxNumberTargets)
+		preferedTargetsForEffectDic[effectDescriptor] = targetsFiltered
+	return preferedTargetsForEffectDic
+	
+func combatantCanTarget(combatant: CombatantInFight, target: CombatantInFight, effect: EffectDescriptor):
 	var b = target.isAlive()
 	var isInRange = combatants.getDistanceBetweenTwoCombatants(combatant, target)
-	return b && isInRange != -1 && isInRange <= skill.range
+	return b && isInRange != -1 && isInRange <= effect.range
 
-func resolveEffect(skill: ActivatedSkillData, effect: EffectDescriptor):
+func resolveEffect(activator: CombatantInFight, effect: EffectDescriptor, targets: Array[CombatantInFight]):
 	match effect.effectType:
 		EffectDecriptorType.DAMAGE:
-			for target in skill.targets:
-				target.receiveDamage(getEffectFinalValue(skill, effect))
+			for target in targets:
+				target.receiveDamage(getEffectFinalValue(activator, effect))
 		EffectDecriptorType.HEAL:
-			for target in skill.targets:
-				target.receiveHealing(getEffectFinalValue(skill, effect))
-				
-func getEffectFinalValue(skill: ActivatedSkillData, effect: EffectDescriptor)-> float:
+			for target in targets:
+				target.receiveHealing(getEffectFinalValue(activator, effect))
+		EffectDecriptorType.DISPLACE:
+			for target in targets:
+				combatants.moveCombatantSwitchRow(target)
+			self.combatantsChange.emit()
+
+func getEffectFinalValue(activator: CombatantInFight, effect: EffectDescriptor)-> float:
 	var total = effect.baseValue
 	for effectScaling in effect.scalings.keys():
-		var combatantAttribute = skill.activator.getAttribute(effectScaling)
+		var combatantAttribute = activator.getAttribute(effectScaling)
 		if combatantAttribute != null:
 			total += combatantAttribute*effect.scalings[effectScaling]
 	return total
@@ -134,6 +153,6 @@ func getWinningTeam():
 	
 func resetPlayerCombatants():
 	var alliedTeam = combatants.getTeam(true)
-	for c in alliedTeam.keys():
+	for c in alliedTeam:
 		c.reset()
 	combatantsChange.emit()

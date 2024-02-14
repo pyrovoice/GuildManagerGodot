@@ -10,8 +10,9 @@ var equipments: Array[Equipable] = [Equipable.new("Test Sword", 100, 10, 0), Equ
 var unlockedLocation: Array[FightingLocation] = []
 
 func _init():
-	var c = Combatant.new("Hero", 20, 10, 5)
-	c.skills.push_back(SkillFactory.getSkillBasicHeal())
+	var c = Combatant.new("Hero", 80, 10, 5)
+	c.skills[1] = SkillFactory.getSkillAttackAll()
+	c.resetStrategyToDefault()
 	self.combatants.push_back(c)
 	self.combatants.push_back(Combatant.new("Hero2", 200, 20, 10))
 	self.combatants.push_back(Combatant.new("Hero3", 300, 30, 15))

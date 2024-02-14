@@ -35,18 +35,16 @@ func updateCombatants():
 	
 func addCombatantOrEmptySlot(combatantLocation: Vector2, isAlly: bool):
 	var display = ColorRect.new()
-	var arrayToLookAt = combat.combatants.getTeam(isAlly)
-	var combatants = arrayToLookAt.values()
-	var combatantIndex = arrayToLookAt.values().find(combatantLocation)
-	if combatantIndex != -1:
+	var combatantAtLocation = combat.combatants.getTeam(isAlly).filter(func(c): return c.position == combatantLocation)
+	if combatantAtLocation.size() == 1:
 		display = COMBATANT_DISPLAY_COMBAT.instantiate()
-		display.init(arrayToLookAt.keys()[combatantIndex])
+		display.init(combatantAtLocation[0])
 	display.set_custom_minimum_size(Vector2(100, 100))
 	var container
 	if isAlly:
-		container = allies_front if combatantLocation.y == combat.combatants.FRONT_ROW else allies_back
+		container = allies_front if combatantLocation.y == combat.combatants.ROW.FRONT_ROW else allies_back
 	else:
-		container = ennemies_front if combatantLocation.y == combat.combatants.FRONT_ROW else ennemies_back
+		container = ennemies_front if combatantLocation.y == combat.combatants.ROW.FRONT_ROW else ennemies_back
 	container.add_child(display)
 
 func _on_delete_combat_pressed():

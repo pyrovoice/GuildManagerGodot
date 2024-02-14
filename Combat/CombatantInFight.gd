@@ -11,6 +11,7 @@ var actionCooldown: float = 0
 var delayToAct: float = 4
 var skills: Array[Skill] = []
 var equippableEquipped: Array[Equipable] = []
+var position: Vector2 = Vector2(0, 0)
 
 func _init(c: Combatant):
 	combatantBased = c
@@ -44,7 +45,7 @@ func receiveHealing(healValue: float, canResurect: bool = false):
 func canActivateSkill(skillStrategy: SkillLogicStrategy):
 	if self.skills.find(skillStrategy.skill) == -1:
 		return false
-	return canPaySkillCost(skillStrategy.skill) && skillStrategy.canActivate(self, )
+	return canPaySkillCost(skillStrategy.skill) && skillStrategy.canActivate(self)
 
 #TODO
 func canPaySkillCost(skill: Skill):
@@ -59,10 +60,21 @@ func canAct():
 
 func isAlive():
 	return self.healthCurrent > 0
-
-
-
-func getAttribute(attribute: CombatAttributeEnum.att):
+	
+func getAttribute(attribute: CombatAttributeEnum.att) -> float:
 	if attributes.keys().find(attribute) == -1:
 		return 0
 	return attributes[attribute]
+
+func getAttributeCurrentValue(attribute: CombatAttributeEnum.att) -> float:
+	match attribute:
+		CombatAttributeEnum.att.HEALTH:
+			return healthCurrent
+		CombatAttributeEnum.att.MANA:
+			return manaCurrent
+		_:
+			return getAttribute(attribute)
+
+func setPosition(newPosition: Vector2):
+	self.position = newPosition
+	
