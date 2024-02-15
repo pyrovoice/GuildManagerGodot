@@ -1,5 +1,7 @@
 extends Node
 
+const COMBAT_DISPLAY = preload("res://Combat/combat_display.tscn")
+const COMBAT_PREPARATION_DISPLAY = preload("uid://bkqvyssqmhrfv")
 func init():
 	displayLocations()
 	
@@ -26,7 +28,7 @@ func updateLocationList():
 
 func hideAll():
 	for i in self.get_children():
-		self.remove_child(i)
+		i.queue_free()
 	currentlyDisplayedCombat = null
 	selectedCombatants = []
 	
@@ -42,24 +44,17 @@ var lastLocation = null
 func displayCombatPreparation(location: FightingLocation):
 	hideAll()
 	lastLocation = location
-	var eiiegn = preload("res://scenes/locationCombatantSelector.tscn").instantiate()
-	eiiegn.name = "locationCombatantSelector"
-	eiiegn.get_node("Validate").pressed.connect(startCombat)
-	self.add_child(eiiegn)
-	var combatants = GameMaster.getInstance().getAvailableCombatants()
-	for c in combatants:
-		var button = Button.new()
-		button.text = c.name
-		button.toggle_mode = true
-		button.pressed.connect(func(): addOrRemoveFromSelection(c))
-		self.get_node("locationCombatantSelector/AvailableCombatants/GridContainer").add_child(button)
-	self.get_node("locationCombatantSelector").show()
+	var prep: LocationCombatPreparationDisplay = COMBAT_PREPARATION_DISPLAY.instantiate()
+	add_child(prep)
+	prep.init(location)
+	prep.validated.connect(func(): startCombat(prep.getSelectedFrontRow(), prep.getSelectedBackRow()))
 
-func startCombat():
-	if(selectedCombatants.size() == 0):
+func startCombat(selectedCombatantsFront: Array[Combatant], selectedCombatantsBack: Array[Combatant]):
+	if(selectedCombatantsFront.filter(func(pos): return pos != null).size() == 0 && \
+	selectedCombatantsBack.filter(func(pos): return pos != null).size() == 0):
 		print("No combatant selected for combat")
 		return
-	var startedC = CombatManager.getInstance().addCombat(lastLocation, selectedCombatants)
+	var startedC = CombatManager.getInstance().addCombat(lastLocation, selectedCombatantsFront, selectedCombatantsBack)
 	if startedC == null:
 		print("Combat failed to start")
 		return
@@ -80,10 +75,10 @@ func displayCombat(combat: Combat):
 		return
 	hideAll()
 	currentlyDisplayedCombat = combat
-	var eiiegn = preload("res://scenes/combat_display.tscn").instantiate()
+	var eiiegn = COMBAT_DISPLAY.instantiate()
 	eiiegn.name = "combat_display"
 	self.add_child(eiiegn)
-	self.get_node("combat_display/Delete").pressed.connect(self.stopCombat)
+	eiiegn.removeCombat.connect(self.stopCombat)
 	eiiegn.init(combat)
 	eiiegn.show()
 

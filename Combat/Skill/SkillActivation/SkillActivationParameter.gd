@@ -2,7 +2,7 @@ extends Object
 class_name SkillActivationParameter
 
 var skillActivationOptimalTargets: SkillActivationOptimalTargets
-var activationConditions: Array[SkillActivationConditions]
+var activationConditions: Array[SkillLogicCondition]
 
 '''
 Boss

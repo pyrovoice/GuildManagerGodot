@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bqumbpu76jt42"]
+
+[node name="GenericSpinbox" type="SpinBox"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+update_on_text_changed = true
+select_all_on_focus = true

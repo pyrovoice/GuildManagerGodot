@@ -1,20 +1,32 @@
 extends Control
 
 @onready var grid_container = $MarginContainer/GridContainer
-var inputData = [SkillFactory.getSkillBasicAttack()]
-const skillLine = preload("res://model/Combat/Skill/SkillDisplay/SkillLine.tscn")
+const skillLine = preload("uid://c64hrxxfcfsgh")
 var draggedComponent: Control = null
 
 func _ready():
+	var c = Combatant.new("heroTestShouldNotAppear")
+	c.skills.push_back(SkillFactory.getSkillBasicHeal())
+	c.skills.push_back(SkillFactory.getSkillChangeRow())
+	init(c)
+# TODO change table to display targets only if necessary, and rework row display so multiple work and no big ugly Plus
+func init(combatant: Combatant):
 	for child in grid_container.get_children():
 		child.queue_free()
-	for input in inputData:
-		var newLine = skillLine.instantiate()
-		grid_container.add_child(newLine)
-		newLine.init(input)
-		newLine.buttonAction.connect(func(b):onLineButtonPressed(newLine, b))
-		newLine.mouseAction.connect(func(entered): onMouseEnterElement(newLine, entered))
-		newLine.name = input.name
+	if combatant.combatantStrategy:
+		for input in combatant.combatantStrategy.orderedSkillActivationStrategy:
+			var newLine: SkillLine = skillLine.instantiate()
+			grid_container.add_child(newLine)
+			newLine.init(input)
+			newLine.buttonAction.connect(func(b):onLineButtonPressed(newLine, b))
+			newLine.mouseAction.connect(func(entered): onMouseEnterElement(newLine, entered))
+	else:
+		for skill in combatant.skills:
+			var newLine: SkillLine = skillLine.instantiate()
+			grid_container.add_child(newLine)
+			newLine.initDefault(skill)
+			newLine.buttonAction.connect(func(b):onLineButtonPressed(newLine, b))
+			newLine.mouseAction.connect(func(entered): onMouseEnterElement(newLine, entered))
 
 func onLineButtonPressed(child, isPressed: bool):
 	if isPressed:

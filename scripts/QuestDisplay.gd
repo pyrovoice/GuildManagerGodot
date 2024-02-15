@@ -1,11 +1,11 @@
 extends Control
 
+const SKILL_ACTIVATION_LOGIC_TABLE = preload("uid://dq7j87fqj63gh")
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func init():
+	for ci in get_children():
+		ci.queue_free()
+	var c = PlayerData.getInstance().combatants[0]
+	var skillTable = SKILL_ACTIVATION_LOGIC_TABLE.instantiate()
+	add_child(skillTable)
+	skillTable.init(c)

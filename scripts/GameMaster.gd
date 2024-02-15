@@ -19,6 +19,8 @@ func getAvailableCombatants() -> Array[Combatant]:
 	return PlayerData.getInstance().combatants.filter((self.isCombatantAvailable))
 
 func isCombatantAvailable(c: Combatant) -> bool:
+	if c == null:
+		return true
 	if !PlayerData.getInstance().combatants.has(c):
 		return false
 	for combat in CombatManager.getInstance().combats:

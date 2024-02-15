@@ -2,22 +2,30 @@ extends Object
 class_name Combat
 
 var location: FightingLocation
-var combatantsPlayer: Array[CombatantInFight] = []
-var combatantsOpponent: Array[CombatantInFight] = []
+var combatants: CombatPositionsCombatant
 var encounterCounter = 1
 var level = 1
 signal combatantsChange
 
-func init(combatants: Array[Combatant], l: FightingLocation):
+func init(combatantsFront: Array[Combatant], combatantsBack: Array[Combatant], l: FightingLocation):
 	self.location = l
-	for c in combatants:
-		addCombatantToTeam(CombatantInFight.new(c), true)
+	combatants = CombatPositionsCombatant.new(Vector2(5, 2), combatantsFront, combatantsBack)
 	addOpponentForLevel()
-
+	
+func initSpacesForCombatants() -> Array[Array]:
+	var combatantSpaces:Array[Array] = []
+	var spacesFront: Array[CombatantInFight] = []
+	spacesFront.resize(5)
+	var spacesBack: Array[CombatantInFight] = []
+	spacesBack.resize(5)
+	combatantSpaces.push_back(spacesFront)
+	combatantSpaces.push_back(spacesBack)
+	return combatantSpaces
+	
 func process(delta):
-	for combatant in self.combatantsPlayer:
+	for combatant in combatants.getTeam(true):
 		updateCombatant(combatant, delta)
-	for combatant in self.combatantsOpponent:
+	for combatant in combatants.getTeam(false):
 		updateCombatant(combatant, delta)
 	var winningResult = getWinningTeam()
 	if winningResult == 1:
@@ -32,12 +40,12 @@ func process(delta):
 		combatantsChange.emit()
 		
 func addOpponentForLevel():
-	combatantsOpponent = []
+	combatants.opponentCombatants = []
 	if self.encounterCounter == self.location.encounterPerLevel:
 		for o in self.location.bossEncounter:
 			var opponent = GameData.getInstance().getOpponent(o)
 			if opponent:
-				addCombatantToTeam(CombatantInFight.new(opponent), false)
+				combatants.addCombatantAtLocation(Vector2(-1, -1), opponent, false)
 	else:
 		var targetOpponentCount = location.averageEncounterDifficulty + (randi()%(location.difficultyVariance*2)-location.difficultyVariance)
 		var opponentCount = 0
@@ -47,18 +55,11 @@ func addOpponentForLevel():
 			var opponent = GameData.getInstance().getOpponent(random_key)
 			if opponent:
 				opponentCount += location.possibleOpponents[random_key]
-				addCombatantToTeam(CombatantInFight.new(opponent), false)
-	
-func addCombatantToTeam(c: CombatantInFight, isAlly):
-	c.combatantEffectTriggers.connect(func(trigger): resolveCombatantTrigger(c, trigger))
-	if isAlly:
-		self.combatantsPlayer.push_back(c)
-	else:
-		self.combatantsOpponent.push_back(c)
+				combatants.addCombatantAtLocation(Vector2(-1, -1), opponent, false)
 
 func resolveCombatantTrigger(c: CombatantInFight, trigger: StatusEffect):
 	trigger.resolveTrigger(c, self)
-		
+
 func incrementeLevel():
 	self.encounterCounter += 1
 	if encounterCounter > self.location.encounterPerLevel:
@@ -72,63 +73,76 @@ func updateCombatant(combatant: CombatantInFight, delta: float):
 		resolveAction(combatant)
 
 func resolveAction(source: CombatantInFight):
-	var skill:ActivatedSkillData = source.triggerAction(self)
+	var skill:ActivatedSkillData = getActionForCombatant(source)
 	if skill == null:
 		return
-	for effect in skill.skillParts:
-		resolveEffect(skill, effect)
-
-#TODO add targeting, pass whole target and skill to resolve, add multiple skills, add Stamina for all actions
-func resolveEffect(skill: ActivatedSkillData, effect: EffectDescriptor):
-	match effect.EffectDescriptorType:
-		EffectDecriptorType.DAMAGE:
-			for target in skill.targets:
-				target.receiveDamage(getEffectFinalValue(skill, effect))
-		EffectDecriptorType.HEAL:
-			for target in skill.targets:
-				target.receiveHealing(getEffectFinalValue(skill, effect))
-
-func getEffectFinalValue(skill: ActivatedSkillData, effect: EffectDescriptor)-> float:
-	var total = effect.baseValue
-	for effectScalings in effect.scalings.keys():
-		if skill.activator.attributes.find_key(effectScalings) != null:
-			total += skill.activator.attributes[effectScalings]*effect.scalings[effectScalings]
-	return total
+	source.actionCooldown = 0
+	print(skill.getLog())
+	for effect in skill.effectToTargetsDic.keys():
+		resolveEffect(source, effect, skill.effectToTargetsDic[effect])
 		
-func getOpponents(combatant: CombatantInFight):
-	var isAlly = false
-	for c in combatantsPlayer:
-		if c == combatant:
-			isAlly = true
-			break
-	if isAlly:
-		return self.combatantsOpponent
-	else:
-		return self.combatantsPlayer
-		
-func getRandomTargetablOpponent(combatant: CombatantInFight, amountTargets: int) -> Array[CombatantInFight]:
-	var opps = getOpponents(combatant)
-	opps = opps.filter(func(c): return c.isAlive() > 0)
-	var selectedOpps = []
-	while opps.size() > 0 && selectedOpps.size() < amountTargets:
-		var s = opps[randi() % opps.size()]
-		selectedOpps.push_back(s)
-		opps.remove_at(opps.find(s))
-	return selectedOpps
+func getActionForCombatant(combatant: CombatantInFight) -> ActivatedSkillData:
+	for skillStrategy in combatant.combatantBased.combatantStrategy.orderedSkillActivationStrategy:
+		if combatant.canActivateSkill(skillStrategy) && skillStrategy.canActivate(combatant):
+			var targetsFiltered = getSkillTargets(skillStrategy, combatant)
+			if targetsFiltered != {}:
+				return ActivatedSkillData.new(combatant, skillStrategy.skill, targetsFiltered)
+	return null
+
+#return {} if not castable, return a Dic<EffectDescriptor, Targets> otherwise. 
+#If so, the skill is castable no other checks required
+func getSkillTargets(skillStrategy: SkillLogicStrategy, combatant: CombatantInFight) -> Dictionary:
+	var preferedTargetsForEffectDic = {}
+	var lastAdded: Array[CombatantInFight] = []
+	for effectDescriptor: EffectDescriptor in skillStrategy.effectToSkillLogicTargetingDic.keys():
+		var strategyForEffect: SkillLogicTargeting = skillStrategy.effectToSkillLogicTargetingDic[effectDescriptor]
+		var targets: Array[CombatantInFight] = strategyForEffect.getTargetsOrdered(combatant, self, effectDescriptor.targetType, lastAdded)
+		lastAdded = targets
+		var targetsFiltered = targets.filter(func(t): return combatantCanTarget(combatant, t, effectDescriptor))
+		if targetsFiltered.size() < effectDescriptor.requiredTargets:
+			return {}
+		var maxNumberTargets = effectDescriptor.requiredTargets + effectDescriptor.optionalTargets
+		if targetsFiltered.size() > maxNumberTargets:
+			targetsFiltered = targetsFiltered.slice(0, maxNumberTargets)
+		preferedTargetsForEffectDic[effectDescriptor] = targetsFiltered
+	return preferedTargetsForEffectDic
 	
-func getRandomTargetablAlly(combatant: CombatantInFight, amountTargets: int) -> Array[CombatantInFight]:
-	return []
+func combatantCanTarget(combatant: CombatantInFight, target: CombatantInFight, effect: EffectDescriptor):
+	var b = target.isAlive()
+	var isInRange = combatants.getDistanceBetweenTwoCombatants(combatant, target)
+	return b && isInRange != -1 && isInRange <= effect.range
+
+func resolveEffect(activator: CombatantInFight, effect: EffectDescriptor, targets: Array[CombatantInFight]):
+	match effect.effectType:
+		EffectDecriptorType.DAMAGE:
+			for target in targets:
+				target.receiveDamage(getEffectFinalValue(activator, effect))
+		EffectDecriptorType.HEAL:
+			for target in targets:
+				target.receiveHealing(getEffectFinalValue(activator, effect))
+		EffectDecriptorType.DISPLACE:
+			for target in targets:
+				combatants.moveCombatantSwitchRow(target)
+			self.combatantsChange.emit()
+
+func getEffectFinalValue(activator: CombatantInFight, effect: EffectDescriptor)-> float:
+	var total = effect.baseValue
+	for effectScaling in effect.scalings.keys():
+		var combatantAttribute = activator.getAttribute(effectScaling)
+		if combatantAttribute != null:
+			total += combatantAttribute*effect.scalings[effectScaling]
+	return total
 
 #Returns 1 if player wins, -1 if opponents win, 0 if no winner yet
 func getWinningTeam():
 	var alliesDead = true
 	var ennemiesDead = true
-	for c in combatantsPlayer:
+	for c in combatants.getTeam(true):
 		var b = c.isAlive()
 		if b:
 			alliesDead = false
 			break
-	for c in combatantsOpponent:
+	for c in combatants.getTeam(false):
 		var b = c.isAlive()
 		if b:
 			ennemiesDead = false
@@ -139,7 +153,9 @@ func getWinningTeam():
 		return 1
 	else:
 		return 0
-
+	
 func resetPlayerCombatants():
-	for c in self.combatantsPlayer:
-		c = CombatantInFight.new(c.combatantBased)
+	var alliedTeam = combatants.getTeam(true)
+	for c in alliedTeam:
+		c.reset()
+	combatantsChange.emit()

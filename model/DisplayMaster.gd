@@ -11,6 +11,7 @@ func _ready():
 	self.get_node("Heros").pressed.connect(func(): self.showNode(2))
 	self.get_node("Equipement").pressed.connect(func(): self.showNode(3))
 	self.get_node("Manage").pressed.connect(func(): self.showNode(4))
+	self.get_node("Logic").pressed.connect(func(): self.showNode(5))
 	showNode(0)
 
 func _process(delta):
