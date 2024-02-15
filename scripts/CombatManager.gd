@@ -11,7 +11,7 @@ static func getInstance() -> CombatManager:
 	return CombatManager.instance
 
 func _init():
-	pass # Replace with function body.
+	pass
 
 
 func addCombat(location: FightingLocation, frontRow: Array[Combatant], backRow: Array[Combatant]) -> Combat:
