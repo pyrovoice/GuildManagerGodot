@@ -23,7 +23,6 @@ static func loadGame():
 	if not FileAccess.file_exists("user://savegame.save"):
 		return # Error! We don't have a save to load.
 	var fileAccess = FileAccess.open("user://savegame.save", FileAccess.READ)
-	print(fileAccess.get_path_absolute())
 	var line = fileAccess.get_line()
 	var save_game = JSON.parse_string(line)
 	var pDataLine = save_game["combatData"]
@@ -36,7 +35,6 @@ static func loadGame():
 static func makeSaveObject():
 	var combatData = serializeObject(CombatManager.getInstance())
 	var playerData = serializeObject(PlayerData.getInstance())
-	print(combatData)
 	var currentTimeinSeconds = Time.get_unix_time_from_system()
 	var gameVersion = lastVersion
 	var saveFileData := {"playerdata": JSON.stringify(playerData), \
@@ -72,6 +70,21 @@ static func recursively_serialize_object(instance: Object) -> Dictionary:
 					new_array.append(entry)
 			dict[key] = new_array
 			pass
+		elif field is Dictionary:
+			var new_dictionary := {}
+			for fKey in field.keys():
+				var serializedKey
+				var serializedValue
+				if is_instance_of(fKey, Object):
+					serializedKey = recursively_serialize_object(fKey)
+				else:
+					serializedKey = fKey
+				if is_instance_of(field[fKey], Object):
+					serializedKey = recursively_serialize_object(field[fKey])
+				else:
+					serializedKey = field[fKey]
+				new_dictionary[serializedKey] = serializedValue
+			dict[key] = new_dictionary
 		# else keep value
 	if !dict.has("scriptType"):
 		var sf = instance.get_script().resource_path.get_file() 
@@ -89,7 +102,7 @@ static func deserialize(message: String):
 	assert(payload_script != null, "Payload type %s is not defined, run exporter" % type) 
 
 	var payload = payload_script.new() 
-	_assign_object_values(payload, packet) 
+	_assign_object_values(payload, payload_dict) 
 
 	return payload 
   
@@ -102,19 +115,30 @@ static func _assign_object_values(object, dict: Dictionary) -> void:
 		if object_field is Array: 
 			var script = object_field.get_typed_script() 
 			if script == null: 
-										# Array is untyped or of a built-in type. Assuming the array 
-										# items don't need to be deserialized
+				# Array is untyped or of a built-in type. Assuming the array 
+				# items don't need to be deserialized
 				object.set(dict_key, dict.get(dict_key)) 
 			else: 
-							# Construct a new entry and add it to the object's existing array 
-							for array_entry in dict.get(dict_key): 
-											var instance = script.new() 
-											_assign_object_values(instance, array_entry) 
-											object.get(dict_key).append(instance) 
+				# Construct a new entry and add it to the object's existing array 
+				for array_entry in dict.get(dict_key): 
+					var instance = script.new() 
+					_assign_object_values(instance, array_entry) 
+					object.get(dict_key).append(instance) 
 		elif object_field is Object: 
 			var instance = object_field.new() 
 			_assign_object_values(instance, dict.get(dict_key)) 
 			object.set(dict_key, instance) 
+		elif object_field is Dictionary:
+			#recreate key and values by checking if they need to be reassigned
+			#TODO
+			for fKey in dict.get(dict_key): 
+				var script = object_field.get_typed_script() 
+				if script == null: 
+					object.set(dict_key, dict.get(dict_key)) 
+				else:
+					var instance = script.new() 
+					_assign_object_values(instance, fKey) 
+					object.get(dict_key).append(instance) 
 		else: 
 			# Should be a built-in type, so set what we got from parsing json 
 			object.set(dict_key, dict.get(dict_key))

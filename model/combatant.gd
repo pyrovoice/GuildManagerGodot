@@ -8,7 +8,7 @@ var skills: Array[Skill] = []
 var attributes: Dictionary = {}
 var combatantStrategy: CombatantStrategy = CombatantStrategy.new()
 
-func _init(_name: String, _health:float = 100, _mana: float = 100, _strength: float = 10):
+func _init(_name: String = "", _health:float = 100, _mana: float = 100, _strength: float = 10):
 	self.name = _name
 	self.attributes[CombatAttributeEnum.att.HEALTH] = _health
 	self.attributes[CombatAttributeEnum.att.MANA] = _mana

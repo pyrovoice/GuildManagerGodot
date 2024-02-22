@@ -158,3 +158,14 @@ offset_top = -0.264008
 offset_right = -0.272003
 offset_bottom = -0.231995
 text = "Logic"
+
+[node name="Load" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.468
+anchor_right = 0.061
+anchor_bottom = 0.559
+offset_top = -0.264008
+offset_right = -0.272003
+offset_bottom = -0.231995
+text = "Load"

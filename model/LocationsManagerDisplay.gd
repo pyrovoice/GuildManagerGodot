@@ -2,7 +2,7 @@ extends Node
 
 @onready var delete_combat = $DeleteCombat
 const COMBAT_DISPLAY = preload("res://Combat/combat_display.tscn")
-const COMBAT_PREPARATION_DISPLAY = preload("uid://bkqvyssqmhrfv")
+const COMBAT_PREPARATION_DISPLAY = preload("uid://c8oo4b7pbcewt")
 func init():
 	displayLocations()
 	

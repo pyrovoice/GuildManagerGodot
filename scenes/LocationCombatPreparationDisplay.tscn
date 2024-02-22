@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bkqvyssqmhrfv"]
+[gd_scene load_steps=4 format=3 uid="uid://c8oo4b7pbcewt"]
 
 [ext_resource type="Script" path="res://scenes/LocationCombatPreparationDisplay.gd" id="1_q3oq4"]
 [ext_resource type="PackedScene" uid="uid://cbvd7csy0ykuu" path="res://scenes/CombatantInfoDisplaySmall.tscn" id="2_4r7f4"]
