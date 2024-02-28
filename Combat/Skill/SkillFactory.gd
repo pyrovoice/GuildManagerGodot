@@ -2,17 +2,53 @@ extends Object
 class_name SkillFactory
 
 static func getSkillBasicAttack() -> Skill:
-	var skill = Skill.new("Basic Attack", true, 1)
+	var skill = Skill.new("Basic Attack", true)
 	var effect1 = EffectDescriptor.new()
 	effect1.scalings[CombatAttributeEnum.att.STRENGTH] = 1
+	effect1.requiredTargets = 1
+	effect1.targetType = SkillTargetEnum.t.ANY
+	skill.skillParts.push_back(effect1)
+	return skill
+	
+static func getSkillAttackAll() -> Skill:
+	var skill = Skill.new("Attack All", true)
+	var effect1 = EffectDescriptor.new()
+	effect1.scalings[CombatAttributeEnum.att.STRENGTH] = 1
+	effect1.requiredTargets = 0
+	effect1.optionalTargets = 99
+	effect1.targetType = SkillTargetEnum.t.ALL_OPPONENTS
 	skill.skillParts.push_back(effect1)
 	return skill
 	
 static func getSkillBasicHeal() -> Skill:
-	var skill = Skill.new("Basic Heal", true, 1)
+	var skill = Skill.new("Basic Heal", true)
 	var effect1 = EffectDescriptor.new()
 	effect1.scalings[CombatAttributeEnum.att.POWER] = 1
+	effect1.requiredTargets = 1
+	effect1.targetType = SkillTargetEnum.t.ANY
 	skill.skillParts.push_back(effect1)
+	return skill
+	
+static func getSkillChangeRow() -> Skill:
+	var skill = Skill.new("Move", true)
+	var effect1 = EffectDescriptor.new()
+	effect1.effectType = EffectDecriptorType.DISPLACE
+	effect1.requiredTargets = 1
+	effect1.targetType = SkillTargetEnum.t.SELF
+	skill.skillParts.push_back(effect1)
+	return skill
+	
+static func getSkillHitEnnemyAndHealAlly() -> Skill:
+	var skill = Skill.new("Move", true)
+	skill.range = 2
+	var effect1 = EffectDescriptor.new()
+	effect1.scalings[CombatAttributeEnum.att.STRENGTH] = 1
+	effect1.requiredTargets.push_back(SkillTargetEnum.t.ANY)
+	skill.skillParts.push_back(effect1)
+	var effect2 = EffectDescriptor.new()
+	effect2.scalings[CombatAttributeEnum.att.POWER] = 1
+	effect2.requiredTargets.push_back(SkillTargetEnum.t.ANY)
+	skill.skillParts.push_back(effect2)
 	return skill
 	
 static func getSkillLifesteal() -> Skill:
@@ -20,29 +56,41 @@ static func getSkillLifesteal() -> Skill:
 	
 static func getSkillPoison() -> Skill:
 	return null
+
+static func getDefaultTargetingForSkill(s: Skill) -> Dictionary:
+	var effectToSkillLogicTargetingDic = {}
+	for e in s.skillParts:
+		var skillLogicStrategy: SkillLogicTargeting = SkillLogicTargeting.new()
+		skillLogicStrategy.preferredTargets = getDefaultTargetingForEffect(e)
+		effectToSkillLogicTargetingDic[e] = skillLogicStrategy
+	return effectToSkillLogicTargetingDic
 	
-static func getDefaultTargetingForSkill(s: Skill) -> SkillLogicTargeting:
-	var logic = SkillLogicTargeting.new()
-	match s.skillParts[0].effectType:
-		EffectDecriptorType.DAMAGE:
-			logic.targetting = SkillActivationOptimalTargets.e.OPPONENT_LOWEST_HEALTH
+static func getDefaultTargetingForEffect(s: EffectDescriptor):
+	if !SkillTargetEnum.skillTargetRequiresTarget(s.targetType):
+		return SkillActivationOptimalTargets.e.NONE
+	match s.effectType:
+		EffectDecriptorType.DAMAGE, EffectDecriptorType.STATUS_EFFECT:
+			return SkillActivationOptimalTargets.e.OPPONENT_LOWEST_HEALTH
 		EffectDecriptorType.HEAL:
-			logic.targetting = SkillActivationOptimalTargets.e.ALLY_LEAST_HEALTH
-	return logic
+			return SkillActivationOptimalTargets.e.ALLY_LEAST_HEALTH
+	return SkillActivationOptimalTargets.e.NONE
 	
 static func getPossibleConditionsForSkill(skill: Skill) -> Array[SkillLogicCondition]:
-	return [SkillLogicConditionSelfMana.new(), SkillLogicConditionTargetLife.new()]
-	
-static func getAdditionalParametersForConditions(condition: String) -> Array[Array]:
-	match condition:
-		"Mana":
-			return [["<", "=", ">"], ["0", "100"], ["%", "n"]]
-		"Can Fully heal":
-			return []
-	return []
+	return [SkillLogicConditionSelfAttribute.new(), SkillLogicConditionTargetLife.new()]
 	
 static func getDefaultLogicForSkill(skill: Skill) -> SkillLogicStrategy:
-	return SkillLogicStrategy.new(skill,getDefaultTargetingForSkill(skill))
+	var skillLogicStrategy = SkillLogicStrategy.new(skill,getDefaultTargetingForSkill(skill))
+	if skill.name == "Move":
+		var moveIfHealthUnder50percent = SkillLogicConditionSelfAttribute.new()
+		moveIfHealthUnder50percent.attribute = CombatAttributeEnum.att.HEALTH
+		moveIfHealthUnder50percent.comparison = "<"
+		moveIfHealthUnder50percent.isPercent = true
+		moveIfHealthUnder50percent.value = 50
+		skillLogicStrategy.activationConditions.push_back(moveIfHealthUnder50percent)
+		var moveIfFrontRow = SkillLogicConditionSelfPosition.new()
+		
+		skillLogicStrategy.activationConditions.push_back(moveIfFrontRow)
+	return skillLogicStrategy
 	
 """
 ACTIVE TODO:

@@ -3,13 +3,18 @@
 
 Food system and nourriture a emporter
 Environment that you can fill with looted stuff and animals, produce ressource but require equilibrium
-Combat ability system
-Front-back system
+
+Level resource and limitation per level: Every dungeon is separated in around 10 levels, and some effects can only be used once per level or every two levels.
+Also, a shared ressource called master Mana is generated whenever entering a new level, and hsared among all combatants
+Finally, most good items are limited in use per level, or any hero has a limit to how many items they can use per level.
+
+Restriction on skill activation/Combatant type bonus: Combatants have tags (family, type, element...) and skills care about those
 
 Universes:
 Fallout, Radiation from food as a debuff, stimpack as OP heal items (very light)
 Pokemon, combatants have types with weaknesses and resistances
 HunterxHunter, nen that never regenerates but can be used very quickly, Limit break ability refunding 200% nen
+Sea of Thieves: Ocean of Rogues; Do not grant rewards in combat but give chest at end of dungeons, that need to be brought back through the dungeon and influence the challenges of the way back. Also Ship battle
 
 opponents:
 create a giant fireball, immune while fireball not dead
@@ -20,6 +25,8 @@ Combat skills: Make each skill roughly equal in interest to open design space li
 Flying (Cannot be attacked by melee. Loses flight for 2 seconds after using a melee attack)
 	
 TODOS:
+	Targeting system using effects on base
+	Rework the Skill logic table: One big space for Skill choices, and on the left the sortable table. On click on a skill, display it's current info on the big space
 Default move lane action, and rest action to restore a %hp/mana/stamina
 Check skills
 StatusEffect and globalEffects

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ct7vt4ty3f1d8"]
 
 [ext_resource type="Script" path="res://Combat/Skill/SkillActivationLogic/SkillLogicDisplay.gd" id="1_4ducj"]
-[ext_resource type="PackedScene" uid="uid://cav4tn735bpl2" path="res://scenes/CombatantInfoDisplaySmall.tscn" id="2_82r5j"]
+[ext_resource type="PackedScene" uid="uid://cbvd7csy0ykuu" path="res://scenes/CombatantInfoDisplaySmall.tscn" id="2_82r5j"]
 
 [node name="Control" type="Control"]
 layout_mode = 3

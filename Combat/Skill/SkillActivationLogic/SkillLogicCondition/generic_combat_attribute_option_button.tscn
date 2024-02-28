@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://rf2j5si6p2fg"]
+
+[node name="GenericCombatAttributeOptionButton" type="OptionButton"]
+offset_right = 45.0
+offset_bottom = 20.0

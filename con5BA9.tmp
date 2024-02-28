@@ -1,0 +1,160 @@
+[gd_scene load_steps=8 format=3 uid="uid://csu6qel6ax7y6"]
+
+[ext_resource type="Script" path="res://model/DisplayMaster.gd" id="1_opo8t"]
+[ext_resource type="Script" path="res://model/LocationsManagerDisplay.gd" id="2_jlwne"]
+[ext_resource type="Script" path="res://model/PlayerDataDisplay.gd" id="3_a4ddo"]
+[ext_resource type="Script" path="res://scripts/CombatantCreationDisplay.gd" id="4_vbnc2"]
+[ext_resource type="PackedScene" uid="uid://dlkn6fpnm17x4" path="res://scenes/equipment_display.tscn" id="5_7rng2"]
+[ext_resource type="Script" path="res://scripts/CombatantsManagementDisplay.gd" id="6_2ij4h"]
+[ext_resource type="Script" path="res://scripts/QuestDisplay.gd" id="7_xhsg0"]
+
+[node name="DisplayMaster" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_opo8t")
+
+[node name="ChildWindow" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.062
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -0.424004
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="LocationsDisplay" type="Control" parent="ChildWindow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_jlwne")
+
+[node name="PlayerDataDisplay" type="Control" parent="ChildWindow"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_a4ddo")
+
+[node name="gold" type="Label" parent="ChildWindow/PlayerDataDisplay"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.037
+anchor_bottom = 0.035
+offset_right = 0.00299835
+offset_bottom = 0.32
+text = "5000"
+
+[node name="CombatantCreationDisplay" type="Control" parent="ChildWindow"]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_vbnc2")
+
+[node name="EquipmentCreationDisplay" parent="ChildWindow" instance=ExtResource("5_7rng2")]
+visible = false
+layout_mode = 1
+
+[node name="CombatantManagementDisplay" type="Control" parent="ChildWindow"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_2ij4h")
+
+[node name="SkillLogicDisplay" type="Control" parent="ChildWindow"]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("7_xhsg0")
+
+[node name="Locations" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.06
+anchor_bottom = 0.091
+offset_right = 0.879997
+offset_bottom = 0.0319977
+theme_override_font_sizes/font_size = 14
+text = "Combats"
+text_overrun_behavior = 2
+clip_text = true
+
+[node name="Data" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.093
+anchor_right = 0.06
+anchor_bottom = 0.184
+offset_top = -0.264
+offset_right = 0.879997
+offset_bottom = -0.23201
+theme_override_font_sizes/font_size = 14
+text = "Data"
+text_overrun_behavior = 2
+clip_text = true
+
+[node name="Heros" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.187
+anchor_right = 0.06
+anchor_bottom = 0.278
+offset_top = -0.17601
+offset_right = 0.879997
+offset_bottom = -0.144028
+theme_override_font_sizes/font_size = 14
+text = "Heros
+"
+text_overrun_behavior = 2
+clip_text = true
+
+[node name="Equipement" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.001
+anchor_top = 0.279
+anchor_right = 0.062
+anchor_bottom = 0.37
+offset_left = -0.152
+offset_top = 0.207993
+offset_right = -0.424004
+offset_bottom = 0.23999
+text = "Equip"
+
+[node name="Manage" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.373
+anchor_right = 0.062
+anchor_bottom = 0.465
+offset_left = 1.0
+offset_top = 0.29599
+offset_right = -0.424004
+offset_bottom = -0.320007
+text = "Manage"
+
+[node name="Logic" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.468
+anchor_right = 0.061
+anchor_bottom = 0.559
+offset_top = -0.264008
+offset_right = -0.272003
+offset_bottom = -0.231995
+text = "Logic"

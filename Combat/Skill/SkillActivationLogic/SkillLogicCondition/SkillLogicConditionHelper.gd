@@ -27,3 +27,17 @@ static func getGenericSpinbox(valueToUpdate) -> SpinBox:
 	var spinBox: SpinBox = preload("uid://bqumbpu76jt42").instantiate()
 	spinBox.value_changed.connect(func(val): valueToUpdate = val)
 	return spinBox
+
+static func getGenericAttributeDropdown(valueToUpdate) -> OptionButton:
+	var optionButton: OptionButton = preload("uid://rf2j5si6p2fg").instantiate()
+	for att in CombatAttributeEnum.att.keys():
+		optionButton.add_item(att)
+	optionButton.item_selected.connect(func(index): 
+		valueToUpdate = CombatAttributeEnum.getAttributeFromString(optionButton.get_item_text(index))
+		print(valueToUpdate))
+	return optionButton
+
+static func getGenericPositionDropdown(valueToUpdate) -> OptionButton:
+	var optionButton: OptionButton = preload("uid://cgo6iki0hwxwd").instantiate()
+	optionButton.item_selected.connect(func(index): valueToUpdate = index)
+	return optionButton
