@@ -21,7 +21,7 @@ func updateLocationList():
 		i = i+1
 	for c in CombatManager.getInstance().combats:
 		var button = Button.new()
-		button.text = c.name
+		button.text = c.location.name
 		button.pressed.connect(func(): self.displayCombat(c))
 		self.get_node("locationsDisplay/ActiveCombats/GridContainer").add_child(button)
 		i = i+1

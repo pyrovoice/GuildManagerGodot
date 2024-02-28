@@ -36,7 +36,7 @@ func isCombatantAvailable(c: Combatant) -> bool:
 	if !PlayerData.getInstance().combatants.has(c):
 		return false
 	for combat in CombatManager.getInstance().combats:
-		for cc in combat.combatantsPlayer:
+		for cc in combat.combatants.getTeam(true):
 			if cc.combatantBased == c:
 				return false
 	return true

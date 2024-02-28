@@ -129,16 +129,12 @@ static func _assign_object_values(object, dict: Dictionary) -> void:
 			_assign_object_values(instance, dict.get(dict_key)) 
 			object.set(dict_key, instance) 
 		elif object_field is Dictionary:
-			#recreate key and values by checking if they need to be reassigned
-			#TODO
-			for fKey in dict.get(dict_key): 
-				var script = object_field.get_typed_script() 
-				if script == null: 
-					object.set(dict_key, dict.get(dict_key)) 
-				else:
-					var instance = script.new() 
-					_assign_object_values(instance, fKey) 
-					object.get(dict_key).append(instance) 
+			var deserializedDic := {}
+			_assign_object_values(deserializedDic, object_field)
+			object.set(dict_key, deserializedDic)
 		else: 
 			# Should be a built-in type, so set what we got from parsing json 
-			object.set(dict_key, dict.get(dict_key))
+			if object is Dictionary:
+				object[dict_key] = dict.get(dict_key)
+			else:
+				object.set(dict_key, dict.get(dict_key))
