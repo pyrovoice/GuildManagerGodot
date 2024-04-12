@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://ccfjcmib782th"]
 
-[ext_resource type="Script" path="res://Combat/CombatantDisplay_Combat.gd" id="1_x5m02"]
-[ext_resource type="Texture2D" uid="uid://bqbltkdt1hc12" path="res://Assets/common/sword_small.png" id="2_dc85n"]
+[ext_resource type="Script" path="res://Combat/combatant_display_combat.gd" id="1_x2oi0"]
+[ext_resource type="Texture2D" uid="uid://bqbltkdt1hc12" path="res://Assets/common/sword_small.png" id="2_4uksu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ii86"]
 resource_name = "sddd"
@@ -28,7 +28,7 @@ offset_left = 1.0
 offset_top = -1.0
 offset_right = 101.0
 offset_bottom = 99.0
-script = ExtResource("1_x5m02")
+script = ExtResource("1_x2oi0")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -134,7 +134,7 @@ offset_left = -2.0
 offset_top = 1.4
 offset_right = 7.60002
 offset_bottom = 1.40002
-texture = ExtResource("2_dc85n")
+texture = ExtResource("2_4uksu")
 expand_mode = 2
 
 [node name="Attack" type="Label" parent="."]
@@ -151,3 +151,73 @@ offset_bottom = 3.2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 16
 text = "50"
+
+[node name="status_effect_button" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 70.0
+offset_top = 71.0
+offset_right = -6.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.65098, 0.65098, 0.65098, 1)
+
+[node name="StatusEffects" type="Label" parent="status_effect_button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "SE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="status_effect_button"]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_left = 27.0
+offset_right = 96.0
+offset_bottom = 69.0
+
+[node name="Label" type="Label" parent="status_effect_button/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 10
+text = "Poise: 50
+Poison: 25.2
+"
+autowrap_mode = 2
+
+[node name="ColorRect2" type="ColorRect" parent="status_effect_button"]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_left = 27.0
+offset_right = 96.0
+offset_bottom = 69.0
+
+[node name="Label" type="Label" parent="status_effect_button/ColorRect2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 10
+text = "Poise: 50
+Poison: 25.2
+"
+autowrap_mode = 2

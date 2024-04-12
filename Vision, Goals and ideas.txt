@@ -28,6 +28,7 @@ TODOS:
 	Targeting system using effects on base
 	Rework the Skill logic table: One big space for Skill choices, and on the left the sortable table. On click on a skill, display it's current info on the big space
 Default move lane action, and rest action to restore a %hp/mana/stamina
+Up amount of combatants to 12 (6 per row), summons take a space
 Check skills
 StatusEffect and globalEffects
 Smartness Characteristic: Varies from 1-5, each level grant customization aspect to the targetting system and overall control the player can put on a combatant, and can vary with equipments. A brain level of 0 means the character will just select the default skill acitvation parameters, and lower than 0 will start doing stupid shit like targetting allies or removing default conditions

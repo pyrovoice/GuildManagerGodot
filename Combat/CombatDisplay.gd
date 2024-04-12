@@ -38,7 +38,6 @@ func addCombatantOrEmptySlot(combatantLocation: Vector2, isAlly: bool):
 	var combatantAtLocation = combat.combatants.getTeam(isAlly).filter(func(c): return c.position == combatantLocation)
 	if combatantAtLocation.size() == 1:
 		display = COMBATANT_DISPLAY_COMBAT.instantiate()
-		display.init(combatantAtLocation[0])
 	display.set_custom_minimum_size(Vector2(100, 100))
 	var container
 	if isAlly:
@@ -46,6 +45,8 @@ func addCombatantOrEmptySlot(combatantLocation: Vector2, isAlly: bool):
 	else:
 		container = ennemies_front if combatantLocation.y == combat.combatants.ROW.FRONT_ROW else ennemies_back
 	container.add_child(display)
-
+	if combatantAtLocation.size() == 1:
+		display.init(combatantAtLocation[0])
+		
 func _on_delete_combat_pressed():
 	removeCombat.emit()

@@ -4,7 +4,7 @@ class_name EffectDescriptor
 var baseValue: float = 0
 var scalings := {}
 var effectType = EffectDecriptorType.DAMAGE
-var additionalEffect = null
+var additionalEffect: Array[StatusEffect] = []
 var outsideMultipliers = 0
 var targetType: SkillTargetEnum.t = SkillTargetEnum.t.ANY
 var requiredTargets: int = 0

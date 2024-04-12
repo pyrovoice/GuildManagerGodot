@@ -51,6 +51,18 @@ static func getSkillHitEnnemyAndHealAlly() -> Skill:
 	skill.skillParts.push_back(effect2)
 	return skill
 	
+static func getSkillPoiseAttack() -> Skill:
+	var skill = Skill.new("Poise strike", true)
+	var effect1 = EffectDescriptor.new()
+	effect1.effectType = EffectDecriptorType.STATUS_EFFECT
+	effect1.baseValue = 80
+	effect1.range = 1
+	effect1.additionalEffect.push_back(StatusEffectPoise.new(80))
+	effect1.requiredTargets = 1
+	effect1.targetType = SkillTargetEnum.t.ANY
+	skill.skillParts.push_back(effect1)
+	return skill
+
 static func getSkillLifesteal() -> Skill:
 	return null
 	
@@ -73,6 +85,13 @@ static func getDefaultTargetingForEffect(s: EffectDescriptor):
 			return SkillActivationOptimalTargets.e.OPPONENT_LOWEST_HEALTH
 		EffectDecriptorType.HEAL:
 			return SkillActivationOptimalTargets.e.ALLY_LEAST_HEALTH
+		EffectDecriptorType.STATUS_EFFECT:
+			match s.additionalEffect[0]:
+				StatusEffectPoise:
+					return SkillActivationOptimalTargets.e.OPPONENT_LOWEST_HEALTH
+				_:
+					print("Status effect default target not implemented for: " + s.additionalEffect[0].name)
+					return SkillActivationOptimalTargets.e.OPPONENT_LOWEST_HEALTH
 	return SkillActivationOptimalTargets.e.NONE
 	
 static func getPossibleConditionsForSkill(skill: Skill) -> Array[SkillLogicCondition]:

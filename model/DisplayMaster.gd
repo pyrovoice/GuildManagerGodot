@@ -1,7 +1,7 @@
 extends Control
 
 var showNodes: Array[String] = []
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	var cWindow = self.get_node("ChildWindow")
 	for n in cWindow.get_children():

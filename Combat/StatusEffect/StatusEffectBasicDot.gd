@@ -4,7 +4,10 @@ class_name StatusEffectBasicDot
 func _init():
 	super("Basic Dot", 3, 5)
 
-func resolveTrigger(combatantHolder: CombatantInFight, combat: Combat):
-	super(combatantHolder, combat)
+func resolveTrigger(combat: Combat):
+	super(combat)
 	currentDelay = 0
-	combatantHolder.receiveDamage(self.value)
+	holder.receiveDamage(self.value)
+	self.value = self.value * 0.9
+	if self.value < 1:
+		self.onDurationReachZero()

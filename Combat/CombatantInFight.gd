@@ -37,10 +37,40 @@ func reset():
 	healthCurrent = getAttribute(CombatAttributeEnum.att.HEALTH)
 	manaCurrent = getAttribute(CombatAttributeEnum.att.MANA)
 	actionCooldown = 0
-	
+
+func update(delta):
+	if self.isAlive():
+		self.actionCooldown += getActualSpeed()*delta
+		for statusEffect in self.statusEffects:
+			statusEffect.update(delta)
+	if name == "Hero":
+		var poise = skills.filter(func(s): return s.name == "Poise strike")
+		if poise.size() == 1:
+			var p: Skill = poise[0]
+
+func getActualSpeed():
+	var speed = 1
+	for s in statusEffects:
+		speed = s.getSpeedMultiplier()*speed
+	return speed
+
 func receiveDamage(damage: float):
 	self.healthCurrent = clamp(self.healthCurrent - damage, 0, self.getAttribute(CombatAttributeEnum.att.HEALTH))
+	self.receiveStatusEffect(StatusEffectPoise.new(damage))
 
+func receiveStatusEffect(status: StatusEffect):
+	var s = self.statusEffects.filter(func(s): return s.name == status.name)
+	if s.size() == 1:
+		s[0].accumulateStatus(status)
+		print("Accumulated " + status.name)
+	else:
+		status.onApply(self)
+		status.trigger.connect(func(): emitStatusEffectTrigger(status))
+		print("Applied " + status.name)
+
+func emitStatusEffectTrigger(status):
+	combatantEffectTriggers.emit(status)
+	
 func receiveHealing(healValue: float, canResurect: bool = false):
 	if isAlive() or canResurect:
 		self.healthCurrent = clamp(self.healthCurrent + healValue, 0, self.getAttribute(CombatAttributeEnum.att.HEALTH))
@@ -53,12 +83,6 @@ func canActivateSkill(skillStrategy: SkillLogicStrategy):
 #TODO
 func canPaySkillCost(skill: Skill):
 	return true
-
-func update(delta):
-	if self.isAlive():
-		self.actionCooldown += delta
-		for statusEffect in self.statusEffects:
-			statusEffect.update(delta)
 
 func canAct():
 	return isAlive() && actionCooldown >= delayToAct
@@ -83,3 +107,8 @@ func getAttributeCurrentValue(attribute: CombatAttributeEnum.att) -> float:
 func setPosition(newPosition: Vector2):
 	self.position = newPosition
 	
+func removeStatusEffect(status: StatusEffect):
+	self.statusEffects.erase(status)
+
+func receiveInterupt():
+	self.actionCooldown = 0

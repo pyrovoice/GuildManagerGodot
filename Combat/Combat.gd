@@ -9,18 +9,14 @@ signal combatantsChange
 
 func init(combatantsFront: Array[Combatant], combatantsBack: Array[Combatant], l: FightingLocation):
 	self.location = l
-	combatants = CombatPositionsCombatant.new(Vector2(5, 2), combatantsFront, combatantsBack)
+	combatants = CombatPositionsCombatant.new(Vector2(5, 2))
+	for c in combatantsFront:
+		if c != null:
+			addCombatantToCombat(c, Vector2(combatantsFront.find(c), CombatPositionsCombatant.ROW.FRONT_ROW), true)
+	for c in combatantsBack:
+		if c != null:
+			addCombatantToCombat(c, Vector2(combatantsBack.find(c), CombatPositionsCombatant.ROW.BACK_ROW), true)
 	addOpponentForLevel()
-	
-func initSpacesForCombatants() -> Array[Array]:
-	var combatantSpaces:Array[Array] = []
-	var spacesFront: Array[CombatantInFight] = []
-	spacesFront.resize(5)
-	var spacesBack: Array[CombatantInFight] = []
-	spacesBack.resize(5)
-	combatantSpaces.push_back(spacesFront)
-	combatantSpaces.push_back(spacesBack)
-	return combatantSpaces
 	
 func process(delta):
 	for combatant in combatants.getTeam(true):
@@ -38,14 +34,22 @@ func process(delta):
 		encounterCounter = 1
 		addOpponentForLevel()
 		combatantsChange.emit()
-		
+
+
+func addCombatantToCombat(c: Combatant, position: Vector2, isAlly: bool):
+	var cInFight:CombatantInFight = CombatantInFight.new(c)
+	if !isAlly:
+		cInFight.name += str(combatants.getTeam(false).size())
+	combatants.addCombatantAtLocation(cInFight, position, isAlly)
+	cInFight.combatantEffectTriggers.connect(resolveCombatantTrigger)
+	
 func addOpponentForLevel():
 	combatants.opponentCombatants = []
 	if self.encounterCounter == self.location.encounterPerLevel:
 		for o in self.location.bossEncounter:
 			var opponent = GameData.getInstance().getOpponent(o)
 			if opponent:
-				combatants.addCombatantAtLocation(Vector2(-1, -1), opponent, false)
+				addCombatantToCombat(opponent, Vector2(-1, -1), false)
 	else:
 		var targetOpponentCount = location.averageEncounterDifficulty + (randi()%(location.difficultyVariance*2)-location.difficultyVariance)
 		var opponentCount = 0
@@ -55,10 +59,10 @@ func addOpponentForLevel():
 			var opponent = GameData.getInstance().getOpponent(random_key)
 			if opponent:
 				opponentCount += location.possibleOpponents[random_key]
-				combatants.addCombatantAtLocation(Vector2(-1, -1), opponent, false)
+				addCombatantToCombat(opponent, Vector2(-1, -1), false)
 
-func resolveCombatantTrigger(c: CombatantInFight, trigger: StatusEffect):
-	trigger.resolveTrigger(c, self)
+func resolveCombatantTrigger(trigger: StatusEffect):
+	trigger.resolveTrigger(self)
 
 func incrementeLevel():
 	self.encounterCounter += 1
@@ -124,6 +128,11 @@ func resolveEffect(activator: CombatantInFight, effect: EffectDescriptor, target
 			for target in targets:
 				combatants.moveCombatantSwitchRow(target)
 			self.combatantsChange.emit()
+		EffectDecriptorType.STATUS_EFFECT:
+			for target in targets:
+				var statusEffectToApply = effect.additionalEffect.duplicate(true)[0]
+				statusEffectToApply.value +=5
+				target.receiveStatusEffect(statusEffectToApply)
 
 func getEffectFinalValue(activator: CombatantInFight, effect: EffectDescriptor)-> float:
 	var total = effect.baseValue

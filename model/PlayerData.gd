@@ -11,8 +11,9 @@ var unlockedLocation: Array[FightingLocation] = []
 
 func _init():
 	var c = Combatant.new("Hero", 80, 10, 5)
-	c.skills[1] = SkillFactory.getSkillAttackAll()
+	c.skills[1] = SkillFactory.getSkillPoiseAttack()
 	c.resetStrategyToDefault()
+	c.delayToAct = 4
 	self.combatants.push_back(c)
 	self.combatants.push_back(Combatant.new("Hero2", 200, 20, 10))
 	self.combatants.push_back(Combatant.new("Hero3", 300, 30, 15))

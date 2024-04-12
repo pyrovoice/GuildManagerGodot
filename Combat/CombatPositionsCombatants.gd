@@ -10,27 +10,24 @@ var playerCombatants: Array[CombatantInFight] = []
 var opponentCombatants: Array[CombatantInFight] = []
 var locationSize: Vector2
 
-func _init(_locationSize: Vector2, playerCombatantsFront: Array[Combatant], playerCombatantsBack: Array[Combatant] ):
+func _init(_locationSize: Vector2, playerCombatantsFront: Array[CombatantInFight] = [], playerCombatantsBack: Array[CombatantInFight] = []):
 	locationSize = _locationSize
 	for c in playerCombatantsFront:
 		if c != null:
 			var x = playerCombatantsFront.find(c)
-			addCombatantAtLocation(Vector2(playerCombatantsFront.find(c), ROW.FRONT_ROW), c, true)
+			addCombatantAtLocation(c, Vector2(playerCombatantsFront.find(c), ROW.FRONT_ROW), true)
 	for c in playerCombatantsBack:
 		if c != null:
 			var x = playerCombatantsBack.find(c)
-			addCombatantAtLocation(Vector2(playerCombatantsBack.find(c), ROW.BACK_ROW), c, true)
+			addCombatantAtLocation(c, Vector2(playerCombatantsBack.find(c), ROW.BACK_ROW), true)
 
-func addCombatantAtLocation(location: Vector2, combatant: Combatant, isAlly: bool):
-	var cif = CombatantInFight.new(combatant)
+func addCombatantAtLocation(combatant: CombatantInFight, location: Vector2, isAlly: bool):
 	var arrayToLookAt = playerCombatants if isAlly else opponentCombatants
-	if !isAlly:
-		cif.name += " " + str(arrayToLookAt.size())
 	if !isLocationEmptyAndInRange(location, arrayToLookAt):
 		location = getFirstEmptyLocation(arrayToLookAt, -1)
-	if cif && isLocationEmptyAndInRange(location, arrayToLookAt):
-		cif.position = location
-		arrayToLookAt.push_back(cif)
+	if combatant && isLocationEmptyAndInRange(location, arrayToLookAt):
+		combatant.position = location
+		arrayToLookAt.push_back(combatant)
 		
 func moveCombatantToLocation(combatant: CombatantInFight, location: Vector2, side: Array):
 	if !isLocationEmptyAndInRange(location, side):
