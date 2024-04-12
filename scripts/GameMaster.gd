@@ -8,7 +8,7 @@ static func getInstance() -> GameMaster:
 	return GameMaster.instance
 
 func _init():
-	SavesHelper.loadGame()
+	SaveData.loadGame()
 	
 	
 var lastS = 0
@@ -19,7 +19,7 @@ func process(_delta):
 	[])
 	CombatManager.getInstance().process(_delta)
 	if Time.get_datetime_dict_from_system()["second"] != lastS:
-		SavesHelper.save_game()
+		SaveData.createSave()
 		lastS = Time.get_datetime_dict_from_system()["second"]
 
 func addRewardForCombat(_c: Combat):

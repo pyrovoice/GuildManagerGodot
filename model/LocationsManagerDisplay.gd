@@ -1,7 +1,7 @@
 extends Node
 
 const COMBAT_DISPLAY = preload("res://Combat/combat_display.tscn")
-const COMBAT_PREPARATION_DISPLAY = preload("uid://c8oo4b7pbcewt")
+const COMBAT_PREPARATION_DISPLAY = preload("res://scenes/LocationCombatPreparationDisplay.tscn")
 func init():
 	displayLocations()
 	
