@@ -1,4 +1,4 @@
-extends Object
+extends GDScript
 class_name GameMaster
 
 static var instance: GameMaster = null

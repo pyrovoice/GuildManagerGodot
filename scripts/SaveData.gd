@@ -1,20 +1,23 @@
-extends Resource
+extends GDScript
 class_name SaveData
 
 const PATH = "user://save.res"
-var playerData
-var combatData
+@export
+var playerData: PlayerData
+@export
+var combatData: CombatManager
 
 static func createSave():
 	var instance = SaveData.new()
 	instance.playerData = PlayerData.getInstance()
 	instance.combatData = CombatManager.getInstance()
 	var rVal = ResourceSaver.save(instance, PATH)
-	print(rVal)
+	print("rVal")
 	
 static func loadGame():
 	var save = ResourceLoader.load(PATH)
 	if save:
+		var asSaveData = save as SaveData
 		PlayerData.instance = save.playerData
 		CombatManager.instance = save.combatData
 		print("Save loaded")

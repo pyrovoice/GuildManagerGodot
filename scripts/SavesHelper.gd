@@ -1,4 +1,4 @@
-extends Object
+extends GDScript
 class_name SavesHelper
 
 const lastVersion = 0.1

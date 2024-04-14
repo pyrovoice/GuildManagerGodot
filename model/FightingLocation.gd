@@ -1,4 +1,4 @@
-extends Object
+extends GDScript
 class_name FightingLocation
 
 var name = ""

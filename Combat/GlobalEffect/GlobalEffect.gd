@@ -1,4 +1,4 @@
-extends Object
+extends GDScript
 class_name GlobalEffect
 
 var applyCondition = EffectApplyCondition.ALL
