@@ -19,7 +19,7 @@ func updateLocationList():
 		button.pressed.connect(func(): self.displayCombatPreparation(l))
 		self.get_node("locationsDisplay/Locations/GridContainer").add_child(button)
 		i = i+1
-	for c in CombatManager.getInstance().combats:
+	for c in PlayerData.getInstance().combats:
 		var button = Button.new()
 		button.text = c.location.name
 		button.pressed.connect(func(): self.displayCombat(c))
@@ -70,7 +70,7 @@ func addOrRemoveFromSelection(c: Combatant):
 
 var currentlyDisplayedCombat = null
 func displayCombat(combat: Combat):
-	if !CombatManager.getInstance().combats.has(combat):
+	if !PlayerData.getInstance().combats.has(combat):
 		print("Display combat failed for " + combat.name)
 		return
 	hideAll()

@@ -1,4 +1,4 @@
-extends Object
+extends Resource
 class_name CombatantInFight
 
 var combatantBased: Combatant

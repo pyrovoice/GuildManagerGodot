@@ -1,4 +1,4 @@
-extends Object
+extends Resource
 class_name EffectDescriptor
 
 var baseValue: float = 0

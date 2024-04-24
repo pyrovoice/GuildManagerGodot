@@ -1,4 +1,4 @@
-extends Object
+extends Resource
 class_name PlayerData
 
 static var instance: PlayerData = null
@@ -8,6 +8,7 @@ var maxCombatantLevel = 10
 var combatants: Array[Combatant] = []
 var equipments: Array[Equipable] = [Equipable.new("Test Sword", 100, 10, 0), Equipable.new("Test Sword 2", 50, 10, 0)]
 var unlockedLocation: Array[FightingLocation] = []
+var combats: Array[Combat] = []
 
 func _init():
 	var c = Combatant.new("Hero", 80, 10, 5)

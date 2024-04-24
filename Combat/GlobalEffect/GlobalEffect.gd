@@ -1,4 +1,4 @@
-extends Object
+extends Resource
 class_name GlobalEffect
 
 var applyCondition = EffectApplyCondition.ALL

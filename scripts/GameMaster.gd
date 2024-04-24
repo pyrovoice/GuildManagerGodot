@@ -1,4 +1,4 @@
-extends Object
+extends Resource
 class_name GameMaster
 
 static var instance: GameMaster = null
@@ -6,21 +6,16 @@ static func getInstance() -> GameMaster:
 	if GameMaster.instance ==  null:
 		GameMaster.instance = GameMaster.new()
 	return GameMaster.instance
-
-func _init():
-	SaveData.loadGame()
-	
 	
 var lastS = 0
 func process(_delta):
-	if CombatManager.getInstance().combats.size() == 0:
-		CombatManager.getInstance().addCombat(PlayerData.getInstance().unlockedLocation[0], \
-	[PlayerData.getInstance().combatants[0]], \
-	[])
 	CombatManager.getInstance().process(_delta)
-	if Time.get_datetime_dict_from_system()["second"] != lastS:
+	"""
+	if Time.get_datetime_dict_from_system()["minute"] != lastS:
 		SaveData.createSave()
-		lastS = Time.get_datetime_dict_from_system()["second"]
+		lastS = Time.get_datetime_dict_from_system()["minute"]
+		print("Saving")
+	"""
 
 func addRewardForCombat(_c: Combat):
 	#TODO add Combat rewards
@@ -35,7 +30,7 @@ func isCombatantAvailable(c: Combatant) -> bool:
 	var i = PlayerData.getInstance()
 	if !PlayerData.getInstance().combatants.has(c):
 		return false
-	for combat in CombatManager.getInstance().combats:
+	for combat in PlayerData.getInstance().combats:
 		for cc in combat.combatants.getTeam(true):
 			if cc.combatantBased == c:
 				return false

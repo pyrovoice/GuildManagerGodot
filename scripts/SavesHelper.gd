@@ -1,4 +1,4 @@
-extends Object
+extends Resource
 class_name SavesHelper
 
 const lastVersion = 0.1

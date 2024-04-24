@@ -1,7 +1,6 @@
-extends Object
+extends Resource
 class_name CombatManager
 
-var combats: Array[Combat] = []
 var displayedCombat: Combat = null
 
 static var instance: CombatManager = null;
@@ -9,10 +8,6 @@ static func getInstance() -> CombatManager:
 	if(CombatManager.instance == null):
 		CombatManager.instance = CombatManager.new()
 	return CombatManager.instance
-
-func _init():
-	pass
-
 
 func addCombat(location: FightingLocation, frontRow: Array[Combatant], backRow: Array[Combatant]) -> Combat:
 	for c in frontRow:
@@ -23,13 +18,13 @@ func addCombat(location: FightingLocation, frontRow: Array[Combatant], backRow: 
 			return null
 	var c = Combat.new()
 	c.init(frontRow, backRow, location)
-	combats.push_back(c)
+	PlayerData.getInstance().combats.push_back(c)
 	return c
 	
 func stopCombat(combat:Combat):
-	self.combats.erase(combat)
+	PlayerData.getInstance().combats.erase(combat)
 		
 func process(_delta):
-	for c in combats:
+	for c in PlayerData.getInstance().combats:
 		c.process(_delta)
 	pass

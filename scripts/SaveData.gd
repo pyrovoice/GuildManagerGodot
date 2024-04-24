@@ -1,22 +1,18 @@
 extends Resource
 class_name SaveData
 
-const PATH = "user://save.res"
-var playerData
-var combatData
+const PATH = "user://"
+const pathPlayerData = "playerData.res"
+const pathCombatData = "combatData.res"
 
 static func createSave():
-	var instance = SaveData.new()
-	instance.playerData = PlayerData.getInstance()
-	instance.combatData = CombatManager.getInstance()
-	var rVal = ResourceSaver.save(instance, PATH)
+	var instance: PlayerData = PlayerData.getInstance()
+	var rVal = ResourceSaver.save(PlayerData.getInstance(), PATH+pathPlayerData)
 	print(rVal)
 	
 static func loadGame():
-	var save = ResourceLoader.load(PATH)
-	if save:
-		PlayerData.instance = save.playerData
-		CombatManager.instance = save.combatData
-		print("Save loaded")
+	var playerDataLoaded: PlayerData = ResourceLoader.load(PATH+pathPlayerData, "PlayerData").duplicate(true)
+	if playerDataLoaded:
+		PlayerData.instance = playerDataLoaded
 	else:
-		print("save not found")
+		print("Player data not found")
