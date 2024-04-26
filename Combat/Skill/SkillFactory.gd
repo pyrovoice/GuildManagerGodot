@@ -32,7 +32,7 @@ static func getSkillBasicHeal() -> Skill:
 static func getSkillChangeRow() -> Skill:
 	var skill = Skill.new("Move", true)
 	var effect1 = EffectDescriptor.new()
-	effect1.effectType = EffectDecriptorType.DISPLACE
+	effect1.effectType = EffectDecriptorType.e.DISPLACE
 	effect1.requiredTargets = 1
 	effect1.targetType = SkillTargetEnum.t.SELF
 	skill.skillParts.push_back(effect1)
@@ -69,9 +69,9 @@ static func getDefaultTargetingForEffect(s: EffectDescriptor):
 	if !SkillTargetEnum.skillTargetRequiresTarget(s.targetType):
 		return SkillActivationOptimalTargets.e.NONE
 	match s.effectType:
-		EffectDecriptorType.DAMAGE, EffectDecriptorType.STATUS_EFFECT:
+		EffectDecriptorType.e.DAMAGE, EffectDecriptorType.e.STATUS_EFFECT:
 			return SkillActivationOptimalTargets.e.OPPONENT_LOWEST_HEALTH
-		EffectDecriptorType.HEAL:
+		EffectDecriptorType.e.HEAL:
 			return SkillActivationOptimalTargets.e.ALLY_LEAST_HEALTH
 	return SkillActivationOptimalTargets.e.NONE
 	

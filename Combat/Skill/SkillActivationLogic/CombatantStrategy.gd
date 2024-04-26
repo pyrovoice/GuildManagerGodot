@@ -1,4 +1,4 @@
 extends Resource
 class_name CombatantStrategy
 
-var orderedSkillActivationStrategy: Array[SkillLogicStrategy]
+@export var orderedSkillActivationStrategy: Array[SkillLogicStrategy]

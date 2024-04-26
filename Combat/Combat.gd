@@ -1,16 +1,18 @@
 extends Resource
 class_name Combat
 
-var location: FightingLocation
-var combatants: CombatPositionsCombatant
-var encounterCounter = 1
-var level = 1
+@export var location: FightingLocation
+@export var combatants: CombatPositionsCombatant
+@export var encounterCounter = 1
+@export var level = 1
 signal combatantsChange
 
-func init(combatantsFront: Array[Combatant], combatantsBack: Array[Combatant], l: FightingLocation):
-	self.location = l
-	combatants = CombatPositionsCombatant.new(Vector2(5, 2), combatantsFront, combatantsBack)
-	addOpponentForLevel()
+static func create(combatantsFront: Array[Combatant], combatantsBack: Array[Combatant], l: FightingLocation):
+	var a: Combat = Combat.new()
+	a.location = l
+	a.combatants = CombatPositionsCombatant.create(Vector2(5, 2), combatantsFront, combatantsBack)
+	a.addOpponentForLevel()
+	return a
 	
 func initSpacesForCombatants() -> Array[Array]:
 	var combatantSpaces:Array[Array] = []
@@ -79,6 +81,9 @@ func resolveAction(source: CombatantInFight):
 		resolveEffect(source, effect, skill.effectToTargetsDic[effect])
 		
 func getActionForCombatant(combatant: CombatantInFight) -> ActivatedSkillData:
+	if(combatant.name == "Hero"):
+		print(str(PlayerData.getInstance().combatants[0].combatantStrategy.orderedSkillActivationStrategy.size()))
+		print(str(combatant.combatantBased.combatantStrategy.orderedSkillActivationStrategy.size()))
 	for skillStrategy in combatant.combatantBased.combatantStrategy.orderedSkillActivationStrategy:
 		if combatant.canActivateSkill(skillStrategy) && skillStrategy.canActivate(combatant):
 			var targetsFiltered = getSkillTargets(skillStrategy, combatant)
@@ -111,13 +116,13 @@ func combatantCanTarget(combatant: CombatantInFight, target: CombatantInFight, e
 
 func resolveEffect(activator: CombatantInFight, effect: EffectDescriptor, targets: Array[CombatantInFight]):
 	match effect.effectType:
-		EffectDecriptorType.DAMAGE:
+		EffectDecriptorType.e.DAMAGE:
 			for target in targets:
 				target.receiveDamage(getEffectFinalValue(activator, effect))
-		EffectDecriptorType.HEAL:
+		EffectDecriptorType.e.HEAL:
 			for target in targets:
 				target.receiveHealing(getEffectFinalValue(activator, effect))
-		EffectDecriptorType.DISPLACE:
+		EffectDecriptorType.e.DISPLACE:
 			for target in targets:
 				combatants.moveCombatantSwitchRow(target)
 			self.combatantsChange.emit()

@@ -1,5 +1,5 @@
 class_name EffectDecriptorType
-enum{
+enum e{
 	DAMAGE,
 	HEAL,
 	STATUS_EFFECT,

@@ -1,9 +1,9 @@
 extends Resource
 class_name SkillLogicStrategy
 
-var skill: Skill
-var effectToSkillLogicTargetingDic: Dictionary#< EffectDescriptor, SkillLogicTargeting>
-var activationConditions: Array[SkillLogicCondition]
+@export var skill: Skill
+@export var effectToSkillLogicTargetingDic: Dictionary#< EffectDescriptor, SkillLogicTargeting>
+@export var activationConditions: Array[SkillLogicCondition]
 
 func _init(_skill, _effectToSkillLogicTargetingDic: Dictionary, _activationConditions:Array[SkillLogicCondition] = []):
 	skill = _skill

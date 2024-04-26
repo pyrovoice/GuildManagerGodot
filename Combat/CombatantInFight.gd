@@ -1,21 +1,23 @@
 extends Resource
 class_name CombatantInFight
 
-var combatantBased: Combatant
+@export var combatantBased: Combatant
 
-var name: String = "default name"
-var attributes: Dictionary = {}
-var healthCurrent: float
-var manaCurrent: float
-var actionCooldown: float = 0
-var delayToAct: float = 4
-var skills: Array[Skill] = []
-var equippableEquipped: Array[Equipable] = []
-var position: Vector2 = Vector2(0, 0)
+@export var name: String = "default name"
+@export var attributes: Dictionary = {}
+@export var healthCurrent: float
+@export var manaCurrent: float
+@export var actionCooldown: float = 0
+@export var delayToAct: float = 4
+@export var skills: Array[Skill] = []
+@export var equippableEquipped: Array[Equipable] = []
+@export var position: Vector2 = Vector2(0, 0)
 
-func _init(c: Combatant):
-	combatantBased = c
-	reset()
+static func create(c: Combatant):
+	var cc = CombatantInFight.new()
+	cc.combatantBased = c
+	cc.reset()
+	return cc
 
 func reset():
 	name = combatantBased.name

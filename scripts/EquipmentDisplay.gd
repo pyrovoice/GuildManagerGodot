@@ -30,7 +30,7 @@ func createEquipment():
 	if (level * goldPerLevelMultiplier <= PlayerData.getInstance().gold 
 		&&  level <= PlayerData.getInstance().maxCombatantLevel):
 		PlayerData.getInstance().gold = PlayerData.getInstance().gold - level * goldPerLevelMultiplier
-		PlayerData.getInstance().equipments.push_back(Equipable.new("Default", level *10, level, 0))
+		PlayerData.getInstance().equipments.push_back(Equipable.create("Default", level *10, level, 0))
 		var popup = AcceptDialog.new()
 		popup.dialog_text = "New Equipment created"
 		self.add_child(popup)

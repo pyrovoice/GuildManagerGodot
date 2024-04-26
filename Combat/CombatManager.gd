@@ -16,8 +16,7 @@ func addCombat(location: FightingLocation, frontRow: Array[Combatant], backRow: 
 	for c in backRow:
 		if !GameMaster.getInstance().isCombatantAvailable(c):
 			return null
-	var c = Combat.new()
-	c.init(frontRow, backRow, location)
+	var c = Combat.create(frontRow, backRow, location)
 	PlayerData.getInstance().combats.push_back(c)
 	return c
 	

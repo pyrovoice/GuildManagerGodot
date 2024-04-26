@@ -1,6 +1,8 @@
+extends Resource
 class_name EffectDescriptorAdditionalEffect
 
-enum{
+enum e{
 	POISON,
-	ALL_STATUS
+	ALL_STATUS,
+	NONE
 }

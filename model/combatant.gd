@@ -1,12 +1,11 @@
 extends Resource
-
 class_name Combatant
 
-var name: String = "default name"
-var delayToAct: float = 2.5
-var skills: Array[Skill] = []
-var attributes: Dictionary = {}
-var combatantStrategy: CombatantStrategy = CombatantStrategy.new()
+@export var name: String = "default name"
+@export var delayToAct: float = 2.5
+@export var skills: Array[Skill] = []
+@export var attributes: Dictionary = {}
+@export var combatantStrategy: CombatantStrategy
 
 func _init(_name: String = "", _health:float = 100, _mana: float = 100, _strength: float = 10):
 	self.name = _name

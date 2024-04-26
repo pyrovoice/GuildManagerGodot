@@ -1,11 +1,13 @@
 extends Resource
 class_name Equipable
 
-var name = ""
-var attributes: Dictionary = {}
+@export var name = ""
+@export var attributes: Dictionary = {}
 
-func _init(n: String, health: float, attack: float, mana: float):
-	self.name = n
-	self.attributes[CombatAttributeEnum.att.HEALTH] = health
-	self.attributes[CombatAttributeEnum.att.MANA] = mana
-	self.attributes[CombatAttributeEnum.att.STRENGTH] = attack
+static func create(n: String, health: float, attack: float, mana: float) -> Equipable:
+	var c = Equipable.new()
+	c.name = n
+	c.attributes[CombatAttributeEnum.att.HEALTH] = health
+	c.attributes[CombatAttributeEnum.att.MANA] = mana
+	c.attributes[CombatAttributeEnum.att.STRENGTH] = attack
+	return c

@@ -16,7 +16,7 @@ func _init():
 func loadData():
 	opponents.push_back(Opponent.new("Rat", 25, 0, 5))
 	opponents.push_back(Opponent.new("Rat King", 150, 0, 20))
-	var l = FightingLocation.new("Tutorial")
+	var l = FightingLocation.create("Tutorial")
 	l.possibleOpponents["Rat"] = 1
 	l.encounterPerLevel = 3
 	l.averageEncounterDifficulty = 3

@@ -6,23 +6,25 @@ enum ROW{
 	BACK_ROW
 }
 #<CombatantInFight, Vector2>
-var playerCombatants: Array[CombatantInFight] = []
-var opponentCombatants: Array[CombatantInFight] = []
-var locationSize: Vector2
+@export var playerCombatants: Array[CombatantInFight] = []
+@export var opponentCombatants: Array[CombatantInFight] = []
+@export var locationSize: Vector2
 
-func _init(_locationSize: Vector2, playerCombatantsFront: Array[Combatant], playerCombatantsBack: Array[Combatant] ):
-	locationSize = _locationSize
+static func create(_locationSize: Vector2, playerCombatantsFront: Array[Combatant], playerCombatantsBack: Array[Combatant] ):
+	var cpc = CombatPositionsCombatant.new()
+	cpc.locationSize = _locationSize
 	for c in playerCombatantsFront:
 		if c != null:
 			var x = playerCombatantsFront.find(c)
-			addCombatantAtLocation(Vector2(playerCombatantsFront.find(c), ROW.FRONT_ROW), c, true)
+			cpc.addCombatantAtLocation(Vector2(playerCombatantsFront.find(c), ROW.FRONT_ROW), c, true)
 	for c in playerCombatantsBack:
 		if c != null:
 			var x = playerCombatantsBack.find(c)
-			addCombatantAtLocation(Vector2(playerCombatantsBack.find(c), ROW.BACK_ROW), c, true)
+			cpc.addCombatantAtLocation(Vector2(playerCombatantsBack.find(c), ROW.BACK_ROW), c, true)
+	return cpc
 
 func addCombatantAtLocation(location: Vector2, combatant: Combatant, isAlly: bool):
-	var cif = CombatantInFight.new(combatant)
+	var cif = CombatantInFight.create(combatant)
 	var arrayToLookAt = playerCombatants if isAlly else opponentCombatants
 	if !isAlly:
 		cif.name += " " + str(arrayToLookAt.size())

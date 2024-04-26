@@ -7,7 +7,6 @@ extends Control
 @onready var allies_front = $Allies/VBoxContainer/AlliesFront
 @onready var allies_back = $Allies/VBoxContainer/AlliesBack
 
-
 const COMBATANT_DISPLAY_COMBAT = preload("uid://ccfjcmib782th")
 signal removeCombat
 

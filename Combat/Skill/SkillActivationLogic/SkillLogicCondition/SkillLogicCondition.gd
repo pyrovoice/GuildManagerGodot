@@ -1,7 +1,7 @@
 extends Resource
 class_name SkillLogicCondition
 
-var stringValue = ""
+@export var stringValue = ""
 
 func getAdditionalRequirement() -> Array[Control]:
 	return []

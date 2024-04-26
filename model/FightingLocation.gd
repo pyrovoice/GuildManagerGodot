@@ -1,15 +1,17 @@
 extends Resource
 class_name FightingLocation
 
-var name = ""
+@export var name = ""
 #How many encounter there are per level to reach the boss
-var encounterPerLevel = 10
+@export var encounterPerLevel = 10
 #Opponents that can be encounter and their relative difficulty for this dungeon
-var possibleOpponents = {}
-var averageEncounterDifficulty = 10
-var difficultyVariance = 5
+@export var possibleOpponents = {}
+@export var averageEncounterDifficulty = 10
+@export var difficultyVariance = 5
 # The encounter the player gets on the last floor of each level
-var bossEncounter = []
+@export var bossEncounter = []
 
-func _init(n: String):
-	self.name = n
+static func create(n: String):
+	var fl: FightingLocation = FightingLocation.new()
+	fl.name = n
+	return fl
