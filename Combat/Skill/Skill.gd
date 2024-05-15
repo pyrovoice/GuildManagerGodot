@@ -5,6 +5,8 @@ class_name Skill
 @export var isActive: bool = false
 @export var skillParts: Array[EffectDescriptor] = []
 
-func _init(_name = "", _isActive = false):
-	self.name = _name
-	self.isActive = _isActive
+static func create(_name = "", _isActive = false):
+	var inst = Skill.new()
+	inst.name = _name
+	inst.isActive = _isActive
+	return inst

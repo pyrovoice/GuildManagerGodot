@@ -5,10 +5,12 @@ class_name SkillLogicStrategy
 @export var effectToSkillLogicTargetingDic: Dictionary#< EffectDescriptor, SkillLogicTargeting>
 @export var activationConditions: Array[SkillLogicCondition]
 
-func _init(_skill, _effectToSkillLogicTargetingDic: Dictionary, _activationConditions:Array[SkillLogicCondition] = []):
-	skill = _skill
-	effectToSkillLogicTargetingDic = _effectToSkillLogicTargetingDic
-	activationConditions = _activationConditions
+static func create(_skill, _effectToSkillLogicTargetingDic: Dictionary, _activationConditions:Array[SkillLogicCondition] = []):
+	var inst = SkillLogicStrategy.new()
+	inst.skill = _skill
+	inst.effectToSkillLogicTargetingDic = _effectToSkillLogicTargetingDic
+	inst.activationConditions = _activationConditions
+	return inst
 
 func canActivate(c: CombatantInFight) -> bool:
 	for condition in activationConditions:

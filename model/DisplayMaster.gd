@@ -12,7 +12,10 @@ func _ready():
 	self.get_node("Equipement").pressed.connect(func(): self.showNode(3))
 	self.get_node("Manage").pressed.connect(func(): self.showNode(4))
 	self.get_node("Logic").pressed.connect(func(): self.showNode(5))
-	self.get_node("Load").pressed.connect(func(): SaveData.loadGame())
+	self.get_node("Load").pressed.connect(func():
+		SaveData.loadGame()
+		showNode(0)
+		)
 	self.get_node("Save").pressed.connect(func(): SaveData.createSave())
 	showNode(0)
 

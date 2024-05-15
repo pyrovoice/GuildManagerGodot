@@ -10,21 +10,23 @@ static var instance: PlayerData = null
 @export var unlockedLocation: Array[FightingLocation]  = []
 @export var combats: Array[Combat] = []
 
-func _init():
-	var c = Combatant.new("Hero", 80, 10, 5)
+static func create():
+	var eiufg = PlayerData.new()
+	var c = Combatant.create("Hero", 80, 10, 5)
 	c.skills[1] = SkillFactory.getSkillAttackAll()
 	c.resetStrategyToDefault()
-	self.combatants.push_back(c)
-	self.combatants.push_back(Combatant.new("Hero2", 200, 20, 10))
-	self.combatants.push_back(Combatant.new("Hero3", 300, 30, 15))
-	self.combatants.push_back(Combatant.new("Hero4", 400, 40, 20))
-	self.unlockedLocation.append_array(GameData.getInstance().locations)
-	self.gold = 50
-	self.maxCombatantLevel = 10
+	eiufg.combatants.push_back(c)
+	eiufg.combatants.push_back(Combatant.create("Hero2", 200, 20, 10))
+	eiufg.combatants.push_back(Combatant.create("Hero3", 300, 30, 15))
+	eiufg.combatants.push_back(Combatant.create("Hero4", 400, 40, 20))
+	eiufg.unlockedLocation.append_array(GameData.getInstance().locations)
+	eiufg.gold = 50
+	eiufg.maxCombatantLevel = 10
+	return eiufg
 	
 static func getInstance() -> PlayerData:
 	if PlayerData.instance == null:
-		PlayerData.instance = PlayerData.new()
+		PlayerData.instance = PlayerData.create()
 	return PlayerData.instance
 
 func getEquippedTo(equipment: Equipable) -> Combatant:

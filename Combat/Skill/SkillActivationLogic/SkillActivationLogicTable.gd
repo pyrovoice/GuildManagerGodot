@@ -5,7 +5,7 @@ const skillLine = preload("uid://c64hrxxfcfsgh")
 var draggedComponent: Control = null
 
 func _ready():
-	var c = Combatant.new("heroTestShouldNotAppear")
+	var c = Combatant.create("heroTestShouldNotAppear")
 	c.skills.push_back(SkillFactory.getSkillBasicHeal())
 	c.skills.push_back(SkillFactory.getSkillChangeRow())
 	init(c)

@@ -7,14 +7,16 @@ class_name Combatant
 @export var attributes: Dictionary = {}
 @export var combatantStrategy: CombatantStrategy
 
-func _init(_name: String = "", _health:float = 100, _mana: float = 100, _strength: float = 10):
-	self.name = _name
-	self.attributes[CombatAttributeEnum.att.HEALTH] = _health
-	self.attributes[CombatAttributeEnum.att.MANA] = _mana
-	self.attributes[CombatAttributeEnum.att.STRENGTH] = _strength
-	skills.push_back(SkillFactory.getSkillChangeRow())
-	skills.push_back(SkillFactory.getSkillBasicAttack())
-	resetStrategyToDefault()
+static func create(_name: String = "", _health:float = 100, _mana: float = 100, _strength: float = 10):
+	var instance = Combatant.new()
+	instance.name = _name
+	instance.attributes[CombatAttributeEnum.att.HEALTH] = _health
+	instance.attributes[CombatAttributeEnum.att.MANA] = _mana
+	instance.attributes[CombatAttributeEnum.att.STRENGTH] = _strength
+	instance.skills.push_back(SkillFactory.getSkillChangeRow())
+	instance.skills.push_back(SkillFactory.getSkillBasicAttack())
+	instance.resetStrategyToDefault()
+	return instance
 
 func resetStrategyToDefault():
 	combatantStrategy = CombatantStrategy.new()

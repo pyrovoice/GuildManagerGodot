@@ -2,7 +2,7 @@ extends Resource
 class_name SkillFactory
 
 static func getSkillBasicAttack() -> Skill:
-	var skill = Skill.new("Basic Attack", true)
+	var skill = Skill.create("Basic Attack", true)
 	var effect1 = EffectDescriptor.new()
 	effect1.scalings[CombatAttributeEnum.att.STRENGTH] = 1
 	effect1.requiredTargets = 1
@@ -11,7 +11,7 @@ static func getSkillBasicAttack() -> Skill:
 	return skill
 	
 static func getSkillAttackAll() -> Skill:
-	var skill = Skill.new("Attack All", true)
+	var skill = Skill.create("Attack All", true)
 	var effect1 = EffectDescriptor.new()
 	effect1.scalings[CombatAttributeEnum.att.STRENGTH] = 1
 	effect1.requiredTargets = 0
@@ -21,7 +21,7 @@ static func getSkillAttackAll() -> Skill:
 	return skill
 	
 static func getSkillBasicHeal() -> Skill:
-	var skill = Skill.new("Basic Heal", true)
+	var skill = Skill.create("Basic Heal", true)
 	var effect1 = EffectDescriptor.new()
 	effect1.scalings[CombatAttributeEnum.att.POWER] = 1
 	effect1.requiredTargets = 1
@@ -30,7 +30,7 @@ static func getSkillBasicHeal() -> Skill:
 	return skill
 	
 static func getSkillChangeRow() -> Skill:
-	var skill = Skill.new("Move", true)
+	var skill = Skill.create("Move", true)
 	var effect1 = EffectDescriptor.new()
 	effect1.effectType = EffectDecriptorType.e.DISPLACE
 	effect1.requiredTargets = 1
@@ -39,7 +39,7 @@ static func getSkillChangeRow() -> Skill:
 	return skill
 	
 static func getSkillHitEnnemyAndHealAlly() -> Skill:
-	var skill = Skill.new("Move", true)
+	var skill = Skill.create("Move", true)
 	skill.range = 2
 	var effect1 = EffectDescriptor.new()
 	effect1.scalings[CombatAttributeEnum.att.STRENGTH] = 1
@@ -79,7 +79,7 @@ static func getPossibleConditionsForSkill(skill: Skill) -> Array[SkillLogicCondi
 	return [SkillLogicConditionSelfAttribute.new(), SkillLogicConditionTargetLife.new()]
 	
 static func getDefaultLogicForSkill(skill: Skill) -> SkillLogicStrategy:
-	var skillLogicStrategy = SkillLogicStrategy.new(skill,getDefaultTargetingForSkill(skill))
+	var skillLogicStrategy = SkillLogicStrategy.create(skill,getDefaultTargetingForSkill(skill))
 	if skill.name == "Move":
 		var moveIfHealthUnder50percent = SkillLogicConditionSelfAttribute.new()
 		moveIfHealthUnder50percent.attribute = CombatAttributeEnum.att.HEALTH

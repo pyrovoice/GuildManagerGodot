@@ -9,7 +9,7 @@ var combatant: Combatant = null
 signal onClicked(event: InputEventMouseButton)
 
 func _ready():
-	var c = Combatant.new("Test")
+	var c = Combatant.create("Test")
 	init(c)
 	
 func init(_combatant:Combatant):
