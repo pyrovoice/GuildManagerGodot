@@ -17,6 +17,10 @@ func _ready():
 		showNode(0)
 		)
 	self.get_node("Save").pressed.connect(func(): SaveData.createSave())
+	self.get_node("Save").pressed.connect(func(): 
+		SaveData.resetGame()
+		self.showNode(0)
+	)
 	showNode(0)
 
 func _process(delta):

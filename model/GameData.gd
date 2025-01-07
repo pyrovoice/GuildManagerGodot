@@ -10,6 +10,7 @@ static func getInstance() -> GameData:
 
 var opponents: Array[Opponent] = []
 var locations: Array[FightingLocation] = []
+
 func _init():
 	loadData()
 	

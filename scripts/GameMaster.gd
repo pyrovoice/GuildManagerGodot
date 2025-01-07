@@ -10,12 +10,9 @@ static func getInstance() -> GameMaster:
 var lastS = 0
 func process(_delta):
 	CombatManager.getInstance().process(_delta)
-	"""
 	if Time.get_datetime_dict_from_system()["minute"] != lastS:
 		SaveData.createSave()
 		lastS = Time.get_datetime_dict_from_system()["minute"]
-		print("Saving")
-	"""
 
 func addRewardForCombat(_c: Combat):
 	#TODO add Combat rewards

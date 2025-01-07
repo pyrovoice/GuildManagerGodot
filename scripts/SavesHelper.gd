@@ -26,7 +26,9 @@ static func loadGame():
 	var line = fileAccess.get_line()
 	var save_game = JSON.parse_string(line)
 	var pDataLine = save_game["combatData"]
+	var deserInst = deserialize(save_game["playerdata"])
 	PlayerData.instance = deserialize(save_game["playerdata"])
+	var inst = PlayerData.instance
 	var dCombat = deserialize(save_game["combatData"])
 	CombatManager.instance = deserialize(save_game["combatData"])
 	var esoif = CombatManager.instance
@@ -41,7 +43,8 @@ static func makeSaveObject():
 	"combatData": JSON.stringify(combatData), \
 	"currentTimeinSeconds": currentTimeinSeconds, \
 	"gameVersion": gameVersion}
-	return JSON.stringify(saveFileData)
+	var save = JSON.stringify(saveFileData)
+	return save
 
 static func serializeObject(objectToSerialize: Object):
 	var payload = recursively_serialize_object(objectToSerialize)

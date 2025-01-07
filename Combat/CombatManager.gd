@@ -1,13 +1,13 @@
 extends Resource
 class_name CombatManager
 
+static var instance = null
+static func getInstance():
+	if instance == null:
+		instance = CombatManager.new()
+	return instance
+	
 var displayedCombat: Combat = null
-
-static var instance: CombatManager = null;
-static func getInstance() -> CombatManager:
-	if(CombatManager.instance == null):
-		CombatManager.instance = CombatManager.new()
-	return CombatManager.instance
 
 func addCombat(location: FightingLocation, frontRow: Array[Combatant], backRow: Array[Combatant]) -> Combat:
 	for c in frontRow:

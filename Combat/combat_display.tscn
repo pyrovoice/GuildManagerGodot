@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://ddshk21xkkkl6"]
+[gd_scene load_steps=5 format=3 uid="uid://ddshk21xkkkl6"]
 
 [ext_resource type="Script" path="res://Combat/CombatDisplay.gd" id="1_vpksb"]
 [ext_resource type="Texture2D" uid="uid://csrvrhbp42i35" path="res://Assets/common/delete.png" id="2_nu07w"]
+[ext_resource type="PackedScene" uid="uid://csiou1kh73df5" path="res://Assets/textures/CombatantDisplayEmpty.tscn" id="2_v8o6y"]
+[ext_resource type="PackedScene" uid="uid://ccfjcmib782th" path="res://scenes/combatant_display_combat.tscn" id="3_o700t"]
 
 [node name="CombatDisplay" type="Control"]
 layout_mode = 3
@@ -30,24 +32,19 @@ size_flags_vertical = 0
 layout_mode = 2
 columns = 10
 
-[node name="ColorRect" type="ColorRect" parent="Ennemies/VBoxContainer/EnnemiesBack"]
-custom_minimum_size = Vector2(100, 100)
+[node name="ColorRect" parent="Ennemies/VBoxContainer/EnnemiesBack" instance=ExtResource("2_v8o6y")]
 layout_mode = 2
 
-[node name="ColorRect2" type="ColorRect" parent="Ennemies/VBoxContainer/EnnemiesBack"]
-custom_minimum_size = Vector2(100, 100)
+[node name="ColorRect2" parent="Ennemies/VBoxContainer/EnnemiesBack" instance=ExtResource("2_v8o6y")]
 layout_mode = 2
 
-[node name="ColorRect3" type="ColorRect" parent="Ennemies/VBoxContainer/EnnemiesBack"]
-custom_minimum_size = Vector2(100, 100)
+[node name="ColorRect3" parent="Ennemies/VBoxContainer/EnnemiesBack" instance=ExtResource("2_v8o6y")]
 layout_mode = 2
 
-[node name="ColorRect4" type="ColorRect" parent="Ennemies/VBoxContainer/EnnemiesBack"]
-custom_minimum_size = Vector2(100, 100)
+[node name="Control" parent="Ennemies/VBoxContainer/EnnemiesBack" instance=ExtResource("3_o700t")]
 layout_mode = 2
 
-[node name="ColorRect5" type="ColorRect" parent="Ennemies/VBoxContainer/EnnemiesBack"]
-custom_minimum_size = Vector2(100, 100)
+[node name="ColorRect4" parent="Ennemies/VBoxContainer/EnnemiesBack" instance=ExtResource("2_v8o6y")]
 layout_mode = 2
 
 [node name="EnnemiesFront" type="GridContainer" parent="Ennemies/VBoxContainer"]

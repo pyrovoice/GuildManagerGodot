@@ -6,6 +6,7 @@ class_name Combatant
 @export var skills: Array[Skill] = []
 @export var attributes: Dictionary = {}
 @export var combatantStrategy: CombatantStrategy
+@export var equippableEquipped: Array[Equipable] = []
 
 static func create(_name: String = "", _health:float = 100, _mana: float = 100, _strength: float = 10):
 	var instance = Combatant.new()

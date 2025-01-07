@@ -25,6 +25,7 @@ static func create(_locationSize: Vector2, playerCombatantsFront: Array[Combatan
 
 func addCombatantAtLocation(location: Vector2, combatant: Combatant, isAlly: bool):
 	var cif = CombatantInFight.create(combatant)
+	cif.delayToAct *= randf_range(0.9, 1.1)
 	var arrayToLookAt = playerCombatants if isAlly else opponentCombatants
 	if !isAlly:
 		cif.name += " " + str(arrayToLookAt.size())
@@ -46,6 +47,7 @@ func moveCombatantSwitchRow(combatant: CombatantInFight):
 	if emptyLocationCoordinate == Vector2(-1, -1):
 		return
 	combatant.setPosition(emptyLocationCoordinate)
+	return combatant.position
 	
 func isLocationEmptyAndInRange(location: Vector2, side: Array):
 	if location.x < 0 || location.y <0 || location.x > locationSize.x || location.y > locationSize.y:

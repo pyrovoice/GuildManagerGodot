@@ -5,7 +5,9 @@ class_name Combat
 @export var combatants: CombatPositionsCombatant
 @export var encounterCounter = 1
 @export var level = 1
+
 signal combatantsChange
+signal on_combat_action
 
 static func create(combatantsFront: Array[Combatant], combatantsBack: Array[Combatant], l: FightingLocation):
 	var a: Combat = Combat.new()
@@ -74,11 +76,14 @@ func updateCombatant(combatant: CombatantInFight, delta: float):
 func resolveAction(source: CombatantInFight):
 	var skill:ActivatedSkillData = getActionForCombatant(source)
 	if skill == null:
+		print("Skill null for:" + source.name)
 		return
 	source.actionCooldown = 0
-	print(skill.getLog())
-	for effect in skill.effectToTargetsDic.keys():
-		resolveEffect(source, effect, skill.effectToTargetsDic[effect])
+	for effect in skill.getEffects():
+		var log = resolveEffect(source, effect, skill.effectToTargetsDic[effect])
+		if log:
+			skill.skillLog.fragments.append(log)
+	on_combat_action.emit(skill, self.duplicate(true))
 		
 func getActionForCombatant(combatant: CombatantInFight) -> ActivatedSkillData:
 	if(combatant.name == "Hero"):
@@ -114,18 +119,21 @@ func combatantCanTarget(combatant: CombatantInFight, target: CombatantInFight, e
 	var isInRange = combatants.getDistanceBetweenTwoCombatants(combatant, target)
 	return b && isInRange != -1 && isInRange <= effect.range
 
-func resolveEffect(activator: CombatantInFight, effect: EffectDescriptor, targets: Array[CombatantInFight]):
+func resolveEffect(activator: CombatantInFight, effect: EffectDescriptor, targets: Array[CombatantInFight]) -> SkillLogFragment:
 	match effect.effectType:
 		EffectDecriptorType.e.DAMAGE:
 			for target in targets:
-				target.receiveDamage(getEffectFinalValue(activator, effect))
+				var inflictedDamage = target.receiveDamage(getEffectFinalValue(activator, effect))
+				return SkillLogFragment.new(SkillLogFragment.SLFType.DAMAGE_INFLICTED, inflictedDamage, effect, target)
 		EffectDecriptorType.e.HEAL:
 			for target in targets:
-				target.receiveHealing(getEffectFinalValue(activator, effect))
+				var v = target.receiveHealing(getEffectFinalValue(activator, effect))
+				return SkillLogFragment.new(SkillLogFragment.SLFType.HEAL, v, effect, target)
 		EffectDecriptorType.e.DISPLACE:
 			for target in targets:
 				combatants.moveCombatantSwitchRow(target)
-			self.combatantsChange.emit()
+				return SkillLogFragment.new(SkillLogFragment.SLFType.MOVE, 0, effect, target)
+	return null
 
 func getEffectFinalValue(activator: CombatantInFight, effect: EffectDescriptor)-> float:
 	var total = effect.baseValue
@@ -161,3 +169,9 @@ func resetPlayerCombatants():
 	for c in alliedTeam:
 		c.reset()
 	combatantsChange.emit()
+
+func getCombatants() -> Array:
+	var arr = []
+	arr.append_array(combatants.getTeam(true))
+	arr.append_array(combatants.getTeam(false))
+	return arr

@@ -13,10 +13,7 @@ func setCombatant(c:Combatant):
 	refreshDisplay()
 		
 func refreshDisplay():
-	for n in get_node("AvailableEquipables").get_children():
-		get_node("AvailableEquipables").remove_child(n)
-	for n in get_node("HeroEquipmentSlots").get_children():
-		get_node("HeroEquipmentSlots").remove_child(n)
+	resetDisplay()
 	for e in self.equipables:
 		var equippedC = PlayerData.getInstance().getEquippedTo(e)
 		if equippedC == combatantToModify:
@@ -34,7 +31,12 @@ func refreshDisplay():
 		square.y = (self.get_node("HeroEquipmentSlots") as GridContainer).get_size().y
 		cr.set_custom_minimum_size(square)
 		get_node("HeroEquipmentSlots").add_child(cr)
-			
+		
+func resetDisplay():
+	for n in get_node("AvailableEquipables").get_children():
+		get_node("AvailableEquipables").remove_child(n)
+	for n in get_node("HeroEquipmentSlots").get_children():
+		get_node("HeroEquipmentSlots").remove_child(n)
 
 func addAvailableEquipmentDisplay(equipment: Equipable, equippedCombatant: Combatant):
 	var label: DraggeableEquipment = getButton(equipment, equippedCombatant)
@@ -45,7 +47,7 @@ func getButton(equipment: Equipable, equippedCombatant: Combatant) -> Draggeable
 	var displayText = equipment.name
 	if equippedCombatant != null:
 		displayText = displayText + "("+equippedCombatant.name+")"
-	displayText += "\nHealth: " + str(equipment.bonusHealth) + "\nAttack: " + str(equipment.bonusAttack)
+	displayText += "\nHealth: " + str(equipment.attributes[CombatAttributeEnum.att.HEALTH]) + "\nAttack: " + str(equipment.attributes[CombatAttributeEnum.att.HEALTH])
 	var square: DraggeableEquipment = preload("res://scenes/DraggableEquipment.tscn").instantiate()
 	square.init(equipment)
 	square.set_custom_minimum_size(Vector2(150, 150))

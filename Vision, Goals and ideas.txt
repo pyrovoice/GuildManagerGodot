@@ -35,3 +35,10 @@ Weight/carry system, equipments and useables take place in a character's backpac
 Resource carrying priority system
 Add additional stuff to partys (caravane to carry things...)
 crafting and resource management system
+
+
+NEXT STEP:
+	Améliorer le systeme de display: Afficher les effects de combats, animer une action à la fois, sauter aux valeurs actuels du combat entre deux animations
+	Ajouter un effet brulure avec affichage et Maj du passif, et DoT animation non-blocante
+	Tester un passif inversant tout les dégats et soins reçu, et son affichage
+	faire une première version jouable

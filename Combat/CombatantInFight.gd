@@ -38,11 +38,17 @@ func reset():
 	actionCooldown = 0
 	
 func receiveDamage(damage: float):
+	var lifeBefore = self.healthCurrent
 	self.healthCurrent = clamp(self.healthCurrent - damage, 0, self.getAttribute(CombatAttributeEnum.att.HEALTH))
+	return lifeBefore-self.healthCurrent
 
 func receiveHealing(healValue: float, canResurect: bool = false):
 	if isAlive() or canResurect:
+		var healthBefore = self.healthCurrent
 		self.healthCurrent = clamp(self.healthCurrent + healValue, 0, self.getAttribute(CombatAttributeEnum.att.HEALTH))
+		return self.healthCurrent - self.healthCurrent
+	else:
+		return -1
 		
 func canActivateSkill(skillStrategy: SkillLogicStrategy):
 	if self.skills.find(skillStrategy.skill) == -1:

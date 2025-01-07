@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://csiou1kh73df5"]
+
+[node name="Control" type="Control"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 100.0
+offset_bottom = 100.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 40.0

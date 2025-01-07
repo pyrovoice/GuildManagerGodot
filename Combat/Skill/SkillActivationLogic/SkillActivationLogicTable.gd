@@ -69,4 +69,3 @@ func _on_grid_container_sort_children():
 		var tween = get_tree().create_tween()
 		tween.tween_property(lastElementToTwine, "position:y", endY, 0.1)
 		lastElementToTwine = null
-

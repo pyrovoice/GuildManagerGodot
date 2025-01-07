@@ -6,14 +6,24 @@ const pathPlayerData = "playerData.res"
 const pathCombatData = "combatData.res"
 
 static func createSave():
-	var instance: PlayerData = PlayerData.getInstance()
-	var rVal = ResourceSaver.save(PlayerData.getInstance())
+	ResourceSaver.save(PlayerData.getInstance(), PATH+pathPlayerData)
+	ResourceSaver.save(CombatManager.getInstance(), PATH+pathCombatData)
+	#SavesHelper.save_game()
 	
 	
 static func loadGame():
-	var playerDataLoaded: PlayerData = ResourceLoader.load(PATH+pathPlayerData, "", ResourceLoader.CACHE_MODE_IGNORE)
+	var playerDataLoaded = ResourceLoader.load(PATH+pathPlayerData, "", ResourceLoader.CACHE_MODE_IGNORE)
 	if playerDataLoaded:
 		PlayerData.instance = playerDataLoaded
-		var inst = PlayerData.instance
 	else:
 		print("Player data not found")
+	var combatDataLoaded = ResourceLoader.load(PATH+pathCombatData, "", ResourceLoader.CACHE_MODE_IGNORE)
+	if combatDataLoaded:
+		CombatManager.instance = combatDataLoaded
+	else:
+		print("Combat data not found")
+	#SavesHelper.loadGame()
+
+static func resetGame():
+	PlayerData.instance = null
+	CombatManager.instance = null
